@@ -1,0 +1,219 @@
+{
+    "bookAuthors": "Author(s)",
+    "bookAvailable": "Available",
+    "bookActionEdit": "Edit book",
+    "bookActionDelete": "Delete from your library",
+    "bookCover": "Book cover",
+    "bookCoverPlaceholder": "No cover added",
+    "bookCurrentLoan": "Current loan",
+    "bookDatePublished": "Release date",
+    "bookEditTitle": "Edit book",
+    "bookEmptyCaption": "No book has been added yet to your library !",
+    "bookExpectedReturn": "Return expected on {date}",
+    "@bookExpectedReturn" : {
+        "placeholders": {
+            "date": { 
+                "type": "String"
+            }
+        }
+    },
+    "bookGeneralSectionCaption": "Please provide the 13-digit ISBN (for books prior to 2007, this is the number starting with 978 printed under the barcode).",
+    "bookISBN": "ISBN",
+    "bookListTitle": "Books",
+    "bookLoanHistory": "Borrowing history",
+    "bookLoanFromTo": "From {loanDate} to {returnDate}",
+    "@bookLoanFromTo" : {
+        "placeholders": {
+            "loanDate": { 
+                "type": "String"
+            },
+            "returnDate": { 
+                "type": "String"
+            }
+        }
+    },
+    "bookLost": "Lost",
+    "bookLoanSince": "Since {date}",
+    "@bookLoanSince" : {
+        "placeholders": {
+            "date": { 
+                "type": "String"
+            }
+        }
+    },
+    "bookNewTitle": "Add a book",
+    "bookNeverLent": "This book has never been borrowed before.",
+    "bookPages": "Pages count",
+    "bookPublisher": "Publisher",
+    "bookSort": "Sort books",
+    "bookTitle": "Title",
+    "bookUnavailable": "Unavailable",
+    "booksTab": "Books",
+    "cancelButton": "Cancel",
+    "errorDescription": "We are unable to handle your request at the moment.",
+    "errorTitle": "Oops! Something went wrong...",
+    "errorRetryButton": "Retry",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "loanBorrower": "Borrower",
+    "loanNewTitle": "New loan",
+    "loanDate": "Loan date",
+    "loanDetailsTitle": "Loan details",
+    "loanActionCancel": "Cancel this loan",
+    "loanActionEdit": "Edit this loan",
+    "loanActionReturn": "Confirm return",
+    "loanActionLost": "Not returned or lost",
+    "loanEmptyCaption": "No current loans!",
+    "loanExpectedReturn": "Expected return date",
+    "loanListTitle": "Loans",
+    "loanReturn": "Return",
+    "loanReturnIn": "Return in",
+    "loanReturnDays": "{days} days",
+    "loansTab": "Loans",
+    "@loanReturnDays" : {
+        "placeholders": {
+            "days": { 
+                "type": "String"
+            }
+        }
+    },
+    "loanReturnLate": "Late",
+    "loanSort": "Sort loans",
+    "loanedTo": "Loaned to {displayName}",
+    "@loanedTo" : {
+        "placeholders": {
+            "displayName": { 
+                "type": "String"
+            }
+        }
+    },
+    "logoutButton": "Logout",
+    "logoutCaption": "Are you sure you want to logout?",
+    "pupilAdd": "Add a pupil",
+    "pupilActionArchive": "Archive pupil",
+    "pupilActionEdit": "Edit pupil",
+    "pupilActionExportCard": "Export member card",
+    "pupilCardTitle": "Class Library",
+    "pupilCardSubitle": "Pupil library card",
+    "pupilCurrentLoans": "{loans} current loan(s)",
+    "@pupilCurrentLoans" : {
+    "placeholders": {
+        "loans": { 
+            "type": "String"
+            }
+        }
+    },
+    "pupilEditTitle": "Edit pupil",
+    "pupilEmptyCaption": "No pupil has been created tey!",
+    "pupilListTitle": "Pupils",
+    "pupilNewTitle": "New pupil",
+    "pupilNoLoan": "No loan made!",
+    "pupilNoRunningLoan": "No current loans",
+    "pupilSort": "Sort pupils",
+    "pupilsActionExportCards": "Export cards",
+    "pupilsTab": "Pupils",
+    "pupilPhoto": "Pupil picture",
+    "saveButton": "Save",
+    "scanBarcode": "Scan a barcode",
+    "scanAddBook": "Add this book",
+    "scanAddBookToList": "Add this book to your library",
+    "scanBorrowedBy": "Borrowed by {name}",
+    "@scanBorrowedBy" : {
+        "placeholders": {
+            "name": { 
+                "type": "String"
+            }
+        }
+    },
+    "scanEnterISBN": "Manually enter ISBN",
+    "scanISBNNotFound": "We did not find this book in our database 😔",
+    "scanLoanAnyway": "Continue this loan anyway",
+    "scanMaxLoansReached": "{name} has already {loans} loans in progress.",
+    "@scanMaxLoansReached" : {
+        "placeholders": {
+            "name": { 
+                "type": "String"
+            },
+            "loans": { 
+                "type": "String"
+            }
+        }
+    },
+    "scanOpenForm": "or go to the full form",
+    "scanPickPupil": "or tap here to select the pupil",
+    "scanPupilNotFound": "Cannot find this pupil in your pupil list 🥺",
+    "scanPupilNotFoundPickPupil": "Try scanning another card or tap here to select the pupil",
+    "scanPupilCard": "To create a loan, scan the pupil's membership card",
+    "scanSearchingISBN": "Searching for ISBN {isbn}...",
+    "@scanSearchingISBN" : {
+        "placeholders": {
+            "isbn": { 
+                "type": "String"
+            }
+        }
+    },
+    "scanSearchingPupil": "Searching pupil...",
+    "scanSuccessAdd": "Book added to your library!",
+    "scanSuccessReturn": "Return validated!",
+    "settingsAccountSectionTitle": "Account information",
+    "settingsAppearanceSectionTitle": "Appearance",
+    "settingsCardsSectionTitle": "Member card",
+    "settingsCardLabel": "Card title",
+    "settingsEmailLabel": "E-mail adress",
+    "settingsLanguageLabel": "Language",
+    "settingsLoanDuration": "Default loan duration",
+    "settingsLoanDays": "{days} days",
+    "@settingsLoanDays" : {
+        "placeholders": {
+            "days": { 
+                "type": "String"
+            }
+        }
+    },
+    "settingsLoansSectionTitle": "Loan settings",
+    "settingsMaxSimultaneousLoans": "Max number simultaneous loans",
+    "settingsSubscriptionLabel": "Subscription",
+    "settingsSubscriptionActive" : "Active",
+    "settingsSubscriptionInactive": "Inactive",
+    "settingsTab": "Settings",
+    "settingsTitle": "Settings",
+    "settingsThemeLabel": "Theme",
+    "signInAnonymously": "Continue without registration",
+    "signInWithGoogle": "Sign in with Google",
+    "signInWithApple": "Sign in with Apple",
+    "signInWithFacebook": "Sign in with Facebook",
+    "signInSubtitle": "Your library management assistant at school!",
+    "sortByAvailability": "Sort by availability",
+    "sortByLoans": "Sort by number of loans",
+    "sortByName": "Sort by name",
+    "sortByPupil": "Sort by pupil",
+    "sortByReturnDate": "Sort by return date",
+    "sortByTitle": "Sort by title",
+    "subscriptionTitle": "Boobook Unlimited",
+    "subscriptionSubtitle": "Subscribe to use Boobook over the limits. Your participation helps to grow the project.",
+    "subscriptionItem1Title": "Made by teachers",
+    "subscriptionItem1Subtitle": "Boobook was originally thought by a teacher",
+    "subscriptionItem2Title": "An ethical approach",
+    "subscriptionItem2Subtitle": "No investors, we are an independant small team",
+    "subscriptionItem3Title": "Open Source",
+    "subscriptionItem3Subtitle": "All the sources of Boobook are available online for free",
+    "subscriptionPriceNotLoaded": "Unable to contact Store at the moment.",
+    "subscriptionPrice": "{price}/year",
+    "@subscriptionPrice" : {
+        "placeholders": {
+        "price": { 
+            "type": "String"
+            }
+        }
+    },
+    "subscriptionButton": "Subscribe to Boobook",
+    "subscriptionCupertinoCaption": "Payment will be charged to iTunes Account and subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period. Manage auto-renewal by going to the user's Account Settings.",
+    "subscriptionPrivacyPolicyButton": "Privacy policy",
+    "subscriptionRestoreButton": "Restore purchases",
+    "today": "today",
+    "tomorrow": "tomorrow",
+    "themeDark": "Dark",
+    "themeLight": "Light",
+    "themeSystem": "System",
+    "warning": "Attention"
+}
