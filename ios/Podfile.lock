@@ -1,0 +1,345 @@
+PODS:
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
+  - cloud_firestore (2.5.2):
+    - Firebase/Firestore (= 8.6.0)
+    - firebase_core
+    - Flutter
+  - Firebase/Analytics (8.6.0):
+    - Firebase/Core
+  - Firebase/Auth (8.6.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 8.6.0)
+  - Firebase/Core (8.6.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (~> 8.6.0)
+  - Firebase/CoreOnly (8.6.0):
+    - FirebaseCore (= 8.6.0)
+  - Firebase/Firestore (8.6.0):
+    - Firebase/CoreOnly
+    - FirebaseFirestore (~> 8.6.0)
+  - Firebase/Storage (8.6.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 8.6.0)
+  - firebase_analytics (8.3.2):
+    - Firebase/Analytics (= 8.6.0)
+    - firebase_core
+    - Flutter
+  - firebase_auth (3.1.1):
+    - Firebase/Auth (= 8.6.0)
+    - firebase_core
+    - Flutter
+  - firebase_core (1.6.0):
+    - Firebase/CoreOnly (= 8.6.0)
+    - Flutter
+  - firebase_storage (10.0.3):
+    - Firebase/Storage (= 8.6.0)
+    - firebase_core
+    - Flutter
+  - FirebaseAnalytics (8.6.0):
+    - FirebaseAnalytics/AdIdSupport (= 8.6.0)
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/MethodSwizzler (~> 7.4)
+    - GoogleUtilities/Network (~> 7.4)
+    - "GoogleUtilities/NSData+zlib (~> 7.4)"
+    - nanopb (~> 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (8.6.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleAppMeasurement (= 8.6.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/MethodSwizzler (~> 7.4)
+    - GoogleUtilities/Network (~> 7.4)
+    - "GoogleUtilities/NSData+zlib (~> 7.4)"
+    - nanopb (~> 2.30908.0)
+  - FirebaseAuth (8.6.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - FirebaseCore (8.6.0):
+    - FirebaseCoreDiagnostics (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Logger (~> 7.4)
+  - FirebaseCoreDiagnostics (8.7.0):
+    - GoogleDataTransport (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Logger (~> 7.4)
+    - nanopb (~> 2.30908.0)
+  - FirebaseFirestore (8.6.0):
+    - FirebaseFirestore/AutodetectLeveldb (= 8.6.0)
+  - FirebaseFirestore/AutodetectLeveldb (8.6.0):
+    - FirebaseFirestore/Base
+    - FirebaseFirestore/WithLeveldb
+  - FirebaseFirestore/Base (8.6.0)
+  - FirebaseFirestore/WithLeveldb (8.6.0):
+    - FirebaseFirestore/Base
+  - FirebaseInstallations (8.7.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/UserDefaults (~> 7.4)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseStorage (8.6.0):
+    - FirebaseCore (~> 8.0)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - Flutter (1.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - google_sign_in (0.0.1):
+    - Flutter
+    - GoogleSignIn (~> 5.0)
+  - GoogleAppMeasurement (8.6.0):
+    - GoogleAppMeasurement/AdIdSupport (= 8.6.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/MethodSwizzler (~> 7.4)
+    - GoogleUtilities/Network (~> 7.4)
+    - "GoogleUtilities/NSData+zlib (~> 7.4)"
+    - nanopb (~> 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (8.6.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/MethodSwizzler (~> 7.4)
+    - GoogleUtilities/Network (~> 7.4)
+    - "GoogleUtilities/NSData+zlib (~> 7.4)"
+    - nanopb (~> 2.30908.0)
+  - GoogleDataTransport (9.1.0):
+    - GoogleUtilities/Environment (~> 7.2)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleMLKit/BarcodeScanning (2.3.0):
+    - GoogleMLKit/MLKitCore
+    - MLKitBarcodeScanning (~> 1.4.0)
+  - GoogleMLKit/MLKitCore (2.3.0):
+    - MLKitCommon (~> 3.1.0)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleToolboxForMac/DebugUtils (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - GoogleToolboxForMac/Defines (2.3.2)
+  - GoogleToolboxForMac/Logger (2.3.2):
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - "GoogleToolboxForMac/NSData+zlib (2.3.2)":
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.3.2)":
+    - GoogleToolboxForMac/DebugUtils (= 2.3.2)
+    - GoogleToolboxForMac/Defines (= 2.3.2)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.3.2)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.3.2)"
+  - GoogleUtilities/AppDelegateSwizzler (7.5.2):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (7.5.2):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.5.2):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (7.5.2):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (7.5.2):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.5.2)"
+  - GoogleUtilities/Reachability (7.5.2):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.5.2):
+    - GoogleUtilities/Logger
+  - GoogleUtilitiesComponents (1.0.0):
+    - GoogleUtilities/Logger
+  - GTMAppAuth (1.2.2):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - GTMSessionFetcher/Core (1.7.0)
+  - image_cropper (0.0.4):
+    - Flutter
+    - TOCropViewController (~> 2.6.0)
+  - image_picker (0.0.1):
+    - Flutter
+  - MLImage (1.0.0-beta1)
+  - MLKitBarcodeScanning (1.4.0):
+    - MLKitCommon (~> 3.1)
+    - MLKitVision (~> 1.3)
+  - MLKitCommon (3.1.0):
+    - GoogleDataTransport (~> 9.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
+    - GoogleUtilities/UserDefaults (~> 7.0)
+    - GoogleUtilitiesComponents (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+    - Protobuf (~> 3.12)
+  - MLKitVision (1.3.0):
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - GTMSessionFetcher/Core (~> 1.1)
+    - MLImage (= 1.0.0-beta1)
+    - MLKitCommon (~> 3.0)
+    - Protobuf (~> 3.12)
+  - MTBBarcodeScanner (5.0.11)
+  - nanopb (2.30908.0):
+    - nanopb/decode (= 2.30908.0)
+    - nanopb/encode (= 2.30908.0)
+  - nanopb/decode (2.30908.0)
+  - nanopb/encode (2.30908.0)
+  - native_device_orientation (0.0.1):
+    - Flutter
+  - path_provider (0.0.1):
+    - Flutter
+  - printing (1.0.0):
+    - Flutter
+  - PromisesObjC (2.0.0)
+  - Protobuf (3.17.0)
+  - qr_code_scanner (0.2.0):
+    - Flutter
+    - GoogleMLKit/BarcodeScanning
+    - MTBBarcodeScanner
+  - sqflite (0.0.2):
+    - Flutter
+    - FMDB (>= 2.7.5)
+  - TOCropViewController (2.6.0)
+  - vibration (1.7.4-nullsafety.0):
+    - Flutter
+
+DEPENDENCIES:
+  - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
+  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
+  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `8.6.0`)
+  - Flutter (from `Flutter`)
+  - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
+  - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - printing (from `.symlinks/plugins/printing/ios`)
+  - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - vibration (from `.symlinks/plugins/vibration/ios`)
+
+SPEC REPOS:
+  trunk:
+    - AppAuth
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAuth
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseInstallations
+    - FirebaseStorage
+    - FMDB
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleMLKit
+    - GoogleSignIn
+    - GoogleToolboxForMac
+    - GoogleUtilities
+    - GoogleUtilitiesComponents
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - MLImage
+    - MLKitBarcodeScanning
+    - MLKitCommon
+    - MLKitVision
+    - MTBBarcodeScanner
+    - nanopb
+    - PromisesObjC
+    - Protobuf
+    - TOCropViewController
+
+EXTERNAL SOURCES:
+  cloud_firestore:
+    :path: ".symlinks/plugins/cloud_firestore/ios"
+  firebase_analytics:
+    :path: ".symlinks/plugins/firebase_analytics/ios"
+  firebase_auth:
+    :path: ".symlinks/plugins/firebase_auth/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_storage:
+    :path: ".symlinks/plugins/firebase_storage/ios"
+  FirebaseFirestore:
+    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
+    :tag: 8.6.0
+  Flutter:
+    :path: Flutter
+  google_sign_in:
+    :path: ".symlinks/plugins/google_sign_in/ios"
+  image_cropper:
+    :path: ".symlinks/plugins/image_cropper/ios"
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
+  native_device_orientation:
+    :path: ".symlinks/plugins/native_device_orientation/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  printing:
+    :path: ".symlinks/plugins/printing/ios"
+  qr_code_scanner:
+    :path: ".symlinks/plugins/qr_code_scanner/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
+  vibration:
+    :path: ".symlinks/plugins/vibration/ios"
+
+CHECKOUT OPTIONS:
+  FirebaseFirestore:
+    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
+    :tag: 8.6.0
+
+SPEC CHECKSUMS:
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  cloud_firestore: 8a2843c34901ea2bc6aafcaa1c452f5b4f1ade37
+  Firebase: 21ac9f28b09a8bdfc005f34c984fca84e7e8786d
+  firebase_analytics: 039357074df292fb8a58e119206762d10483a8ec
+  firebase_auth: a5da789c2876fda3ad7407bd2828e502dfeebc42
+  firebase_core: c21ac09a8d23afd3594b56ed786bad12e5266bba
+  firebase_storage: 75fc62b16cfbb268ea4e90729be5729e3dc38b1e
+  FirebaseAnalytics: 8f32ae54ad42754f503354782575c4ddfc1425c3
+  FirebaseAuth: 223adeeb2262b417532e89bf06a960e3a0a1e9e4
+  FirebaseCore: 620b677f70f5470a8e59cb77f3ddc666f6f09785
+  FirebaseCoreDiagnostics: b63732f581a1c6a453ec7241f9ab60b3a5bd3450
+  FirebaseFirestore: 113b2724b363d79c98c965f43e8af970745c13f3
+  FirebaseInstallations: ede6fb72bb6337914e5888b399271259d0c4910c
+  FirebaseStorage: 2765944230981e63f8bd2938d9d5819158b7c34c
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  google_sign_in: 952c378b33dc5a0bf4bcb2d12afe9ac70b3239fb
+  GoogleAppMeasurement: 2c0c6e2a7ab3fe730ade6379f732bdefb46f50b0
+  GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
+  GoogleMLKit: 53d5adbee0fe5a701e970f1387d2cfececd5bc50
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GoogleToolboxForMac: 8bef7c7c5cf7291c687cf5354f39f9db6399ad34
+  GoogleUtilities: 8de2a97a17e15b6b98e38e8770e2d129a57c0040
+  GoogleUtilitiesComponents: a69c0b3b369ba443e988141e75ef49d9010b1c80
+  GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
+  GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  image_cropper: f1668dd8d2cad2d357955caad15a40547856edcb
+  image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
+  MLImage: 647f3d580c10b3c9a3f6154f5d7baead60c42a0c
+  MLKitBarcodeScanning: db5ca9cd47166160d70c295531436edaa12ddd50
+  MLKitCommon: 1b5c79d52f79d9cc93ab5300e9713c4c215121ea
+  MLKitVision: 26da299aef93291f24f5200e8372919f73abf3b5
+  MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
+  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  native_device_orientation: 3b4cfc9565a7b879cc4fde282b3e27745e852d0d
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  printing: eafa00acb682c0ca029d4d98d0798f55a1e27102
+  PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  Protobuf: 7327d4444215b5f18e560a97f879ff5503c4581c
+  qr_code_scanner: 74554842ebf56eee67defb3db918823ef29042dd
+  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
+  vibration: 1ec279c4a1a7a646627b54039d812334b3f1114a
+
+PODFILE CHECKSUM: dd558ac569e1c0bcaa1ee3bbe705d37714c78055
+
+COCOAPODS: 1.11.2
