@@ -241,6 +241,7 @@ class SettingsAccountSection extends ConsumerWidget {
           isDestructiveAction: true,
           isDefaultAction: true,
           onPressed: () async {
+            Navigator.of(context, rootNavigator: true).pop();
             await ref.read(authServiceProvider).signOut();
           },
         ),
