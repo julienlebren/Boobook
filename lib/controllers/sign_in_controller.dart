@@ -36,7 +36,7 @@ class SignInController extends StateNotifier<SignInState> {
       if (e.code != "ERROR_ABORTED_BY_USER") {
         state = SignInState.error(e.toString());
       } else {
-        SignInState.initial();
+        state = SignInState.initial();
       }
     } on Exception catch (e) {
       state = SignInState.error(e.toString());
