@@ -27,7 +27,7 @@ final bookProvider = Provider.autoDispose.family<Book, String>((ref, id) {
 });
 
 final bookLoansProvider =
-    FutureProvider.family.autoDispose<List<Loan>, String>((ref, bookId) {
+    StreamProvider.family.autoDispose<List<Loan>, String>((ref, bookId) {
   final repository = ref.watch(loanRepositoryProvider);
   return repository.bookLoans(bookId);
 });

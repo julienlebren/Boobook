@@ -29,7 +29,7 @@ final pupilProvider = Provider.family.autoDispose<Pupil, String>((ref, id) {
 });
 
 final pupilLoansProvider =
-    FutureProvider.family.autoDispose<List<Loan>, String>((ref, pupilId) {
+    StreamProvider.family.autoDispose<List<Loan>, String>((ref, pupilId) {
   final repository = ref.watch(loanRepositoryProvider);
   return repository.pupilLoans(pupilId);
 });

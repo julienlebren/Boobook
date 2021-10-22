@@ -49,16 +49,16 @@ class LoanRepository {
     );
   }
 
-  Future<List<Loan>> bookLoans(String bookId) {
-    return _service.getDocuments(
+  Stream<List<Loan>> bookLoans(String bookId) {
+    return _service.streamDocuments(
       _loanRef
           .where("book.id", isEqualTo: bookId)
           .orderBy("loanDate", descending: true),
     );
   }
 
-  Future<List<Loan>> pupilLoans(String pupilId) {
-    return _service.getDocuments(
+  Stream<List<Loan>> pupilLoans(String pupilId) {
+    return _service.streamDocuments(
       _loanRef
           .where("pupil.id", isEqualTo: pupilId)
           .orderBy("loanDate", descending: true),
