@@ -14,7 +14,7 @@ export async function onUserCreated(user: any): Promise<boolean> {
 			"emailVerified": user.emailVerified,
 			"creationTime": new Date(user.metadata.creationTime),
 			"lastSeenTime": new Date(user.metadata.creationTime),
-			"provider": user.provider,
+			"provider": typeof user.provider != "undefined" ? user.provider : null,
 			"color": color,
 			"theme": 0,
 			"isSubscribed": false,

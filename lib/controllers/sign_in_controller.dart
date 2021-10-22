@@ -28,7 +28,7 @@ class SignInController extends StateNotifier<SignInState> {
     state = SignInState.loading();
     try {
       await event.when(
-        signInWithFacebook: _service.signInWithGoogle,
+        signInWithFacebook: _service.signInWithFacebook,
         signInWithGoogle: _service.signInWithGoogle,
         signInAnonymously: _service.signInAnonymously,
       );
