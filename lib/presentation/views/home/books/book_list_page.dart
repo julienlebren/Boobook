@@ -18,7 +18,7 @@ final bookSortProvider = StateProvider.autoDispose<BookSort>(
 );
 
 /// This provider is a workaround to avoid useless reads to the database.
-/// If we pass the [PupilQuery] to [PupilRepository.pupilsStream], we could avoid
+/// If we pass the sortBy method to [PupilRepository.pupilsStream], we could avoid
 /// this provider but each time the user changes the sort method, but it leads to
 /// more reads of the database (so more billing) and also a fast loading screen
 /// while the new sort is processed.
