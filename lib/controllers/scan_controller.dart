@@ -63,7 +63,8 @@ class ScanController extends StateNotifier<ScanState> {
     event.when(
       controllerCreated: (controller) {
         controller.scannedDataStream.listen((barCode) async {
-          if (state.isLoading ||
+          if (state.isSuccess ||
+              state.isLoading ||
               (state.book != null && !state.book!.isAvailable) ||
               (state.book != null && barCode.code == state.book!.isbn13) ||
               (state.book != null &&

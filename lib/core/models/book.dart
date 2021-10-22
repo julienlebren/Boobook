@@ -19,7 +19,7 @@ class Book with _$Book {
     int? pages,
     String? imageUrl,
     String? synopsys,
-    @Default([]) List<String> authors,
+    @Default([]) List<String?> authors,
     String? id,
     @Default(true) isAvailable,
     @Default(0) int totalLoans,

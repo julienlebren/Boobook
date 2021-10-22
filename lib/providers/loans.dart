@@ -15,8 +15,8 @@ final loanProvider = Provider.autoDispose<Loan>(
   (_) => throw UnimplementedError(),
 );
 
-final loanRefProvider = Provider<CollectionReference<Loan>>((ref) {
-  final userRepository = ref.watch(userRepositoryProvider);
+final loanRefProvider = Provider.autoDispose<CollectionReference<Loan>>((ref) {
+  final userRepository = ref.read(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app
   // where the [UserRepository] is null, so this exception should

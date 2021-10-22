@@ -22,6 +22,7 @@ final localizationProvider = Provider<AppLocalizations>((ref) {
 /// empty stream otherwise.
 final userStreamProvider = StreamProvider<User?>((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
+  print("userRepository is $userRepository");
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 
@@ -47,10 +48,12 @@ final authStateProvider = StateProvider<AuthState>((ref) {
     loading: (_) => AuthState.initializing(),
     error: (error, _, __) => AuthState.error(error.toString()),
     data: (user) {
+      print("user1: $user");
       if (user == null) {
         return AuthState.notAuthed();
       } else {
         final user = ref.watch(userStreamProvider);
+        print("user2: $user");
         return user.when(
           loading: (_) => AuthState.initializing(),
           error: (error, _, __) => AuthState.error(error.toString()),
@@ -83,14 +86,9 @@ final selectedLangProvider = Provider<Language>((ref) {
   }
 
   final localeFallback = ui.window.locale.languageCode;
-  final langCode = ref.watch(userStreamProvider.select(
-    (value) => value.maybeWhen(
-      data: (user) {
-        return user!.lang ?? localeFallback;
-      },
-      orElse: () => localeFallback,
-    ),
-  ));
+  final langCode = ref.watch(
+    userProvider.select((user) => user?.lang ?? localeFallback),
+  );
 
   var filteredLanguages = languages.where(
     (lang) => lang.identifier == langCode,

@@ -5,7 +5,12 @@ import 'package:boobook/providers/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart'
-    show PlatformTabNavigator, PlatformTabScaffold, TabItem, tabsProvider;
+    show
+        PlatformTabNavigator,
+        PlatformTabScaffold,
+        TabItem,
+        currentTabIndexProvider,
+        tabsProvider;
 import 'package:layout_builder/theme/theme.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -46,6 +51,7 @@ class _HomePageState extends ConsumerState<HomePage>
 
     return ProviderScope(
       overrides: [
+        currentTabIndexProvider.overrideWithValue(StateController(0)),
         tabsProvider.overrideWithValue(
           [
             TabItem(

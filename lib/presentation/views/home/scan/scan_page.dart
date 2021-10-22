@@ -60,7 +60,12 @@ class ScanPage extends ConsumerWidget {
     ref.listen<ScanState>(scanControllerProvider, (state) async {
       print("state is $state");
       if (state.errorText != null) {
-        //showFirestoreErrorDialog(context, ref);
+        showAlertDialog(
+          context,
+          ref,
+          title: l10n.errorTitle,
+          content: state.errorText,
+        );
       } else if (state.isLoading) {
         if (await Vibration.hasVibrator() ?? false) {
           Vibration.vibrate(duration: 50, amplitude: 30);

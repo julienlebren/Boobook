@@ -32,8 +32,8 @@ final bookLoansProvider =
   return repository.bookLoans(bookId);
 });
 
-final bookRefProvider = Provider<CollectionReference<Book>>((ref) {
-  final userRepository = ref.watch(userRepositoryProvider);
+final bookRefProvider = Provider.autoDispose<CollectionReference<Book>>((ref) {
+  final userRepository = ref.read(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app
   // where the [UserRepository] is null, so this exception should

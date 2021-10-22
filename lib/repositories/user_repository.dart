@@ -8,14 +8,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userRepositoryProvider = Provider<UserRepository?>((ref) {
   final service = ref.watch(firestoreServiceProvider);
+  final authStateChanges = ref.watch(authStateChangesProvider);
+
+  return authStateChanges.maybeWhen(
+    data: (user) => user != null ? UserRepository(service, user.uid) : null,
+    orElse: () => null,
+  );
+
+/*
   final userId = ref.watch(
     authServiceProvider.select((service) => service.currentUser?.uid),
   );
+  print("userId: $userId");
   if (userId == null) {
     return null;
   } else {
     return UserRepository(service, userId);
-  }
+  }*/
 });
 
 class UserRepository {

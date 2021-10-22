@@ -1,5 +1,6 @@
 import 'package:avatar/avatar.dart';
 import 'package:boobook/core/models/pupil.dart';
+import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/common_widgets/pupil_card.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
@@ -146,7 +147,7 @@ class PupilListPageContents extends ConsumerWidget {
       },
       data: (data) {
         if (data.isEmpty) {
-          return Center(child: Text(l10n.pupilEmptyCaption));
+          return EmptyData(l10n.pupilEmptyCaption);
         }
         return Container(
           color: appTheme.listTileBackground,
