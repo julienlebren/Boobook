@@ -36,7 +36,7 @@ class PupilFormPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final id = ref.watch(selectedPupilId)!;
 
-    ref.listen<PupilFormState>(pupilControllerProvider(id), (state) {
+    ref.listen<PupilFormState>(pupilControllerProvider(id), (_, state) {
       final l10n = ref.watch(localizationProvider);
       if (state.isSuccess) {
         Navigator.pop(context);

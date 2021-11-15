@@ -78,7 +78,7 @@ class LoanListPage extends ConsumerWidget {
       ],
       onPressed: (sortBy) {
         if (sortBy != null) {
-          ref.read(loanSortProvider).state = sortBy;
+          ref.read(loanSortProvider.state).state = sortBy;
         }
       },
     );
@@ -97,14 +97,19 @@ class LoanListPage extends ConsumerWidget {
         ),
       ),
       body: const LoanListPageContents(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final navigator = NavigatorKeys.main.currentState!;
-          navigator.pushNamed(AppRoutes.scanPage);
-        },
-        tooltip: l10n.scanBarcode,
-        child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
-        heroTag: null,
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              final navigator = NavigatorKeys.main.currentState!;
+              navigator.pushNamed(AppRoutes.scanPage);
+            },
+            tooltip: l10n.scanBarcode,
+            child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
+            heroTag: null,
+          ),
+        ],
       ),
     );
   }
@@ -115,18 +120,18 @@ class LoanListPageContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sortBy = ref.watch(loanSortProvider).state;
+    final sortBy = ref.watch(loanSortProvider.state).state;
     final loans = ref.watch(sortedLoanListProvider(sortBy));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
 
     return loans.when(
-      loading: (_) => const Center(
+      loading: () => const Center(
         child: Center(
           child: CircularProgressIndicator(),
         ),
       ),
-      error: (error, _, __) {
+      error: (error, _) {
         return Center(child: Text(error.toString()));
       },
       data: (data) {

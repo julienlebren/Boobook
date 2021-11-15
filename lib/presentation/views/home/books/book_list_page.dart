@@ -61,7 +61,7 @@ class BookListPage extends ConsumerWidget {
       ],
       onPressed: (sortBy) {
         if (sortBy != null) {
-          ref.read(bookSortProvider).state = sortBy;
+          ref.read(bookSortProvider.state).state = sortBy;
         }
       },
     );
@@ -103,12 +103,12 @@ class BooksOverviewPageContents extends ConsumerWidget {
     final appTheme = ref.watch(appThemeProvider);
 
     return books.when(
-      loading: (_) => const Center(
+      loading: () => const Center(
         child: Center(
           child: CircularProgressIndicator(),
         ),
       ),
-      error: (error, _, __) {
+      error: (error, _) {
         return Center(child: Text(error.toString()));
       },
       data: (data) {

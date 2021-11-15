@@ -231,11 +231,8 @@ class SettingsAccountSection extends ConsumerWidget {
       ref,
       title: l10n.logoutButton,
       content: l10n.logoutCaption,
-      displayCancelButton: false,
+      displayCancelButton: true,
       actions: [
-        PlatformDialogAction(
-          buttonText: l10n.cancelButton,
-        ),
         PlatformDialogAction(
           buttonText: l10n.logoutButton,
           isDestructiveAction: true,

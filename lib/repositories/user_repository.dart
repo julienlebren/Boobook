@@ -14,17 +14,6 @@ final userRepositoryProvider = Provider<UserRepository?>((ref) {
     data: (user) => user != null ? UserRepository(service, user.uid) : null,
     orElse: () => null,
   );
-
-/*
-  final userId = ref.watch(
-    authServiceProvider.select((service) => service.currentUser?.uid),
-  );
-  print("userId: $userId");
-  if (userId == null) {
-    return null;
-  } else {
-    return UserRepository(service, userId);
-  }*/
 });
 
 class UserRepository {

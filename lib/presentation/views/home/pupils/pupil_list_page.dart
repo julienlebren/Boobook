@@ -81,7 +81,7 @@ class PupilListPage extends ConsumerWidget {
   Future<void> _print(WidgetRef ref) async {
     final l10n = ref.watch(localizationProvider);
     final user = ref.watch(userProvider)!;
-    final pupils = ref.watch(pupilListProvider).data!.value;
+    final pupils = ref.watch(pupilListProvider).asData!.value;
 
     final doc = pw.Document();
 
@@ -131,18 +131,18 @@ class PupilListPageContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sortBy = ref.watch(pupilSortProvider).state;
+    final sortBy = ref.watch(pupilSortProvider.state).state;
     final pupils = ref.watch(sortedPupilListProvider(sortBy));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
 
     return pupils.when(
-      loading: (_) => const Center(
+      loading: () => const Center(
         child: Center(
           child: CircularProgressIndicator(),
         ),
       ),
-      error: (error, _, __) {
+      error: (error, _) {
         return Center(child: Text(error.toString()));
       },
       data: (data) {

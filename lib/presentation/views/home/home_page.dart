@@ -1,6 +1,5 @@
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
-import 'package:boobook/presentation/views/home/settings/settings_page.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -91,7 +90,12 @@ class _HomePageState extends ConsumerState<HomePage>
               title: l10n.settingsTab,
               icon: Icons.tune,
               selectedIcon: Icons.tune,
-              router: SettingsOverviewPage(),
+              router: PlatformTabNavigator(
+                navigatorKey: NavigatorKeys.pupils,
+                onGenerateRoute: (settings) =>
+                    AppRouter.onGenerateRoute(settings, ref),
+                initialRoute: AppRoutes.settingsPage,
+              ),
             ),
           ],
         ),

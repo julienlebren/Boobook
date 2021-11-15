@@ -1,5 +1,4 @@
 import 'package:boobook/controllers/loan_form_controller.dart';
-import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/loan.dart';
 import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/presentation/common_widgets/book_tile.dart';
@@ -51,7 +50,7 @@ class LoanFormPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final id = ref.watch(selectedLoanId);
 
-    ref.listen<LoanFormState>(loanControllerProvider(id), (state) {
+    ref.listen<LoanFormState>(loanControllerProvider(id), (_, state) {
       final l10n = ref.watch(localizationProvider);
       if (state.isSuccess) {
         Navigator.pop(context);

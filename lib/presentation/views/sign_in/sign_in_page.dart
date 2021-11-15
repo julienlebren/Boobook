@@ -26,7 +26,7 @@ class SignInPage extends ConsumerWidget {
       orElse: () => false,
     );
 
-    ref.listen<SignInState>(signInControllerProvider, (state) {
+    ref.listen<SignInState>(signInControllerProvider, (_, state) {
       state.maybeWhen(
         error: (errorText) {
           showAlertDialog(

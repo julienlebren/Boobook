@@ -7,6 +7,7 @@ import 'package:boobook/presentation/views/home/pupils/pupil_details_page.dart';
 import 'package:boobook/presentation/views/home/pupils/pupil_form_page.dart';
 import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
+import 'package:boobook/presentation/views/home/settings/settings_page.dart';
 import 'package:boobook/presentation/views/home/subscription/subscription_page.dart';
 import 'package:boobook/presentation/views/splash/splash_page.dart';
 import 'package:boobook/providers/books.dart';
@@ -32,6 +33,7 @@ class AppRoutes {
   static const loanListPage = 'loans';
   static const loanNewPage = 'loans/new';
   static loanFormPage(String id) => 'loans/$id/edit';
+  static const settingsPage = 'settings';
   static const subscriptionPage = 'subscription';
 }
 
@@ -61,6 +63,10 @@ class AppRouter {
         case AppRoutes.scanResultsPage:
           return platformPageRoute(
             builder: (_) => const ScanSheet(),
+          );
+        case AppRoutes.settingsPage:
+          return platformPageRoute(
+            builder: (_) => const SettingsOverviewPage(),
           );
         case AppRoutes.pupilListPage:
           final args = settings.arguments as PupilPageArguments?;

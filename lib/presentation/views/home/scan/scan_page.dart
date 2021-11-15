@@ -57,7 +57,7 @@ class ScanPage extends ConsumerWidget {
     final controller = ref.read(scanControllerProvider.notifier);
     final l10n = ref.watch(localizationProvider);
 
-    ref.listen<ScanState>(scanControllerProvider, (state) async {
+    ref.listen<ScanState>(scanControllerProvider, (_, state) async {
       print("state is $state");
       if (state.errorText != null) {
         showAlertDialog(
@@ -100,7 +100,8 @@ class ScanPage extends ConsumerWidget {
           ],
         );
       } else if (state.isSuccess) {
-        ref.read(currentTabIndexProvider).state = state.loan != null ? 0 : 1;
+        ref.read(currentTabIndexProvider.state).state =
+            state.loan != null ? 0 : 1;
         Future.delayed(
           const Duration(seconds: 2),
           () {

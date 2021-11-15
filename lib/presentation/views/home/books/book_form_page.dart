@@ -43,9 +43,9 @@ class BookFormPage extends ConsumerWidget {
     final id = ref.watch(selectedBookId);
     final l10n = ref.watch(localizationProvider);
 
-    ref.listen<BookFormState>(bookControllerProvider(id), (state) {
+    ref.listen<BookFormState>(bookControllerProvider(id), (_, state) {
       if (state.isSuccess) {
-        ref.read(currentTabIndexProvider).state = 1;
+        ref.read(currentTabIndexProvider.state).state = 1;
         Navigator.pop(context);
       } else if (state.errorText != null) {
         showAlertDialog(

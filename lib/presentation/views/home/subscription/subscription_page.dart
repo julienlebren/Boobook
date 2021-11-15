@@ -25,7 +25,7 @@ class SubscriptionPage extends ConsumerWidget {
     final state = ref.watch(subscriptionControllerProvider);
     final l10n = ref.read(localizationProvider);
 
-    ref.listen<SubscriptionState>(subscriptionControllerProvider, (state) {
+    ref.listen<SubscriptionState>(subscriptionControllerProvider, (_, state) {
       if (state.errorText != null) {
         final l10n = ref.read(localizationProvider);
         showAlertDialog(

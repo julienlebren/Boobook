@@ -22,7 +22,6 @@ final localizationProvider = Provider<AppLocalizations>((ref) {
 /// empty stream otherwise.
 final userStreamProvider = StreamProvider<User?>((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
-  print("userRepository is $userRepository");
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 
@@ -31,9 +30,7 @@ final userStreamProvider = StreamProvider<User?>((ref) {
 final userProvider = Provider<User?>((ref) {
   final userAsyncValue = ref.watch(userStreamProvider);
   return userAsyncValue.maybeWhen(
-    data: (user) {
-      return user!;
-    },
+    data: (user) => user,
     orElse: () => null,
   );
 });
@@ -45,18 +42,16 @@ final userProvider = Provider<User?>((ref) {
 final authStateProvider = StateProvider<AuthState>((ref) {
   final authStateChanges = ref.watch(authStateChangesProvider);
   return authStateChanges.when(
-    loading: (_) => AuthState.initializing(),
-    error: (error, _, __) => AuthState.error(error.toString()),
+    loading: () => AuthState.initializing(),
+    error: (error, _) => AuthState.error(error.toString()),
     data: (user) {
-      print("user1: $user");
       if (user == null) {
         return AuthState.notAuthed();
       } else {
         final user = ref.watch(userStreamProvider);
-        print("user2: $user");
         return user.when(
-          loading: (_) => AuthState.initializing(),
-          error: (error, _, __) => AuthState.error(error.toString()),
+          loading: () => AuthState.initializing(),
+          error: (error, _) => AuthState.error(error.toString()),
           data: (user) {
             if (user is User) {
               return AuthState.authed();
