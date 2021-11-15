@@ -9,6 +9,17 @@
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ]
   },
+  "hosting": {
+    "public": "web",
+    "rewrites": [
+      { "source": "/privacy**", "destination": "/privacy.html" }
+    ],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
   "storage": {
     "rules": "storage.rules"
   }
