@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// It depends on the [UserRepository] because in this app database,
 /// the "pupils" collection is a sub-collection of the collection "users".
 final pupilRepositoryProvider = Provider<PupilRepository>((ref) {
-  final userRepository = ref.read(userRepositoryProvider);
+  final userRepository = ref.watch(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app
   // where the [UserRepository] is null, so this exception should

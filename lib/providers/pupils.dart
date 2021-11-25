@@ -44,7 +44,7 @@ final pupilHandler = Provider<Function(Pupil)>(
 );
 
 final pupilRefProvider = Provider<CollectionReference<Pupil>>((ref) {
-  final userRepository = ref.read(userRepositoryProvider);
+  final userRepository = ref.watch(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app
   // where the [UserRepository] is null, so this exception should

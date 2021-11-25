@@ -37,6 +37,11 @@ class BookDetailsPage extends ConsumerWidget {
         ),
       ],
       onPressed: (value) {
+        if (isCupertino()) {
+          final navigator = NavigatorKeys.main.currentState!;
+          navigator.pop();
+        }
+
         switch (value) {
           case BookMenuActions.edit:
             _edit(id);

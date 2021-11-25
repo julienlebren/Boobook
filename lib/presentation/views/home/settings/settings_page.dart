@@ -63,12 +63,12 @@ class SettingsLoansSection extends ConsumerWidget {
     final l10n = ref.watch(localizationProvider);
     final maxSimultaneousLoans = ref.watch(
       userProvider.select(
-        (user) => user!.maxSimultaneousLoans,
+        (user) => user?.maxSimultaneousLoans ?? 0,
       ),
     );
     final loanDuration = ref.watch(
       userProvider.select(
-        (user) => user!.loanDuration,
+        (user) => user?.loanDuration ?? 0,
       ),
     );
 
@@ -120,7 +120,7 @@ class SettingsCardsSection extends ConsumerWidget {
     final l10n = ref.watch(localizationProvider);
     final cardTitle = ref.watch(
       userProvider.select(
-        (user) => user!.cardTitle,
+        (user) => user?.cardTitle,
       ),
     );
     final textController = TextEditingController(text: cardTitle);
@@ -176,7 +176,7 @@ class SettingsAppearanceSection extends ConsumerWidget {
     final themeL10n = ref.watch(themeLocalizationProvider(l10n));
     final theme = ref.watch(
       userProvider.select(
-        (user) => user!.theme,
+        (user) => user?.theme,
       ),
     );
     final languages = ref.read(languagesProvider);
@@ -187,7 +187,7 @@ class SettingsAppearanceSection extends ConsumerWidget {
       children: [
         FormTappableField(
           label: l10n.settingsThemeLabel,
-          value: theme.description(themeL10n),
+          value: theme?.description(themeL10n),
           onPressed: () => showPlatformSinglePicker<ThemeType>(
             context,
             ref,
@@ -239,7 +239,9 @@ class SettingsAccountSection extends ConsumerWidget {
           isDestructiveAction: true,
           isDefaultAction: true,
           onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop();
+            if (isMaterial()) {
+              Navigator.of(context, rootNavigator: true).pop();
+            }
             await ref.read(authServiceProvider).signOut();
           },
         ),
@@ -252,12 +254,12 @@ class SettingsAccountSection extends ConsumerWidget {
     final l10n = ref.watch(localizationProvider);
     final emailAddress = ref.watch(
       userProvider.select(
-        (user) => user!.emailAddress,
+        (user) => user?.emailAddress,
       ),
     );
     final isSubscribed = ref.watch(
       userProvider.select(
-        (user) => user!.isSubscribed,
+        (user) => user?.isSubscribed ?? false,
       ),
     );
 

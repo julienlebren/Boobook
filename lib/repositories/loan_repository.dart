@@ -10,7 +10,7 @@ import 'package:firestore_service/firestore_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final loanRepositoryProvider = Provider<LoanRepository>((ref) {
-  final userRepository = ref.read(userRepositoryProvider);
+  final userRepository = ref.watch(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app
   // where the [UserRepository] is null, so this exception should

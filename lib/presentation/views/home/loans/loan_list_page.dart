@@ -258,38 +258,41 @@ class _LoanExpectedReturn extends ConsumerWidget {
         ? Colors.red
         : (daysLeft < 4 ? Colors.orange : Colors.green));
 
-    return (() {
-      if (loan.returnDate != null) {
-        return Icon(PlatformIcons.checkmark, color: Colors.green, size: 28);
-      } else if (loan.isLost) {
-        return Icon(Icons.close, color: Colors.red, size: 28);
-      } else {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            if (daysLeft < 0)
-              Text(l10n.loanReturnLate,
-                  style: TextStyle(fontSize: 10, color: textColor)),
-            if (daysLeft == 0 || daysLeft == 1)
-              Text(l10n.loanReturn,
-                  style: TextStyle(fontSize: 10, color: textColor)),
-            if (daysLeft > 1)
-              Text(l10n.loanReturnIn,
-                  style: TextStyle(fontSize: 10, color: textColor)),
-            if (daysLeft == 0)
-              Text(l10n.today,
-                  style: TextStyle(fontSize: 18, color: textColor)),
-            if (daysLeft != 0)
-              Text(
-                  daysLeft == 1
-                      ? l10n.tomorrow
-                      : l10n.loanReturnDays(
-                          daysLeft.abs().toString(),
-                        ),
-                  style: TextStyle(fontSize: 18, color: textColor)),
-          ],
-        );
-      }
-    }());
+    return Padding(
+      padding: EdgeInsets.only(right: 5),
+      child: (() {
+        if (loan.returnDate != null) {
+          return Icon(PlatformIcons.checkmark, color: Colors.green, size: 28);
+        } else if (loan.isLost) {
+          return Icon(Icons.close, color: Colors.red, size: 28);
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (daysLeft < 0)
+                Text(l10n.loanReturnLate,
+                    style: TextStyle(fontSize: 10, color: textColor)),
+              if (daysLeft == 0 || daysLeft == 1)
+                Text(l10n.loanReturn,
+                    style: TextStyle(fontSize: 10, color: textColor)),
+              if (daysLeft > 1)
+                Text(l10n.loanReturnIn,
+                    style: TextStyle(fontSize: 10, color: textColor)),
+              if (daysLeft == 0)
+                Text(l10n.today,
+                    style: TextStyle(fontSize: 18, color: textColor)),
+              if (daysLeft != 0)
+                Text(
+                    daysLeft == 1
+                        ? l10n.tomorrow
+                        : l10n.loanReturnDays(
+                            daysLeft.abs().toString(),
+                          ),
+                    style: TextStyle(fontSize: 18, color: textColor)),
+            ],
+          );
+        }
+      }()),
+    );
   }
 }

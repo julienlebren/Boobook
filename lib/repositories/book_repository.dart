@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// It depends on the [BookRepository] because in this app database,
 /// the "books" collection is a sub-collection of the collection "users".
 final bookRepositoryProvider = Provider<BookRepository>((ref) {
-  final userRepository = ref.read(userRepositoryProvider);
+  final userRepository = ref.watch(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app
   // where the [UserRepository] is null, so this exception should
