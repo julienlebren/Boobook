@@ -17,7 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart' show platformPageRoute;
 
 class AppRoutes {
-  static const splashPage = '/';
+  static const splashPage = 'home';
   static const scanPage = 'scan';
   static const scanMainPage = 'scan/scan';
   static const scanResultsPage = 'scan/results';
@@ -172,7 +172,7 @@ class AppRouter {
         }
       }
     }
-    throw Exception(
-        "The route ${settings.name} is not handled by the router 🤷");
+    /*throw Exception(
+        "The route ${settings.name} is not handled by the router 🤷");*/
   }
 }

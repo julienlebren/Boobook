@@ -1,6 +1,8 @@
 import 'package:boobook/controllers/book_form_controller.dart';
 import 'package:boobook/core/models/book.dart';
 import 'package:boobook/presentation/common_widgets/book_cover.dart';
+import 'package:boobook/presentation/routes/navigators.dart';
+import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/providers/books.dart';
@@ -75,7 +77,7 @@ class BookFormPageBuilder extends ConsumerWidget {
       bookControllerProvider(id).select((state) => state.isSaving),
     );
 
-    return PlatformModalScaffold(
+    return PlatformScaffold(
       appBar: PlatformNavigationBar(
         leading: PlatformNavigationBarCloseButton(
           onPressed: () => Navigator.pop(context),
@@ -102,7 +104,18 @@ class BookFormSubmitButton extends ConsumerWidget {
   }) : super(key: key);
 
   _saveBook(WidgetRef ref) {
-    _handleEvent(ref, BookFormEvent.save());
+    final bookCount = ref.watch(bookListProvider).asData!.value.length;
+    final isSubscribed =
+        ref.watch(userProvider.select((user) => user!.isSubscribed));
+
+    if (bookCount > 8 && !isSubscribed) {
+      final navigator = NavigatorKeys.main.currentState!;
+      navigator.pushReplacementNamed(
+        AppRoutes.subscriptionPage,
+      );
+    } else {
+      _handleEvent(ref, BookFormEvent.save());
+    }
   }
 
   final bool isSaving;

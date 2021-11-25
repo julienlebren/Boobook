@@ -4,6 +4,7 @@ import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/presentation/common_widgets/book_availability.dart';
 import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
+import 'package:boobook/providers/books.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
@@ -17,11 +18,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isbndb/isbndb.dart';
 import 'package:layout_builder/layout_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:vibration/vibration.dart';
 
 final scanControllerProvider =
-    StateNotifierProvider.autoDispose<ScanController, ScanState>((ref) {
+    StateNotifierProvider<ScanController, ScanState>((ref) {
   final loanRepository = ref.watch(loanRepositoryProvider);
   final bookRepository = ref.watch(bookRepositoryProvider);
   final pupilRepository = ref.watch(pupilRepositoryProvider);
@@ -45,6 +47,10 @@ class ScanNavigator extends ConsumerWidget {
       navigatorKey: NavigatorKeys.scan,
       onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, ref),
       initialRoute: AppRoutes.scanMainPage,
+      onUnknownRoute: (_) => AppRouter.onGenerateRoute(
+        RouteSettings(name: AppRoutes.scanMainPage),
+        ref,
+      ),
     );
   }
 }
@@ -76,6 +82,7 @@ class ScanPage extends ConsumerWidget {
           barrierColor: Colors.transparent,
           //isDismissible: false,
           builder: (context) => const ScanSheet(),
+          useRootNavigator: true,
         ).whenComplete(() {
           controller.handleEvent(
             ScanEvent.modalDismissed(),
@@ -105,8 +112,12 @@ class ScanPage extends ConsumerWidget {
         Future.delayed(
           const Duration(seconds: 2),
           () {
-            Navigator.of(context).pop();
-            //Navigator.of(context, rootNavigator: true).pop();
+            if (isMaterial()) {
+              Navigator.of(context).pop();
+            } else {
+              // Used to pop only the ScanSheet widget
+              Navigator.of(context, rootNavigator: true).pop();
+            }
           },
         );
       } else if (state.book != null &&
@@ -120,89 +131,100 @@ class ScanPage extends ConsumerWidget {
     });
 
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: <Widget>[
-          Expanded(
-            child: QRView(
-              key: GlobalKey(debugLabel: "QR"),
-              onQRViewCreated: (qrViewController) {
-                controller.handleEvent(
-                  ScanEvent.controllerCreated(qrViewController),
-                );
-              },
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: <Widget>[
+            Expanded(
+              child: QRView(
+                key: GlobalKey(debugLabel: "QR"),
+                onQRViewCreated: (qrViewController) {
+                  controller.handleEvent(
+                    ScanEvent.controllerCreated(qrViewController),
+                  );
+                },
+              ),
             ),
-          ),
-          CustomPaint(
-            painter: HolePainter(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+            CustomPaint(
+              painter: HolePainter(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+              ),
+              child: Container(),
             ),
-            child: Container(),
-          ),
-          SafeArea(
-            child: Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PlatformIconPlainButton(
-                          icon: Icons.close,
-                          backgroundColor: Colors.black26,
-                          color: Colors.white,
-                          size: 28,
-                          onPressed: () {
-                            final navigator = NavigatorKeys.main.currentState!;
-                            navigator.pop();
-                          },
-                        ),
-                        PlatformIconPlainButton(
-                          icon: Icons.flashlight_on,
-                          backgroundColor: Colors.black26,
-                          color: Colors.white,
-                          size: 28,
-                          onPressed: () {
-                            controller.handleEvent(
-                              ScanEvent.toggleFlash(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    Consumer(builder: (context, ref, _) {
-                      final state = ref.watch(scanControllerProvider);
-                      if (state.barCode != null) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            state.barCode!.code.length == 13
-                                ? l10n.scanSearchingISBN(state.barCode!.code)
-                                : l10n.scanSearchingPupil,
-                            style: TextStyle(
-                              fontSize: 16,
+            SafeArea(
+              child: Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isCupertino() ? 15 : 0,
+                    vertical: 10,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: isMaterial()
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.end,
+                        children: [
+                          if (isMaterial())
+                            PlatformIconPlainButton(
+                              icon: Icons.close,
+                              backgroundColor: Colors.black26,
                               color: Colors.white,
+                              size: 28,
+                              onPressed: () {
+                                final navigator =
+                                    NavigatorKeys.main.currentState!;
+                                navigator.pop();
+                              },
                             ),
+                          PlatformIconPlainButton(
+                            icon: Icons.flashlight_on,
+                            backgroundColor: Colors.black26,
+                            color: Colors.white,
+                            size: 28,
+                            onPressed: () {
+                              controller.handleEvent(
+                                ScanEvent.toggleFlash(),
+                              );
+                            },
                           ),
-                        );
-                      } else {
-                        return SizedBox.shrink();
-                        /*PlatformTextButton(
+                        ],
+                      ),
+                      Consumer(builder: (context, ref, _) {
+                        final state = ref.watch(scanControllerProvider);
+                        if (state.barCode != null &&
+                            state.barCode!.code != null) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              state.barCode!.code!.length == 13
+                                  ? l10n.scanSearchingISBN(state.barCode!.code!)
+                                  : l10n.scanSearchingPupil,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return SizedBox.shrink();
+                          /*PlatformTextButton(
                           title: l10n.scanEnterISBN,
                           color: Colors.white,
                           onPressed: () {},
                         );*/
-                      }
-                    }),
-                  ],
+                        }
+                      }),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -214,7 +236,7 @@ class ScanSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 225,
+      height: isCupertino() ? 240 : 225,
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Consumer(
         builder: (context, ref, _) {
@@ -256,7 +278,7 @@ class UnknownBook extends ConsumerWidget {
           padding: EdgeInsets.symmetric(horizontal: 40),
           child: BarcodeWidget(
             barcode: bcw.Barcode.isbn(),
-            data: state.barCode!.code,
+            data: state.barCode!.code!,
             width: double.infinity,
             height: 70,
           ),
@@ -267,10 +289,7 @@ class UnknownBook extends ConsumerWidget {
           child: Text(
             l10n.scanISBNNotFound,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 17,
-              //fontWeight: FontWeight.bold,
-            ),
+            style: PlatformTextStyle.n17,
           ),
         ),
         SizedBox(height: 8),
@@ -283,7 +302,7 @@ class UnknownBook extends ConsumerWidget {
               onPressed: () {
                 final navigator = NavigatorKeys.main.currentState!;
                 navigator.pushNamedAndRemoveUntil(
-                    AppRoutes.bookFormPage(state.barCode!.code),
+                    AppRoutes.bookFormPage(state.barCode!.code!),
                     (route) => route.isFirst,
                     arguments: ref);
               },
@@ -322,18 +341,14 @@ class _BookTile extends ConsumerWidget {
           textAlign: TextAlign.left,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 18,
-          ),
+          style: PlatformTextStyle.n18,
         ),
         subtitle: book.isFromISBNdb
             ? Text(
                 book.subtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: PlatformTextStyle.n15,
               )
             : BookAvailability(
                 isAvailable: book.isAvailable,
@@ -417,6 +432,9 @@ class BookAddTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(scanControllerProvider);
     final l10n = ref.watch(localizationProvider);
+    final bookCount = ref.watch(bookListProvider).asData!.value.length;
+    final isSubscribed =
+        ref.watch(userProvider.select((user) => user!.isSubscribed));
 
     return FormWithOverlay(
       isSaving: state.isSaving,
@@ -430,10 +448,17 @@ class BookAddTile extends ConsumerWidget {
             PlatformElevatedButton(
               title: l10n.scanAddBookToList,
               onPressed: () {
-                final controller = ref.read(scanControllerProvider.notifier);
-                controller.handleEvent(
-                  ScanEvent.addBook(),
-                );
+                if (bookCount > 8 && !isSubscribed) {
+                  final navigator = NavigatorKeys.main.currentState!;
+                  navigator.pushReplacementNamed(
+                    AppRoutes.subscriptionPage,
+                  );
+                } else {
+                  final controller = ref.read(scanControllerProvider.notifier);
+                  controller.handleEvent(
+                    ScanEvent.addBook(),
+                  );
+                }
               },
             ),
             PlatformTextButton(
@@ -441,9 +466,16 @@ class BookAddTile extends ConsumerWidget {
               onPressed: () {
                 final state = ref.read(scanControllerProvider);
                 final navigator = NavigatorKeys.main.currentState!;
-                navigator.pushReplacementNamed(
-                  AppRoutes.bookFormPage(state.book!.id!),
-                );
+
+                if (bookCount > 8 && !isSubscribed) {
+                  navigator.pushReplacementNamed(
+                    AppRoutes.subscriptionPage,
+                  );
+                } else {
+                  navigator.pushReplacementNamed(
+                    AppRoutes.bookFormPage(state.book!.id!),
+                  );
+                }
               },
             ),
           ],
@@ -479,9 +511,7 @@ class BookReturnTile extends ConsumerWidget {
               l10n.scanBorrowedBy(pupil.displayName),
               textAlign: TextAlign.center,
               maxLines: 1,
-              style: TextStyle(
-                fontSize: 17,
-              ),
+              style: PlatformTextStyle.n17,
             ),
             SizedBox(height: 8),
             SizedBox(
@@ -521,16 +551,13 @@ class BookLoanTile extends ConsumerWidget {
         Text(
           l10n.scanPupilCard,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
-            //fontWeight: FontWeight.bold,
-          ),
+          style: PlatformTextStyle.n17,
         ),
         PlatformTextButton(
           title: l10n.scanPickPupil,
           onPressed: () {
-            final navigator = NavigatorKeys.scan.currentState!;
-            navigator.pushNamed(
+            final navigator = NavigatorKeys.main.currentState!;
+            navigator.pushReplacementNamed(
               AppRoutes.pupilListPage,
               arguments: PupilPageArguments(
                 null,
@@ -581,6 +608,7 @@ class ScanSuccess extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
     final state = ref.watch(scanControllerProvider);
+    final appTheme = ref.watch(appThemeProvider);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -589,14 +617,13 @@ class ScanSuccess extends ConsumerWidget {
           child: Icon(
             Icons.check,
             size: 80,
-            color: Theme.of(context).primaryColor,
+            color: appTheme.primaryColor,
           ),
         ),
         Text(
           state.loan != null ? l10n.scanSuccessReturn : l10n.scanSuccessAdd,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 18,
+          style: PlatformTextStyle.n18.copyWith(
+            color: appTheme.primaryColor,
           ),
         ),
         SizedBox(height: 25),

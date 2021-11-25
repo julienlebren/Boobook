@@ -3,6 +3,8 @@ import 'package:boobook/providers/common.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:layout_builder/layout_builder.dart'
+    show PlatformActivityIndicator;
 
 class BookCover extends ConsumerWidget {
   const BookCover({
@@ -31,7 +33,7 @@ class BookCover extends ConsumerWidget {
               width: 30,
               height: 30,
               child: Center(
-                child: CircularProgressIndicator(),
+                child: const PlatformActivityIndicator(),
               ),
             ),
             errorWidget: (context, url, error) => Icon(Icons.error),

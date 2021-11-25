@@ -61,6 +61,8 @@ class BookListPage extends ConsumerWidget {
       ],
       onPressed: (sortBy) {
         if (sortBy != null) {
+          final navigator = NavigatorKeys.main.currentState!;
+          navigator.pop(context);
           ref.read(bookSortProvider.state).state = sortBy;
         }
       },
@@ -117,16 +119,23 @@ class BooksOverviewPageContents extends ConsumerWidget {
         }
         return Container(
           color: appTheme.listTileBackground,
-          child: ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              return ProviderScope(
-                overrides: [
-                  _currentBook.overrideWithValue(data[index]),
-                ],
-                child: const _BookItem(),
-              );
-            },
+          child: ProviderScope(
+            overrides: [
+              listViewThemeProvider.overrideWithValue(
+                ListViewTheme(separatorPadding: 56.0),
+              ),
+            ],
+            child: PlatformListView(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ProviderScope(
+                  overrides: [
+                    _currentBook.overrideWithValue(data[index]),
+                  ],
+                  child: const _BookItem(),
+                );
+              },
+            ),
           ),
         );
       },

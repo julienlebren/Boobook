@@ -53,7 +53,6 @@ final boobookThemeProvider = Provider<AppTheme>((ref) {
     elevatedButtonRadius: 10,
     formBackgroundColor: formBackgroundColor,
     listTileBackground: listTileBackground,
-    cupertinoBarBackgroundColor: cupertinoBarBackgroundColor,
     textColor: textColor,
     selectedColor: selectedColor,
     borderColor: Color(0xFFBDBDBD),
@@ -61,3 +60,9 @@ final boobookThemeProvider = Provider<AppTheme>((ref) {
     shadowColor: shadowColor,
   );
 });
+
+TextStyle get sectionHeaderStyle => TextStyle(
+      fontSize: isCupertino() ? 20 : 17,
+      fontWeight: isCupertino() ? FontWeight.w600 : FontWeight.w500,
+      letterSpacing: isCupertino() ? -1 : 0,
+    );

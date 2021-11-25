@@ -32,7 +32,7 @@ final bookLoansProvider =
   return repository.bookLoans(bookId);
 });
 
-final bookRefProvider = Provider.autoDispose<CollectionReference<Book>>((ref) {
+final bookRefProvider = Provider<CollectionReference<Book>>((ref) {
   final userRepository = ref.read(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app

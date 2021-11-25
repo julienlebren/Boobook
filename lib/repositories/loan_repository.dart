@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firestore_service/firestore_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final loanRepositoryProvider = Provider.autoDispose<LoanRepository>((ref) {
+final loanRepositoryProvider = Provider<LoanRepository>((ref) {
   final userRepository = ref.read(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app

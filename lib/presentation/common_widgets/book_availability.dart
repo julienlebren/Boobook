@@ -2,6 +2,7 @@ import 'package:boobook/providers/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:layout_builder/layout_builder.dart';
 
 class BookAvailability extends ConsumerWidget {
   const BookAvailability({
@@ -37,7 +38,7 @@ class BookAvailability extends ConsumerWidget {
                 ? l10n.bookAvailable
                 : l10n.bookExpectedReturn(
                     DateFormat.yMMMMd().format(expectedReturnTime!)),
-            style: TextStyle(
+            style: PlatformTextStyle.n15.copyWith(
               color: isAvailable ? Colors.green : Colors.red,
             ),
           ),

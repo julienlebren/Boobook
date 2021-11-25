@@ -71,7 +71,7 @@ class PupilFormPageBuilder extends ConsumerWidget {
       pupilControllerProvider(id).select((state) => state.pupil.isNewPupil),
     );
 
-    return PlatformModalScaffold(
+    return PlatformScaffold(
       appBar: PlatformNavigationBar(
         leading: PlatformNavigationBarCloseButton(
           onPressed: () => Navigator.pop(context),

@@ -1,4 +1,5 @@
 import 'package:boobook/core/models/loan.dart';
+import 'package:boobook/presentation/common_widgets/book_cover.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
@@ -78,6 +79,8 @@ class LoanListPage extends ConsumerWidget {
       ],
       onPressed: (sortBy) {
         if (sortBy != null) {
+          final navigator = NavigatorKeys.main.currentState!;
+          navigator.pop(context);
           ref.read(loanSortProvider.state).state = sortBy;
         }
       },
@@ -140,16 +143,23 @@ class LoanListPageContents extends ConsumerWidget {
         }
         return Container(
           color: appTheme.listTileBackground,
-          child: ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              return ProviderScope(
-                overrides: [
-                  _currentLoan.overrideWithValue(data[index]),
-                ],
-                child: const _LoanItem(),
-              );
-            },
+          child: ProviderScope(
+            overrides: [
+              listViewThemeProvider.overrideWithValue(
+                ListViewTheme(separatorPadding: 55.0),
+              ),
+            ],
+            child: PlatformListView(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ProviderScope(
+                  overrides: [
+                    _currentLoan.overrideWithValue(data[index]),
+                  ],
+                  child: const _LoanItem(),
+                );
+              },
+            ),
           ),
         );
       },
@@ -225,21 +235,7 @@ class _LoanItem extends ConsumerWidget {
     final loan = ref.watch(_currentLoan);
 
     return PlatformListTile(
-      leading: Container(
-        height: 40,
-        width: 30,
-        child: CachedNetworkImage(
-          imageUrl: loan.book!.imageUrl!,
-          placeholder: (context, url) => SizedBox(
-            width: 30,
-            height: 30,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        ),
-      ),
+      leading: BookCover(book: loan.book!),
       label: loan.book!.title,
       caption: l10n.loanedTo(loan.pupil!.displayName),
       trailing: const _LoanExpectedReturn(),

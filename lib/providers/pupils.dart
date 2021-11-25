@@ -43,8 +43,7 @@ final pupilHandler = Provider<Function(Pupil)>(
   }),
 );
 
-final pupilRefProvider =
-    Provider.autoDispose<CollectionReference<Pupil>>((ref) {
+final pupilRefProvider = Provider<CollectionReference<Pupil>>((ref) {
   final userRepository = ref.read(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app

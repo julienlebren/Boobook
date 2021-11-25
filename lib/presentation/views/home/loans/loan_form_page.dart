@@ -82,7 +82,7 @@ class LoanFormPageBuilder extends ConsumerWidget {
       loanControllerProvider(id).select((state) => state.canSubmit),
     );
 
-    return PlatformModalScaffold(
+    return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: id == null ? l10n.loanNewTitle : l10n.loanDetailsTitle,
         trailing: LoanFormSubmitButton(

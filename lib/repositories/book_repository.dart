@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///
 /// It depends on the [BookRepository] because in this app database,
 /// the "books" collection is a sub-collection of the collection "users".
-final bookRepositoryProvider = Provider.autoDispose<BookRepository>((ref) {
+final bookRepositoryProvider = Provider<BookRepository>((ref) {
   final userRepository = ref.read(userRepositoryProvider);
 
   // We are not supposed to call this provider in a part of the app
@@ -53,8 +53,9 @@ class BookRepository {
   }
 
   Future<List<Book>> findBook(String isbn) async {
-    return _service
-        .getDocuments<Book>(_bookRef.where('isbn13', isEqualTo: isbn));
+    return _service.getDocuments<Book>(_bookRef
+        .where('isArchived', isEqualTo: false)
+        .where('isbn13', isEqualTo: isbn));
   }
 
   Future<void> add(Book book) => _bookRef.add(book);

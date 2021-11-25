@@ -142,6 +142,7 @@ class SettingsCardsSection extends ConsumerWidget {
                 focusNode: focusNode,
                 textInputAction: TextInputAction.done,
                 autocorrect: false,
+                decoration: kDefaultRoundedBorderDecoration,
               ),
               displayCancelButton: true,
               actions: [
@@ -152,7 +153,7 @@ class SettingsCardsSection extends ConsumerWidget {
                       ref,
                       SettingsEvent.cardTitleChanged(textController.text),
                     );
-                    Navigator.pop(context);
+                    //Navigator.pop(context);
                   },
                   isDefaultAction: true,
                 ),
@@ -190,7 +191,7 @@ class SettingsAppearanceSection extends ConsumerWidget {
           onPressed: () => showPlatformSinglePicker<ThemeType>(
             context,
             ref,
-            title: l10n.settingsAppearanceSectionTitle,
+            title: l10n.settingsThemeLabel,
             data: ThemeType.values,
             selectedValue: theme,
             itemBuilder: (theme) => Text(theme.description(themeL10n)),

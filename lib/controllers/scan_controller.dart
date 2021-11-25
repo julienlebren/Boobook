@@ -83,7 +83,7 @@ class ScanController extends StateNotifier<ScanState> {
       modalDismissed: () {
         Future.delayed(
           const Duration(milliseconds: 300),
-          () => state = ScanState(),
+          () => state = ScanState(controller: state.controller),
         );
       },
       addBook: () => _addBook(),
@@ -100,7 +100,7 @@ class ScanController extends StateNotifier<ScanState> {
     );
 
     try {
-      switch (barCode.code.length) {
+      switch (barCode.code!.length) {
         case 13:
           _searchISBN(barCode);
           break;
@@ -114,19 +114,22 @@ class ScanController extends StateNotifier<ScanState> {
           );
       }
     } catch (e) {
-      state = state.copyWith(errorText: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        errorText: e.toString(),
+      );
     }
   }
 
   void _searchISBN(Barcode barCode) async {
     Book? book;
-    Loan? loan = await loanRepository.findBook(barCode.code);
+    Loan? loan = await loanRepository.findBook(barCode.code!);
 
     if (loan == null) {
-      final books = await bookRepository.findBook(barCode.code);
+      final books = await bookRepository.findBook(barCode.code!);
 
       if (books.isEmpty) {
-        final _book = await isbnDb.getBook(barCode.code);
+        final _book = await isbnDb.getBook(barCode.code!);
 
         if (_book != null) {
           book = Book.fromISBNdb(_book, id: bookRepository.newDocumentId);
@@ -154,7 +157,7 @@ class ScanController extends StateNotifier<ScanState> {
       isUnknownPupil: false,
     );
 
-    final pupil = await pupilRepository.get(barCode.code);
+    final pupil = await pupilRepository.get(barCode.code!);
 
     if (pupil == null) {
       state = state.copyWith(

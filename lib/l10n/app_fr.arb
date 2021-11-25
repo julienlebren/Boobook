@@ -86,6 +86,7 @@
     "scanSearchingISBN": "Recherche de l'ISBN {isbn}...",
     "scanSuccessAdd": "Livre ajouté à votre bibliothèque !",
     "scanSuccessReturn": "Retour validé !",
+    "scanTab": "Scan",
     "settingsAccountSectionTitle": "Informations du compte",
     "settingsAppearanceSectionTitle": "Apparence de l'app",
     "settingsCardsSectionTitle": "Cartes de membre",

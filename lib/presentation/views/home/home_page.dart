@@ -1,6 +1,8 @@
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/providers/common.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart'
@@ -9,6 +11,7 @@ import 'package:layout_builder/layout_builder.dart'
         PlatformTabScaffold,
         TabItem,
         currentTabIndexProvider,
+        isCupertino,
         tabsProvider;
 import 'package:layout_builder/theme/theme.dart';
 
@@ -62,6 +65,10 @@ class _HomePageState extends ConsumerState<HomePage>
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
                 initialRoute: AppRoutes.loanListPage,
+                onUnknownRoute: (_) => AppRouter.onGenerateRoute(
+                  RouteSettings(name: AppRoutes.loanListPage),
+                  ref,
+                ),
               ),
             ),
             TabItem(
@@ -73,8 +80,19 @@ class _HomePageState extends ConsumerState<HomePage>
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
                 initialRoute: AppRoutes.bookListPage,
+                onUnknownRoute: (_) => AppRouter.onGenerateRoute(
+                  RouteSettings(name: AppRoutes.bookListPage),
+                  ref,
+                ),
               ),
             ),
+            if (isCupertino())
+              TabItem(
+                title: l10n.scanTab,
+                icon: CupertinoIcons.barcode_viewfinder,
+                selectedIcon: CupertinoIcons.barcode_viewfinder,
+                router: const ScanNavigator(),
+              ),
             TabItem(
               title: l10n.pupilsTab,
               icon: Icons.people,
@@ -84,6 +102,10 @@ class _HomePageState extends ConsumerState<HomePage>
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
                 initialRoute: AppRoutes.pupilListPage,
+                onUnknownRoute: (_) => AppRouter.onGenerateRoute(
+                  RouteSettings(name: AppRoutes.pupilListPage),
+                  ref,
+                ),
               ),
             ),
             TabItem(
@@ -91,10 +113,14 @@ class _HomePageState extends ConsumerState<HomePage>
               icon: Icons.tune,
               selectedIcon: Icons.tune,
               router: PlatformTabNavigator(
-                navigatorKey: NavigatorKeys.pupils,
+                navigatorKey: NavigatorKeys.settings,
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
                 initialRoute: AppRoutes.settingsPage,
+                onUnknownRoute: (_) => AppRouter.onGenerateRoute(
+                  RouteSettings(name: AppRoutes.settingsPage),
+                  ref,
+                ),
               ),
             ),
           ],

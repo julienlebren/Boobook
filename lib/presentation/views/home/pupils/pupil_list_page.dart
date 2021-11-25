@@ -61,7 +61,6 @@ class PupilListPage extends ConsumerWidget {
 
     showPlatformPopupMenu(
       context: context,
-      title: l10n.pupilSort,
       ref: ref,
       items: [
         PlatformPopupMenuItem(
@@ -72,6 +71,8 @@ class PupilListPage extends ConsumerWidget {
       ],
       onPressed: (action) {
         if (action != null) {
+          final navigator = NavigatorKeys.main.currentState!;
+          navigator.pop(context);
           _print(ref);
         }
       },
@@ -151,16 +152,23 @@ class PupilListPageContents extends ConsumerWidget {
         }
         return Container(
           color: appTheme.listTileBackground,
-          child: ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              return ProviderScope(
-                overrides: [
-                  _currentPupil.overrideWithValue(data[index]),
-                ],
-                child: const _PupilItem(),
-              );
-            },
+          child: ProviderScope(
+            overrides: [
+              listViewThemeProvider.overrideWithValue(
+                ListViewTheme(separatorPadding: 65.0),
+              ),
+            ],
+            child: PlatformListView(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ProviderScope(
+                  overrides: [
+                    _currentPupil.overrideWithValue(data[index]),
+                  ],
+                  child: const _PupilItem(),
+                );
+              },
+            ),
           ),
         );
       },

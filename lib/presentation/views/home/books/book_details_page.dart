@@ -1,8 +1,10 @@
 import 'package:avatar/avatar.dart';
 import 'package:boobook/core/models/loan.dart';
+import 'package:boobook/presentation/common_widgets/book_tile.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/theme/theme.dart';
 import 'package:boobook/providers/books.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/repositories/book_repository.dart';
@@ -21,7 +23,6 @@ class BookDetailsPage extends ConsumerWidget {
 
     showPlatformPopupMenu(
       context: context,
-      title: "dsnkjlsdfjklsdf",
       ref: ref,
       items: [
         PlatformPopupMenuItem(
@@ -91,105 +92,129 @@ class BookDetailsPageContents extends ConsumerWidget {
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
 
-    return Container(
-      color: appTheme.listTileBackground,
-      child: CustomScrollView(
-        slivers: [
-          /*SliverToBoxAdapter(
+    return ProviderScope(
+      overrides: [
+        listViewThemeProvider.overrideWithValue(
+          ListViewTheme(separatorPadding: 65.0),
+        ),
+      ],
+      child: Container(
+        color: appTheme.listTileBackground,
+        child: CustomScrollView(
+          slivers: [
+            /*SliverToBoxAdapter(
             child: const BookTile(),
           ),
           SliverToBoxAdapter(
             child: const FormSectionDivider(),
           ),*/
-          SliverToBoxAdapter(
-            child: SizedBox(height: 6),
-          ),
-          if (book.totalLoans == 0)
             SliverToBoxAdapter(
-              child: Container(
-                width: double.infinity,
-                // TODO: 160: better handle the height of navbar and bottom bar
-                height: MediaQuery.of(context).size.height - 160,
-                child: EmptyData(l10n.bookNeverLent),
-              ),
+              child: SizedBox(height: 6),
             ),
-          if (book.totalLoans > 0) ...[
-            if (loans.asData == null)
+            if (book.totalLoans == 0)
               SliverToBoxAdapter(
-                child: Center(
-                  child: CircularProgressIndicator(),
+                child: Container(
+                  width: double.infinity,
+                  // TODO: 160: better handle the height of navbar and bottom bar
+                  height: MediaQuery.of(context).size.height - 160,
+                  child: EmptyData(l10n.bookNeverLent),
                 ),
               ),
-            if (loans.asData != null) ...[
-              if (!book.isAvailable) ...[
+            if (book.totalLoans > 0) ...[
+              if (loans.asData == null)
                 SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    child: Text(
-                      l10n.bookCurrentLoan,
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                    ),
+                  child: Center(
+                    child: PlatformActivityIndicator(),
                   ),
                 ),
-                loans.maybeWhen(
-                  data: (loans) {
-                    final _loans =
-                        loans.where((loan) => loan.returnDate == null).toList();
+              if (loans.asData != null) ...[
+                if (!book.isAvailable) ...[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      child: Text(
+                        l10n.bookCurrentLoan,
+                        style: sectionHeaderStyle,
+                      ),
+                    ),
+                  ),
+                  loans.maybeWhen(
+                    data: (loans) {
+                      final _loans = loans
+                          .where((loan) => loan.returnDate == null)
+                          .toList();
 
-                    if (_loans.isNotEmpty) {
-                      return SliverToBoxAdapter(
-                        child: ProviderScope(
-                          overrides: [
-                            _currentLoan.overrideWithValue(_loans.first),
-                          ],
-                          child: const _LoanItem(),
+                      if (_loans.isNotEmpty) {
+                        return SliverToBoxAdapter(
+                          child: ProviderScope(
+                            overrides: [
+                              _currentLoan.overrideWithValue(_loans.first),
+                            ],
+                            child: const _LoanItem(),
+                          ),
+                        );
+                      } else {
+                        return SliverToBoxAdapter();
+                      }
+                    },
+                    orElse: () => SliverToBoxAdapter(),
+                  ),
+                  SliverToBoxAdapter(
+                    child: isCupertino()
+                        ? Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            child: Divider(
+                              color: appTheme.borderColor,
+                              height: 0.5,
+                            ),
+                          )
+                        : const FormSectionDivider(),
+                  ),
+                ],
+                if (book.totalLoans > 0) ...[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      child: Text(
+                        l10n.bookLoanHistory,
+                        style: sectionHeaderStyle,
+                      ),
+                    ),
+                  ),
+                  loans.maybeWhen(
+                    data: (loans) {
+                      final _loans = loans
+                          .where((loan) => loan.returnDate != null)
+                          .toList();
+
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            if (index.isOdd) {
+                              return const ListDivider();
+                            }
+                            return ProviderScope(
+                              overrides: [
+                                _currentLoan.overrideWithValue(
+                                  _loans[index ~/ 2],
+                                ),
+                              ],
+                              child: const _LoanItem(),
+                            );
+                          },
+                          childCount: (_loans.length * 2) - 1,
                         ),
                       );
-                    } else {
-                      return SliverToBoxAdapter();
-                    }
-                  },
-                  orElse: () => SliverToBoxAdapter(),
-                ),
-                SliverToBoxAdapter(
-                  child: const FormSectionDivider(),
-                ),
-              ],
-              if (book.totalLoans > 0) ...[
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    child: Text(
-                      l10n.bookLoanHistory,
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                    ),
+                    },
+                    orElse: () => SliverToBoxAdapter(),
                   ),
-                ),
-                loans.maybeWhen(
-                  data: (loans) {
-                    final _loans =
-                        loans.where((loan) => loan.returnDate != null).toList();
-
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => ProviderScope(
-                          overrides: [
-                            _currentLoan.overrideWithValue(_loans[index]),
-                          ],
-                          child: const _LoanItem(),
-                        ),
-                        childCount: _loans.length,
-                      ),
-                    );
-                  },
-                  orElse: () => SliverToBoxAdapter(),
-                ),
+                ],
               ],
             ],
           ],
-        ],
+        ),
       ),
     );
   }

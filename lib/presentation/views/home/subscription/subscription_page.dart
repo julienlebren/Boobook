@@ -39,7 +39,7 @@ class SubscriptionPage extends ConsumerWidget {
       }
     });
 
-    return PlatformModalScaffold(
+    return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: l10n.subscriptionTitle,
       ),
@@ -69,8 +69,9 @@ class SubscriptionPageContents extends ConsumerWidget {
       child: FormWithOverlay(
         isSaving: isPurchasing,
         child: CustomScrollView(
-          physics:
-              isCupertino() ? BouncingScrollPhysics() : ClampingScrollPhysics(),
+          physics: isCupertino()
+              ? AlwaysScrollableScrollPhysics()
+              : ClampingScrollPhysics(),
           slivers: [
             _SubscriptionHeader(),
             _SubscriptionContents(),
@@ -317,13 +318,16 @@ class _SubscriptionCupertinoCaption extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.read(localizationProvider);
-    return Text(
-      l10n.subscriptionCupertinoCaption,
-      style: TextStyle(
-        color: Colors.grey,
-        fontSize: 12,
+    return Padding(
+      padding: EdgeInsets.only(top: 10),
+      child: Text(
+        l10n.subscriptionCupertinoCaption,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+        textAlign: TextAlign.center,
       ),
-      textAlign: TextAlign.center,
     );
   }
 }
