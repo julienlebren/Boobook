@@ -34,6 +34,7 @@ class BookDetailsPage extends ConsumerWidget {
           title: l10n.bookActionDelete,
           icon: Icons.archive,
           value: BookMenuActions.archive,
+          isDestructiveAction: true,
         ),
       ],
       onPressed: (value) {
@@ -55,7 +56,7 @@ class BookDetailsPage extends ConsumerWidget {
   }
 
   Future<void> _edit(String id) async {
-    final navigator = NavigatorKeys.books.currentState!;
+    final navigator = NavigatorKeys.main.currentState!;
     navigator.pushNamed(AppRoutes.bookFormPage(id));
   }
 
@@ -77,7 +78,7 @@ class BookDetailsPage extends ConsumerWidget {
       appBar: PlatformNavigationBar(
         title: book.title,
         trailing: PlatformNavigationBarButton(
-          icon: Icons.more_vert,
+          icon: PlatformIcons.more,
           onPressed: () => _openMenu(context, ref),
         ),
       ),
@@ -140,7 +141,9 @@ class BookDetailsPageContents extends ConsumerWidget {
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Text(
                         l10n.bookCurrentLoan,
-                        style: sectionHeaderStyle,
+                        style: sectionHeaderStyle.copyWith(
+                          color: appTheme.textColor,
+                        ),
                       ),
                     ),
                   ),
@@ -170,7 +173,7 @@ class BookDetailsPageContents extends ConsumerWidget {
                         ? Padding(
                             padding: EdgeInsets.symmetric(vertical: 5),
                             child: Divider(
-                              color: appTheme.borderColor,
+                              color: appTheme.dividerColor,
                               height: 0.5,
                             ),
                           )
@@ -184,7 +187,9 @@ class BookDetailsPageContents extends ConsumerWidget {
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Text(
                         l10n.bookLoanHistory,
-                        style: sectionHeaderStyle,
+                        style: sectionHeaderStyle.copyWith(
+                          color: appTheme.textColor,
+                        ),
                       ),
                     ),
                   ),

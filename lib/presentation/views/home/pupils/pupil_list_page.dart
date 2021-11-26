@@ -104,13 +104,18 @@ class PupilListPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
 
+    // Used to know if we are in add mode or edit mode
+    final id = ref.watch(selectedPupilId);
+
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: l10n.pupilListTitle,
-        trailing: PlatformNavigationBarButton(
-          icon: Icons.more_vert,
-          onPressed: () => _openMenu(context, ref),
-        ),
+        trailing: id == null
+            ? PlatformNavigationBarButton(
+                icon: PlatformIcons.more,
+                onPressed: () => _openMenu(context, ref),
+              )
+            : null,
       ),
       body: const PupilListPageContents(),
       floatingActionButton: FloatingActionButton(
@@ -132,7 +137,7 @@ class PupilListPageContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sortBy = ref.watch(pupilSortProvider.state).state;
+    final sortBy = ref.watch(pupilSortProvider);
     final pupils = ref.watch(sortedPupilListProvider(sortBy));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
@@ -140,7 +145,7 @@ class PupilListPageContents extends ConsumerWidget {
     return pupils.when(
       loading: () => const Center(
         child: Center(
-          child: CircularProgressIndicator(),
+          child: PlatformActivityIndicator(),
         ),
       ),
       error: (error, _) {

@@ -50,9 +50,11 @@ class PupilFormController extends StateNotifier<PupilFormState> {
       deletePhoto: () {
         _repository.deletePhoto(state.pupil.id!);
         state = state.copyWith.pupil(photoUrl: null);
+        _checkIfCanSubmit();
       },
       photoUploaded: (photoUrl) {
         state = state.copyWith.pupil(photoUrl: photoUrl);
+        _checkIfCanSubmit();
       },
       save: () {
         savePupil();

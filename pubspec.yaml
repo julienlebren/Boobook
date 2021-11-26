@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+6
+version: 1.0.0+7
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -29,7 +29,7 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/avatar
-    version: ^0.1.10
+    version: ^0.1.11
   extensions:
     git:
       url: https://github.com/julienlebren/flutter_packages
@@ -45,7 +45,7 @@ dependencies:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/firestore_service
     version: ^0.1.7
-  firebase_storage_service: 
+  firebase_storage_service:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/firebase_storage_service 
@@ -54,7 +54,7 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/layout_builder
-    version: ^0.16.18
+    version: ^0.17.6
   models:
     git:
       url: https://github.com/julienlebren/flutter_packages
@@ -64,7 +64,7 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/photo_upload
-    version: ^0.3.6
+    version: ^0.3.8
   subscription_service:
     git:
       url: https://github.com/julienlebren/flutter_packages

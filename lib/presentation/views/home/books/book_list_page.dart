@@ -24,12 +24,12 @@ final bookSortProvider = StateProvider.autoDispose<BookSort>(
 /// while the new sort is processed.
 /// So by storing the list in a provider and the sorted list in another one, we do not
 /// request the database each time we sort the list by a new parameter.
-final sortedPupilListProvider = Provider.family
+final sortedBookListProvider = Provider.family
     .autoDispose<AsyncValue<List<Book>>, BookSort>((ref, sortBy) {
   return ref.watch(bookListProvider).whenData((books) {
     switch (sortBy) {
       case BookSort.title:
-        books.sort((a, b) => b.title.compareTo(a.title));
+        books.sort((a, b) => a.title.compareTo(b.title));
         break;
       case BookSort.available:
         books.sort((a, b) => a.isAvailable.compareTo(b.isAvailable));
@@ -100,14 +100,15 @@ class BooksOverviewPageContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final books = ref.watch(bookListProvider);
+    final sortBy = ref.watch(bookSortProvider);
+    final books = ref.watch(sortedBookListProvider(sortBy));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
 
     return books.when(
       loading: () => const Center(
         child: Center(
-          child: CircularProgressIndicator(),
+          child: PlatformActivityIndicator(),
         ),
       ),
       error: (error, _) {

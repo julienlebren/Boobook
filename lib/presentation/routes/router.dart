@@ -116,6 +116,7 @@ class AppRouter {
               ],
               child: const LoanFormPage(),
             ),
+            fullscreenDialog: true,
           );
         }
 

@@ -18,9 +18,7 @@ class SignInPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
     final state = ref.watch(signInControllerProvider);
-    final primaryColor = ref.watch(
-      appThemeProvider.select((appTheme) => appTheme.primaryColor),
-    );
+    final appTheme = ref.watch(appThemeProvider);
     final isLoading = state.maybeWhen(
       loading: () => true,
       orElse: () => false,
@@ -68,7 +66,7 @@ class SignInPage extends ConsumerWidget {
                   style: TextStyle(
                     fontFamily: "AristotelicaSmallCaps",
                     fontSize: 56.0,
-                    color: primaryColor,
+                    color: appTheme.primaryColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -78,6 +76,7 @@ class SignInPage extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w400,
+                    color: appTheme.textColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -111,6 +110,7 @@ class SignInPageButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
+    final appTheme = ref.watch(appThemeProvider);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -120,8 +120,8 @@ class SignInPageButtons extends ConsumerWidget {
           child: PlatformSocialButton(
             assetName: "assets/images/facebook-logo.png",
             title: l10n.signInWithFacebook,
-            textColor: Colors.black87,
-            color: Colors.white,
+            color: appTheme.navigationBarBorderColor,
+            textColor: appTheme.textColor,
             onPressed: () =>
                 _handleEvent(ref, SignInEvent.signInWithFacebook()),
           ),
@@ -132,8 +132,8 @@ class SignInPageButtons extends ConsumerWidget {
           child: PlatformSocialButton(
             assetName: "assets/images/google-logo.png",
             title: l10n.signInWithGoogle,
-            textColor: Colors.black87,
-            color: Colors.white,
+            color: appTheme.navigationBarBorderColor,
+            textColor: appTheme.textColor,
             onPressed: () => _handleEvent(ref, SignInEvent.signInWithGoogle()),
           ),
         ),
@@ -143,7 +143,7 @@ class SignInPageButtons extends ConsumerWidget {
           child: PlatformTextButton(
             title: l10n.signInAnonymously,
             onPressed: () => _handleEvent(ref, SignInEvent.signInAnonymously()),
-            color: Colors.black54,
+            color: appTheme.textColor,
           ),
         ),
       ],

@@ -7,7 +7,6 @@ final boobookThemeProvider = Provider<AppTheme>((ref) {
   final brightness = ref.watch(brightnessProvider);
 
   Color scaffoldBackgroundColor;
-  Color formBackgroundColor;
   Color listTileBackground;
   Color navigationBarBorderColor;
   Color cupertinoBarBackgroundColor;
@@ -18,19 +17,17 @@ final boobookThemeProvider = Provider<AppTheme>((ref) {
 
   switch (brightness) {
     case Brightness.dark:
-      scaffoldBackgroundColor = Color(0xFF121212);
-      formBackgroundColor = Color(0xFF121212);
-      listTileBackground = Color(0xFF262626);
+      scaffoldBackgroundColor = Color(0xFF000000);
+      listTileBackground = Color(0xFF000000);
       navigationBarBorderColor = Color(0xFF333333);
       textColor = Colors.white;
       selectedColor = Colors.grey.shade800;
-      cupertinoBarBackgroundColor = Color.fromRGBO(0, 0, 0, 0.7);
+      cupertinoBarBackgroundColor = Color(0xFF232323);
       dividerColor = Color(0xFF333333);
       shadowColor = Color(0xFF666666);
       break;
     case Brightness.light:
       scaffoldBackgroundColor = Color(0xFFF0F0F0);
-      formBackgroundColor = Colors.white;
       navigationBarBorderColor = Color(0xFFE0E0E0);
       listTileBackground = Colors.white;
       textColor = Colors.black;
@@ -51,7 +48,6 @@ final boobookThemeProvider = Provider<AppTheme>((ref) {
     navigationBarBorderColor: navigationBarBorderColor,
     elevatedButtonPadding: 12,
     elevatedButtonRadius: 10,
-    formBackgroundColor: formBackgroundColor,
     listTileBackground: listTileBackground,
     textColor: textColor,
     selectedColor: selectedColor,

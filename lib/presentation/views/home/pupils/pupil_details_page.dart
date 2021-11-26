@@ -42,9 +42,15 @@ class PupilDetailsPage extends ConsumerWidget {
           title: l10n.pupilActionArchive,
           icon: Icons.archive,
           value: PupilMenuActions.archive,
+          isDestructiveAction: true,
         ),
       ],
       onPressed: (value) {
+        if (isCupertino()) {
+          final navigator = NavigatorKeys.main.currentState!;
+          navigator.pop();
+        }
+
         switch (value) {
           case PupilMenuActions.edit:
             _edit(id);
@@ -61,7 +67,7 @@ class PupilDetailsPage extends ConsumerWidget {
   }
 
   Future<void> _edit(String id) async {
-    final navigator = NavigatorKeys.pupils.currentState!;
+    final navigator = NavigatorKeys.main.currentState!;
     navigator.pushNamed(AppRoutes.pupilFormPage(id));
   }
 
@@ -102,7 +108,7 @@ class PupilDetailsPage extends ConsumerWidget {
       appBar: PlatformNavigationBar(
         title: pupil.displayName,
         trailing: PlatformNavigationBarButton(
-          icon: Icons.more_vert,
+          icon: PlatformIcons.more,
           onPressed: () => _openMenu(context, ref),
         ),
       ),
@@ -159,7 +165,9 @@ class PupilDetailsPageContents extends ConsumerWidget {
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Text(
                         l10n.pupilCurrentLoans(pupil.currentLoans.toString()),
-                        style: sectionHeaderStyle,
+                        style: sectionHeaderStyle.copyWith(
+                          color: appTheme.textColor,
+                        ),
                       ),
                     ),
                   ),
@@ -185,7 +193,7 @@ class PupilDetailsPageContents extends ConsumerWidget {
                                 child: const _LoanItem(),
                               );
                             },
-                            childCount: _loans.length,
+                            childCount: (_loans.length * 2) - 1,
                           ),
                         );
                       } else {
@@ -199,7 +207,7 @@ class PupilDetailsPageContents extends ConsumerWidget {
                         ? Padding(
                             padding: EdgeInsets.symmetric(vertical: 5),
                             child: Divider(
-                              color: appTheme.borderColor,
+                              color: appTheme.dividerColor,
                               height: 0.5,
                             ),
                           )
@@ -213,7 +221,9 @@ class PupilDetailsPageContents extends ConsumerWidget {
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Text(
                         l10n.bookLoanHistory,
-                        style: sectionHeaderStyle,
+                        style: sectionHeaderStyle.copyWith(
+                          color: appTheme.textColor,
+                        ),
                       ),
                     ),
                   ),
@@ -238,7 +248,7 @@ class PupilDetailsPageContents extends ConsumerWidget {
                               child: const _LoanItem(),
                             );
                           },
-                          childCount: _loans.length,
+                          childCount: (_loans.length * 2) - 1,
                         ),
                       );
                     },

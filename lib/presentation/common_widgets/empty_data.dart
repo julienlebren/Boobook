@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:layout_builder/layout_builder.dart';
 
-class EmptyData extends StatelessWidget {
+class EmptyData extends ConsumerWidget {
   const EmptyData(
     this.message, {
     Key? key,
@@ -9,7 +11,9 @@ class EmptyData extends StatelessWidget {
   final String message;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appTheme = ref.watch(appThemeProvider);
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 70),
@@ -19,8 +23,13 @@ class EmptyData extends StatelessWidget {
         children: [
           Image.asset("assets/images/logo-gray.png", width: 120),
           SizedBox(height: 12),
-          Text(message,
-              style: TextStyle(fontSize: 18), textAlign: TextAlign.center),
+          Text(
+            message,
+            style: PlatformTextStyle.n18.copyWith(
+              color: appTheme.textColor,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

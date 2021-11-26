@@ -91,6 +91,8 @@ class _SubscriptionHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.read(localizationProvider);
+    final appTheme = ref.watch(appThemeProvider);
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -114,7 +116,9 @@ class _SubscriptionHeader extends ConsumerWidget {
             ),*/
             Text(
               l10n.subscriptionSubtitle,
-              style: PlatformTextStyle.smallTitle,
+              style: PlatformTextStyle.smallTitle.copyWith(
+                color: appTheme.textColor,
+              ),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),

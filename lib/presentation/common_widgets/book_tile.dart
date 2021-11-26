@@ -4,6 +4,7 @@ import 'package:boobook/providers/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:layout_builder/layout_builder.dart';
 
 final bookAvailableProvider = Provider<bool>((_) => true);
 
@@ -16,6 +17,7 @@ class BookTile extends ConsumerWidget {
     final id = ref.watch(selectedBookId)!;
     final book = ref.watch(bookProvider(id));
     final displayAvailable = ref.watch(bookAvailableProvider);
+    final appTheme = ref.watch(appThemeProvider);
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -38,6 +40,7 @@ class BookTile extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
+                    color: appTheme.textColor,
                   ),
                 ),
                 SizedBox(height: 6),
@@ -49,6 +52,7 @@ class BookTile extends ConsumerWidget {
                           : "",
                   style: TextStyle(
                     fontSize: 16,
+                    color: appTheme.textColor,
                   ),
                 ),
                 SizedBox(height: 15),

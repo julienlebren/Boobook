@@ -6,7 +6,6 @@ import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/providers/loans.dart';
 import 'package:boobook/repositories/loan_repository.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -131,7 +130,7 @@ class LoanListPageContents extends ConsumerWidget {
     return loans.when(
       loading: () => const Center(
         child: Center(
-          child: CircularProgressIndicator(),
+          child: PlatformActivityIndicator(),
         ),
       ),
       error: (error, _) {
@@ -210,7 +209,7 @@ class _LoanItem extends ConsumerWidget {
           title: l10n.loanActionEdit,
           icon: Icons.edit,
           onPressed: () {
-            final navigator = NavigatorKeys.loans.currentState!;
+            final navigator = NavigatorKeys.main.currentState!;
             navigator.pushNamed(AppRoutes.loanFormPage(loan.id!));
           },
         ),
