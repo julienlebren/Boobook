@@ -133,28 +133,28 @@ class ScanPage extends ConsumerWidget {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: <Widget>[
-            Expanded(
-              child: QRView(
+        child: Container(
+          color: Colors.black,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: <Widget>[
+              QRView(
                 key: GlobalKey(debugLabel: "QR"),
+                formatsAllowed: [BarcodeFormat.ean13],
                 onQRViewCreated: (qrViewController) {
                   controller.handleEvent(
                     ScanEvent.controllerCreated(qrViewController),
                   );
                 },
               ),
-            ),
-            CustomPaint(
-              painter: HolePainter(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+              CustomPaint(
+                painter: HolePainter(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                ),
+                child: Container(),
               ),
-              child: Container(),
-            ),
-            SafeArea(
-              child: Expanded(
+              SafeArea(
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: isCupertino() ? 15 : 0,
@@ -211,20 +211,109 @@ class ScanPage extends ConsumerWidget {
                           );
                         } else {
                           return SizedBox.shrink();
-                          /*PlatformTextButton(
-                          title: l10n.scanEnterISBN,
-                          color: Colors.white,
-                          onPressed: () {},
-                        );*/
                         }
                       }),
                     ],
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        /*Stack(
+            alignment: Alignment.bottomCenter,
+            children: <Widget>[
+              /*Expanded(
+              child: QRView(
+                key: GlobalKey(debugLabel: "QR"),
+                onQRViewCreated: (qrViewController) {
+                  controller.handleEvent(
+                    ScanEvent.controllerCreated(qrViewController),
+                  );
+                },
+              ),
+            ),*/
+              CustomPaint(
+                painter: HolePainter(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                ),
+                child: Container(),
+              ),
+              SafeArea(
+                child: Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isCupertino() ? 15 : 0,
+                      vertical: 10,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: isMaterial()
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.end,
+                          children: [
+                            if (isMaterial())
+                              PlatformIconPlainButton(
+                                icon: Icons.close,
+                                backgroundColor: Colors.black26,
+                                color: Colors.white,
+                                size: 28,
+                                onPressed: () {
+                                  final navigator =
+                                      NavigatorKeys.main.currentState!;
+                                  navigator.pop();
+                                },
+                              ),
+                            PlatformIconPlainButton(
+                              icon: Icons.flashlight_on,
+                              backgroundColor: Colors.black26,
+                              color: Colors.white,
+                              size: 28,
+                              onPressed: () {
+                                controller.handleEvent(
+                                  ScanEvent.toggleFlash(),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        Consumer(builder: (context, ref, _) {
+                          final state = ref.watch(scanControllerProvider);
+                          if (state.barCode != null &&
+                              state.barCode!.code != null) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                state.barCode!.code!.length == 13
+                                    ? l10n
+                                        .scanSearchingISBN(state.barCode!.code!)
+                                    : l10n.scanSearchingPupil,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                            /*PlatformTextButton(
+                          title: l10n.scanEnterISBN,
+                          color: Colors.white,
+                          onPressed: () {},
+                        );*/
+                          }
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),*/
       ),
     );
   }
