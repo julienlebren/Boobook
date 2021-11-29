@@ -42,6 +42,10 @@ class SubscriptionPage extends ConsumerWidget {
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: l10n.subscriptionTitle,
+        trailing: PlatformNavigationBarButton(
+          onPressed: () => _handleEvent(ref, SubscriptionEvent.openOffers()),
+          icon: Icons.redeem,
+        ),
       ),
       body: SubscriptionPageContents(
         hasStoreIssue: state.isReady && state.price == null,

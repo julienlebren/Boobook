@@ -40,10 +40,11 @@ class _HomePageState extends ConsumerState<HomePage>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      final subscriptionService = ref.read(subscriptionServiceProvider);
-      subscriptionService.refreshSubscription();
-    }
+    // TODO : Remove comments before release mode
+    //if (state == AppLifecycleState.resumed) {
+    //  final subscriptionService = ref.read(subscriptionServiceProvider);
+    //  subscriptionService.refreshSubscription();
+    //}
     ref.refresh(brightnessProvider);
   }
 

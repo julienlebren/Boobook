@@ -100,9 +100,16 @@ class PupilListPage extends ConsumerWidget {
         filename: "${user.cardTitle ?? l10n.pupilCardTitle}-${user.id}.pdf");
   }
 
+  _addPupil(WidgetRef ref) {
+    final id = ref.read(pupilRepositoryProvider).newDocumentId;
+    final navigator = NavigatorKeys.main.currentState!;
+    navigator.pushNamed(AppRoutes.pupilFormPage(id));
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
+    final pupils = ref.watch(pupilListProvider).asData!.value;
 
     // Used to know if we are in add mode or edit mode
     final id = ref.watch(selectedPupilId);
@@ -110,20 +117,27 @@ class PupilListPage extends ConsumerWidget {
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: l10n.pupilListTitle,
-        trailing: id == null
-            ? PlatformNavigationBarButton(
-                icon: PlatformIcons.more,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isCupertino())
+              PlatformNavigationBarButton(
+                icon: PlatformIcons.add,
+                onPressed: () => _addPupil(ref),
+              ),
+            if (id == null && pupils.isNotEmpty)
+              PlatformNavigationBarButton(
+                icon: isCupertino()
+                    ? CupertinoIcons.creditcard
+                    : PlatformIcons.more,
                 onPressed: () => _openMenu(context, ref),
-              )
-            : null,
+              ),
+          ],
+        ),
       ),
       body: const PupilListPageContents(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final id = ref.read(pupilRepositoryProvider).newDocumentId;
-          final navigator = NavigatorKeys.main.currentState!;
-          navigator.pushNamed(AppRoutes.pupilFormPage(id));
-        },
+        onPressed: () => _addPupil(ref),
         tooltip: l10n.pupilAdd,
         child: Icon(Icons.add),
         heroTag: null,

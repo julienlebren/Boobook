@@ -20,6 +20,7 @@ class SubscriptionEvent with _$SubscriptionEvent {
   const factory SubscriptionEvent.fetchOfferings() = _FetchOfferings;
   const factory SubscriptionEvent.purchase() = _Purchase;
   const factory SubscriptionEvent.restorePurchases() = _RestorePurchases;
+  const factory SubscriptionEvent.openOffers() = _OpenOffers;
 }
 
 class SubscriptionController extends StateNotifier<SubscriptionState> {
@@ -36,14 +37,13 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
       fetchOfferings: _fetchOfferings,
       purchase: _purchase,
       restorePurchases: _restorePurchases,
+      openOffers: _openOffers,
     );
   }
 
   Future<void> _fetchOfferings() async {
     try {
       await _service.fetchOfferings();
-      print("product: ${_service.subscription?.product}");
-      print("price: ${_service.subscription?.product.priceString}");
       state = state.copyWith(
         isReady: true, //_service.subscription != null,
         price: _service.subscription?.product.priceString,
@@ -77,5 +77,9 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
         errorText: e.toString(),
       );
     }
+  }
+
+  Future<void> _openOffers() async {
+    await _service.openOffers();
   }
 }
