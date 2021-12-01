@@ -55,7 +55,7 @@ class LoanFormPage extends ConsumerWidget {
       if (state.isSuccess) {
         Navigator.pop(context);
       } else if (state.errorText != null) {
-        showAlertDialog(
+        showErrorDialog(
           context,
           ref,
           title: l10n.errorTitle,

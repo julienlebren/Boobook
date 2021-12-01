@@ -50,7 +50,7 @@ class BookFormPage extends ConsumerWidget {
         ref.read(currentTabIndexProvider.state).state = 1;
         Navigator.pop(context);
       } else if (state.errorText != null) {
-        showAlertDialog(
+        showErrorDialog(
           context,
           ref,
           title: l10n.errorTitle,

@@ -99,54 +99,59 @@ class ScanController extends StateNotifier<ScanState> {
       errorText: null,
     );
 
-    try {
-      switch (barCode.code!.length) {
-        case 13:
-          _searchISBN(barCode);
-          break;
-        case 20:
-          _searchMemberId(barCode);
-          break;
-        default:
-          state = state.copyWith(
-            isLoading: false,
-            isUnknownCode: true,
-          );
-      }
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorText: e.toString(),
-      );
+    switch (barCode.code!.length) {
+      case 13:
+        _searchISBN(barCode);
+        break;
+      case 20:
+        _searchMemberId(barCode);
+        break;
+      default:
+        state = state.copyWith(
+          isLoading: false,
+          isUnknownCode: true,
+        );
     }
   }
 
   void _searchISBN(Barcode barCode) async {
     Book? book;
-    Loan? loan = await loanRepository.findBook(barCode.code!);
 
-    if (loan == null) {
-      final books = await bookRepository.findBook(barCode.code!);
+    try {
+      Loan? loan = await loanRepository.findBook(barCode.code!);
 
-      if (books.isEmpty) {
-        final _book = await isbnDb.getBook(barCode.code!);
+      if (loan == null) {
+        final books = await bookRepository.findBook(barCode.code!);
 
-        if (_book != null) {
-          book = Book.fromISBNdb(_book, id: bookRepository.newDocumentId);
+        if (books.isEmpty) {
+          final _book = await isbnDb.getBook(barCode.code!);
+
+          throw UnimplementedError(
+              "This is a test error message, you should not see this in production mode.");
+
+          if (_book != null) {
+            book = Book.fromISBNdb(_book, id: bookRepository.newDocumentId);
+          }
+        } else {
+          book = books.first;
         }
       } else {
-        book = books.first;
+        book = loan.book!.copyWith(isAvailable: false);
       }
-    } else {
-      book = loan.book!.copyWith(isAvailable: false);
-    }
 
-    state = state.copyWith(
-      isISBN: true,
-      isLoading: false,
-      book: book,
-      loan: loan,
-    );
+      state = state.copyWith(
+        isISBN: true,
+        isLoading: false,
+        book: book,
+        loan: loan,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        barCode: null,
+        errorText: e.toString(),
+      );
+    }
   }
 
   void _searchMemberId(Barcode barCode) async {
@@ -157,15 +162,23 @@ class ScanController extends StateNotifier<ScanState> {
       isUnknownPupil: false,
     );
 
-    final pupil = await pupilRepository.get(barCode.code!);
+    try {
+      final pupil = await pupilRepository.get(barCode.code!);
 
-    if (pupil == null) {
+      if (pupil == null) {
+        state = state.copyWith(
+          isLoading: false,
+          isUnknownPupil: true,
+        );
+      } else {
+        _pupilSelected(pupil);
+      }
+    } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        isUnknownPupil: true,
+        barCode: null,
+        errorText: e.toString(),
       );
-    } else {
-      _pupilSelected(pupil);
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
@@ -11,11 +13,16 @@ import 'package:layout_builder/layout_builder.dart'
     show PlatformApp, appThemeProvider;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(ProviderScope(
-    child: const BoobookApp(),
-  ));
+  await runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    runApp(ProviderScope(
+      child: const BoobookApp(),
+    ));
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
 }
 
 class BoobookApp extends ConsumerWidget {

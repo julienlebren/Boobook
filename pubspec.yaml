@@ -54,7 +54,7 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/layout_builder
-    version: ^0.17.6
+    version: ^0.17.7+1
   models:
     git:
       url: https://github.com/julienlebren/flutter_packages

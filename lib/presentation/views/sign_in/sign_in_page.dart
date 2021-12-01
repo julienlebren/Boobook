@@ -27,7 +27,7 @@ class SignInPage extends ConsumerWidget {
     ref.listen<SignInState>(signInControllerProvider, (_, state) {
       state.maybeWhen(
         error: (errorText) {
-          showAlertDialog(
+          showErrorDialog(
             context,
             ref,
             title: l10n.errorTitle,

@@ -66,7 +66,7 @@ class ScanPage extends ConsumerWidget {
     ref.listen<ScanState>(scanControllerProvider, (_, state) async {
       print("state is $state");
       if (state.errorText != null) {
-        showAlertDialog(
+        showErrorDialog(
           context,
           ref,
           title: l10n.errorTitle,

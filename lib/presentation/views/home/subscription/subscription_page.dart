@@ -28,7 +28,7 @@ class SubscriptionPage extends ConsumerWidget {
     ref.listen<SubscriptionState>(subscriptionControllerProvider, (_, state) {
       if (state.errorText != null) {
         final l10n = ref.read(localizationProvider);
-        showAlertDialog(
+        showErrorDialog(
           context,
           ref,
           title: l10n.errorTitle,
@@ -42,10 +42,14 @@ class SubscriptionPage extends ConsumerWidget {
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: l10n.subscriptionTitle,
-        trailing: PlatformNavigationBarButton(
-          onPressed: () => _handleEvent(ref, SubscriptionEvent.openOffers()),
-          icon: Icons.redeem,
-        ),
+        trailing: isCupertino()
+            ? PlatformNavigationBarButton(
+                onPressed: () {
+                  _handleEvent(ref, SubscriptionEvent.openOffers());
+                },
+                icon: Icons.redeem,
+              )
+            : null,
       ),
       body: SubscriptionPageContents(
         hasStoreIssue: state.isReady && state.price == null,
