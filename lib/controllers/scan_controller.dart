@@ -4,6 +4,7 @@ import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/repositories/book_repository.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:boobook/repositories/pupil_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isbndb/isbndb.dart';
@@ -21,6 +22,7 @@ class ScanEvent with _$ScanEvent {
   const factory ScanEvent.addBook() = _AddBook;
   const factory ScanEvent.returnLoan() = _ReturnLoan;
   const factory ScanEvent.pupilSelected(Pupil pupil) = _PupilSelected;
+  const factory ScanEvent.errorDismissed() = _ErrorDismissed;
   const factory ScanEvent.modalDismissed() = _ModalDismissed;
 }
 
@@ -34,12 +36,12 @@ class ScanState with _$ScanState {
     Pupil? pupil,
     @Default(false) bool isUnknownCode,
     @Default(false) bool isUnknownPupil,
-    @Default(false) bool maxLoansReached,
     @Default(false) bool isISBN,
     @Default(false) bool isPupil,
     @Default(false) bool isLoading,
     @Default(false) bool isSaving,
     @Default(false) bool isSuccess,
+    @Default(false) bool maxLoansReached,
     String? errorText,
   }) = _ScanState;
 }
@@ -86,6 +88,12 @@ class ScanController extends StateNotifier<ScanState> {
           () => state = ScanState(controller: state.controller),
         );
       },
+      errorDismissed: () {
+        state = state.copyWith(
+          pupil: null,
+          maxLoansReached: false,
+        );
+      },
       addBook: () => _addBook(),
       returnLoan: () => _returnLoan(),
       pupilSelected: (pupil) => _pupilSelected(pupil),
@@ -126,9 +134,6 @@ class ScanController extends StateNotifier<ScanState> {
         if (books.isEmpty) {
           final _book = await isbnDb.getBook(barCode.code!);
 
-          throw UnimplementedError(
-              "This is a test error message, you should not see this in production mode.");
-
           if (_book != null) {
             book = Book.fromISBNdb(_book, id: bookRepository.newDocumentId);
           }
@@ -145,6 +150,11 @@ class ScanController extends StateNotifier<ScanState> {
         book: book,
         loan: loan,
       );
+    } on DioError catch (_) {
+      state = state.copyWith(
+        isISBN: true,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
@@ -158,8 +168,8 @@ class ScanController extends StateNotifier<ScanState> {
     state = state.copyWith(
       isISBN: false,
       isLoading: true,
-      maxLoansReached: false,
       isUnknownPupil: false,
+      maxLoansReached: false,
     );
 
     try {
@@ -187,8 +197,8 @@ class ScanController extends StateNotifier<ScanState> {
       isISBN: false,
       isPupil: true,
       isLoading: false,
-      maxLoansReached: (pupil.currentLoans >= maxSimultaneousLoans),
       pupil: pupil,
+      maxLoansReached: pupil.currentLoans >= maxSimultaneousLoans,
     );
   }
 

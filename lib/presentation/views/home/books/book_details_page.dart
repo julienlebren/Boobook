@@ -1,6 +1,5 @@
 import 'package:avatar/avatar.dart';
 import 'package:boobook/core/models/loan.dart';
-import 'package:boobook/presentation/common_widgets/book_tile.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
@@ -18,7 +17,7 @@ class BookDetailsPage extends ConsumerWidget {
   const BookDetailsPage({Key? key}) : super(key: key);
 
   void _openMenu(BuildContext context, WidgetRef ref) {
-    final id = ref.watch(selectedBookId)!;
+    final id = ref.watch(selectedBookId);
     final l10n = ref.watch(localizationProvider);
 
     showPlatformPopupMenu(
@@ -38,11 +37,6 @@ class BookDetailsPage extends ConsumerWidget {
         ),
       ],
       onPressed: (value) {
-        if (isCupertino()) {
-          final navigator = NavigatorKeys.main.currentState!;
-          navigator.pop();
-        }
-
         switch (value) {
           case BookMenuActions.edit:
             _edit(id);
@@ -71,7 +65,7 @@ class BookDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final id = ref.watch(selectedBookId)!;
+    final id = ref.watch(selectedBookId);
     final book = ref.watch(bookProvider(id));
 
     return PlatformScaffold(
@@ -92,7 +86,7 @@ class BookDetailsPageContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final id = ref.watch(selectedBookId)!;
+    final id = ref.watch(selectedBookId);
     final book = ref.watch(bookProvider(id));
     final loans = ref.watch(bookLoansProvider(id));
     final l10n = ref.watch(localizationProvider);
@@ -203,7 +197,9 @@ class BookDetailsPageContents extends ConsumerWidget {
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
                             if (index.isOdd) {
-                              return const ListDivider();
+                              return isCupertino()
+                                  ? const ListDivider()
+                                  : SizedBox.shrink();
                             }
                             return ProviderScope(
                               overrides: [

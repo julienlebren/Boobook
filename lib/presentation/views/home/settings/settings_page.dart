@@ -13,7 +13,7 @@ import 'package:models/models.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final settingsControllerProvider =
-    StateNotifierProvider.autoDispose<SettingsController, SettingsState>((ref) {
+    StateNotifierProvider<SettingsController, SettingsState>((ref) {
   final repository = ref.watch(userRepositoryProvider);
   return SettingsController(repository!);
 });

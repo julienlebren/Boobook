@@ -14,7 +14,7 @@ class BookTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
-    final id = ref.watch(selectedBookId)!;
+    final id = ref.watch(selectedBookId);
     final book = ref.watch(bookProvider(id));
     final displayAvailable = ref.watch(bookAvailableProvider);
     final appTheme = ref.watch(appThemeProvider);

@@ -14,7 +14,7 @@ import 'package:layout_builder/layout_builder.dart';
 enum LoanSort { date, title, pupil }
 
 /// This provider stores the way we sort the list of the loans in the view.
-final loanSortProvider = StateProvider.autoDispose<LoanSort>(
+final loanSortProvider = StateProvider<LoanSort>(
   (_) => LoanSort.date,
 );
 
@@ -25,8 +25,8 @@ final loanSortProvider = StateProvider.autoDispose<LoanSort>(
 /// and also a fast loading screen while the new query is processed.
 /// So by storing the list in a provider and the sorted list in another one, we do not
 /// request the database each time we sort the list by a new parameter.
-final sortedLoanListProvider = Provider.family
-    .autoDispose<AsyncValue<List<Loan>>, LoanSort>((ref, sortBy) {
+final sortedLoanListProvider =
+    Provider.family<AsyncValue<List<Loan>>, LoanSort>((ref, sortBy) {
   return ref.watch(loanListProvider).whenData((loans) {
     switch (sortBy) {
       case LoanSort.date:
@@ -78,12 +78,16 @@ class LoanListPage extends ConsumerWidget {
       ],
       onPressed: (sortBy) {
         if (sortBy != null) {
-          final navigator = NavigatorKeys.main.currentState!;
-          navigator.pop(context);
           ref.read(loanSortProvider.state).state = sortBy;
         }
       },
     );
+  }
+
+  _addLoan(WidgetRef ref) {
+    final id = ref.read(loanRepositoryProvider).newDocumentId;
+    final navigator = NavigatorKeys.main.currentState!;
+    navigator.pushNamed(AppRoutes.loanFormNavigator(id));
   }
 
   @override
@@ -93,9 +97,19 @@ class LoanListPage extends ConsumerWidget {
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: l10n.loanListTitle,
-        trailing: PlatformNavigationBarButton(
-          icon: Icons.sort,
-          onPressed: () => _openMenu(context, ref),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isCupertino())
+              PlatformNavigationBarButton(
+                icon: PlatformIcons.add,
+                onPressed: () => _addLoan(ref),
+              ),
+            PlatformNavigationBarButton(
+              icon: Icons.sort,
+              onPressed: () => _openMenu(context, ref),
+            ),
+          ],
         ),
       ),
       body: const LoanListPageContents(),

@@ -1,3 +1,4 @@
+import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/loan.dart';
 import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/repositories/loan_repository.dart';
@@ -8,6 +9,7 @@ part 'loan_form_controller.freezed.dart';
 
 @freezed
 class LoanFormEvent with _$LoanFormEvent {
+  const factory LoanFormEvent.bookChanged(Book book) = _BookChanged;
   const factory LoanFormEvent.pupilChanged(Pupil pupil) = _PupilChanged;
   const factory LoanFormEvent.loanDateChanged(DateTime date) = _LoanDateChanged;
   const factory LoanFormEvent.expectedReturnDateChanged(DateTime date) =
@@ -40,6 +42,10 @@ class LoanFormController extends StateNotifier<LoanFormState> {
 
   void handleEvent(LoanFormEvent event) {
     event.when(
+      bookChanged: (book) {
+        state = state.copyWith.loan(book: book);
+        _checkIfCanSubmit();
+      },
       pupilChanged: (pupil) {
         state = state.copyWith.loan(pupil: pupil);
         _checkIfCanSubmit();
@@ -59,7 +65,11 @@ class LoanFormController extends StateNotifier<LoanFormState> {
   void _checkIfCanSubmit() {
     bool canSubmit = true;
 
-    if (canSubmit != state.canSubmit) {
+    if (state.loan.pupil == null) {
+      state = state.copyWith(
+        canSubmit: false,
+      );
+    } else if (canSubmit != state.canSubmit) {
       state = state.copyWith(
         errorText: null,
         canSubmit: canSubmit,

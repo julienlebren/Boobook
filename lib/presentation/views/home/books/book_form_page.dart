@@ -13,18 +13,22 @@ import 'package:layout_builder/layout_builder.dart';
 import 'package:photo_upload/upload.dart';
 
 final bookControllerProvider = StateNotifierProvider.family
-    .autoDispose<BookFormController, BookFormState, String?>((ref, id) {
+    .autoDispose<BookFormController, BookFormState, String>((ref, id) {
   final repository = ref.watch(bookRepositoryProvider);
-  final bookList = ref.read(bookListProvider).asData!.value;
+  final bookList = ref.read(bookListProvider).asData?.value ?? [];
   final filteredList = bookList.where((book) => book.id == id);
 
   if (filteredList.isEmpty) {
     final scanController = ref.read(scanControllerProvider);
     if (scanController.book != null) {
       return BookFormController(repository, scanController.book!);
-    } else {
+    } else if (scanController.barCode?.code != null) {
       return BookFormController(
-          repository, Book.create(id: repository.newDocumentId));
+        repository,
+        Book.fromUnknownISBN(id: id, isbn13: scanController.barCode!.code!),
+      );
+    } else {
+      return BookFormController(repository, Book.create(id: id));
     }
   } else {
     return BookFormController(repository, filteredList.first);
@@ -76,13 +80,16 @@ class BookFormPageBuilder extends ConsumerWidget {
     final isSaving = ref.watch(
       bookControllerProvider(id).select((state) => state.isSaving),
     );
+    final isNewBook = ref.watch(
+      bookControllerProvider(id).select((state) => state.book.isNewBook),
+    );
 
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
         leading: PlatformNavigationBarCloseButton(
           onPressed: () => Navigator.pop(context),
         ),
-        title: id == null ? l10n.bookNewTitle : l10n.bookEditTitle,
+        title: isNewBook == true ? l10n.bookNewTitle : l10n.bookEditTitle,
         trailing: BookFormSubmitButton(
           isSaving: isSaving,
           canSubmit: canSubmit,
@@ -214,7 +221,7 @@ class _BookFormGeneralSectionState
             textInputAction: TextInputAction.done,
             placeholder: l10n.bookTitle,
             autocorrect: false,
-            textCapitalization: TextCapitalization.words,
+            textCapitalization: TextCapitalization.sentences,
             onChanged: (String value) {
               _handleEvent(ref, BookFormEvent.titleChanged(value));
             },
@@ -225,8 +232,7 @@ class _BookFormGeneralSectionState
             controller: TextEditingController(text: book.dashedISBN),
             textInputAction: TextInputAction.done,
             placeholder: l10n.bookISBN,
-            autocorrect: false,
-            textCapitalization: TextCapitalization.words,
+            keyboardType: TextInputType.number,
             onChanged: (String value) {
               _handleEvent(ref, BookFormEvent.isbnChanged(value));
             },

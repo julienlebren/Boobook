@@ -43,6 +43,8 @@ class LoanRepository {
   final CollectionReference<Book> _bookRef;
   final CollectionReference<Pupil> _pupilRef;
 
+  String get newDocumentId => _service.newDocumentId(_loanRef.path);
+
   Stream<List<Loan>> loansStream() {
     return _service.streamDocuments(
       _loanRef.where("returnDate", isNull: true),

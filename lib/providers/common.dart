@@ -120,3 +120,5 @@ final subscriptionServiceProvider = Provider<SubscriptionService>((ref) {
     },
   );
 });
+
+final pickerProvider = Provider.autoDispose<bool>((_) => false);

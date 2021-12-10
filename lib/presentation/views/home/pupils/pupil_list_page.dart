@@ -17,7 +17,7 @@ import 'package:printing/printing.dart';
 enum PupilSort { name, loans }
 
 /// This provider stores the way we sort the list of the pupils in the view.
-final pupilSortProvider = StateProvider.autoDispose<PupilSort>(
+final pupilSortProvider = StateProvider<PupilSort>(
   (_) => PupilSort.name,
 );
 
@@ -28,12 +28,12 @@ final pupilSortProvider = StateProvider.autoDispose<PupilSort>(
 /// while the new sort is processed.
 /// So by storing the list in a provider and the sorted list in another one, we do not
 /// request the database each time we sort the list by a new parameter.
-final sortedPupilListProvider = Provider.family
-    .autoDispose<AsyncValue<List<Pupil>>, PupilSort>((ref, sortBy) {
+final sortedPupilListProvider =
+    Provider.family<AsyncValue<List<Pupil>>, PupilSort>((ref, sortBy) {
   return ref.watch(pupilListProvider).whenData((pupils) {
     switch (sortBy) {
       case PupilSort.name:
-        pupils.sort((a, b) => a.lastName.compareTo(b.lastName));
+        pupils.sort((a, b) => a.firstName.compareTo(b.firstName));
         break;
       case PupilSort.loans:
         pupils.sort((a, b) => b.currentLoans.compareTo(a.currentLoans));
@@ -47,8 +47,15 @@ final sortedPupilListProvider = Provider.family
 class PupilPageArguments {
   final String? pupilId;
   final Function(Pupil pupil) onPupilChanged;
+  final bool isPicker;
+  final bool isFullScreenRoute;
 
-  PupilPageArguments(this.pupilId, this.onPupilChanged);
+  PupilPageArguments({
+    this.pupilId,
+    required this.onPupilChanged,
+    this.isPicker = false,
+    this.isFullScreenRoute = false,
+  });
 }
 
 enum PupilsMenuAction { cards }
@@ -71,8 +78,6 @@ class PupilListPage extends ConsumerWidget {
       ],
       onPressed: (action) {
         if (action != null) {
-          final navigator = NavigatorKeys.main.currentState!;
-          navigator.pop(context);
           _print(ref);
         }
       },
@@ -108,32 +113,43 @@ class PupilListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isPicker = ref.watch(pickerProvider);
     final l10n = ref.watch(localizationProvider);
-    final pupils = ref.watch(pupilListProvider).asData!.value;
+    final pupils = ref.watch(pupilListProvider).asData?.value;
 
     // Used to know if we are in add mode or edit mode
     final id = ref.watch(selectedPupilId);
 
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
-        title: l10n.pupilListTitle,
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (isCupertino())
-              PlatformNavigationBarButton(
-                icon: PlatformIcons.add,
-                onPressed: () => _addPupil(ref),
+        title: isPicker ? l10n.pupilPickerTitle : l10n.pupilListTitle,
+        leading: isPicker
+            ? PlatformNavigationBarCloseButton(
+                onPressed: () {
+                  final navigator = NavigatorKeys.main.currentState!;
+                  navigator.pop();
+                },
+              )
+            : null,
+        trailing: isPicker
+            ? SizedBox.shrink()
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (isCupertino())
+                    PlatformNavigationBarButton(
+                      icon: PlatformIcons.add,
+                      onPressed: () => _addPupil(ref),
+                    ),
+                  if (id == null && pupils != null && pupils.isNotEmpty)
+                    PlatformNavigationBarButton(
+                      icon: isCupertino()
+                          ? CupertinoIcons.creditcard
+                          : PlatformIcons.more,
+                      onPressed: () => _openMenu(context, ref),
+                    ),
+                ],
               ),
-            if (id == null && pupils.isNotEmpty)
-              PlatformNavigationBarButton(
-                icon: isCupertino()
-                    ? CupertinoIcons.creditcard
-                    : PlatformIcons.more,
-                onPressed: () => _openMenu(context, ref),
-              ),
-          ],
-        ),
       ),
       body: const PupilListPageContents(),
       floatingActionButton: FloatingActionButton(
@@ -142,6 +158,7 @@ class PupilListPage extends ConsumerWidget {
         child: Icon(Icons.add),
         heroTag: null,
       ),
+      isModal: isPicker,
     );
   }
 }
@@ -151,10 +168,13 @@ class PupilListPageContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isPicker = ref.watch(pickerProvider);
     final sortBy = ref.watch(pupilSortProvider);
     final pupils = ref.watch(sortedPupilListProvider(sortBy));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
+    final maxSimultaneousLoans =
+        ref.watch(userProvider.select((user) => user!.maxSimultaneousLoans));
 
     return pupils.when(
       loading: () => const Center(
@@ -166,6 +186,12 @@ class PupilListPageContents extends ConsumerWidget {
         return Center(child: Text(error.toString()));
       },
       data: (data) {
+        if (isPicker) {
+          data = data
+              .where((pupil) => pupil.currentLoans < maxSimultaneousLoans)
+              .toList();
+        }
+
         if (data.isEmpty) {
           return EmptyData(l10n.pupilEmptyCaption);
         }
@@ -178,6 +204,7 @@ class PupilListPageContents extends ConsumerWidget {
               ),
             ],
             child: PlatformListView(
+              isModal: isPicker,
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ProviderScope(

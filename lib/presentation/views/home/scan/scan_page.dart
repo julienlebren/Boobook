@@ -1,9 +1,7 @@
 import 'package:boobook/config.dart';
 import 'package:boobook/controllers/scan_controller.dart';
 import 'package:boobook/core/models/book.dart';
-import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/presentation/common_widgets/book_availability.dart';
-import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/providers/books.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
@@ -27,16 +25,35 @@ final scanControllerProvider =
   final loanRepository = ref.watch(loanRepositoryProvider);
   final bookRepository = ref.watch(bookRepositoryProvider);
   final pupilRepository = ref.watch(pupilRepositoryProvider);
-  final user = ref.watch(userProvider);
   final isbndb = ISBNdb(isbnApiKey);
+  final maxSimultaneousLoans = ref.watch(
+    userProvider.select((user) => user!.maxSimultaneousLoans),
+  );
+
   return ScanController(
     loanRepository,
     bookRepository,
     pupilRepository,
     isbndb,
-    user!.maxSimultaneousLoans,
+    maxSimultaneousLoans,
   );
 });
+
+void _openLoanForm(WidgetRef ref) {
+  Future.delayed(
+    const Duration(seconds: 1),
+    () {
+      final controller = ref.read(scanControllerProvider.notifier);
+      controller.handleEvent(
+        ScanEvent.modalDismissed(),
+      );
+    },
+  );
+
+  final id = ref.read(loanRepositoryProvider).newDocumentId;
+  final navigator = NavigatorKeys.main.currentState!;
+  navigator.pushReplacementNamed(AppRoutes.loanFormNavigator(id));
+}
 
 class ScanNavigator extends ConsumerWidget {
   const ScanNavigator({Key? key}) : super(key: key);
@@ -70,7 +87,26 @@ class ScanPage extends ConsumerWidget {
           context,
           ref,
           title: l10n.errorTitle,
-          content: state.errorText,
+          content:
+              state.barCode == null ? l10n.scanISBNNotFound : state.errorText,
+        );
+      } else if (state.maxLoansReached) {
+        showAlertDialog(
+          context,
+          ref,
+          title: l10n.warning,
+          content: l10n.scanMaxLoansReached(
+              state.pupil!.displayName, state.pupil!.currentLoans.toString()),
+          actions: [
+            PlatformDialogAction(
+              buttonText: MaterialLocalizations.of(context).okButtonLabel,
+              onPressed: () {
+                final controller = ref.read(scanControllerProvider.notifier);
+                controller.handleEvent(ScanEvent.errorDismissed());
+              },
+            ),
+          ],
+          displayCancelButton: false,
         );
       } else if (state.isLoading) {
         if (await Vibration.hasVibrator() ?? false) {
@@ -88,24 +124,10 @@ class ScanPage extends ConsumerWidget {
             ScanEvent.modalDismissed(),
           );
         });
-      } else if (state.maxLoansReached) {
-        showAlertDialog(
-          context,
-          ref,
-          title: l10n.warning,
-          content: l10n.scanMaxLoansReached(
-              state.pupil!.displayName, state.pupil!.currentLoans.toString()),
-          actions: [
-            PlatformDialogAction(
-              buttonText: l10n.scanLoanAnyway,
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-                final navigator = NavigatorKeys.main.currentState!;
-                navigator.pushReplacementNamed(AppRoutes.loanNewPage);
-              },
-            ),
-          ],
-        );
+      } else if (state.book != null &&
+          state.pupil != null &&
+          !state.maxLoansReached) {
+        _openLoanForm(ref);
       } else if (state.isSuccess) {
         ref.read(currentTabIndexProvider.state).state =
             state.loan != null ? 0 : 1;
@@ -120,13 +142,6 @@ class ScanPage extends ConsumerWidget {
             }
           },
         );
-      } else if (state.book != null &&
-          state.pupil != null &&
-          !state.maxLoansReached) {
-        final navigator = NavigatorKeys.main.currentState!;
-        navigator.pushReplacementNamed(
-          AppRoutes.loanNewPage,
-        );
       }
     });
 
@@ -140,7 +155,7 @@ class ScanPage extends ConsumerWidget {
             children: <Widget>[
               QRView(
                 key: GlobalKey(debugLabel: "QR"),
-                formatsAllowed: [BarcodeFormat.ean13],
+                //formatsAllowed: [BarcodeFormat.ean13],
                 onQRViewCreated: (qrViewController) {
                   controller.handleEvent(
                     ScanEvent.controllerCreated(qrViewController),
@@ -220,100 +235,6 @@ class ScanPage extends ConsumerWidget {
             ],
           ),
         ),
-        /*Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              /*Expanded(
-              child: QRView(
-                key: GlobalKey(debugLabel: "QR"),
-                onQRViewCreated: (qrViewController) {
-                  controller.handleEvent(
-                    ScanEvent.controllerCreated(qrViewController),
-                  );
-                },
-              ),
-            ),*/
-              CustomPaint(
-                painter: HolePainter(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                ),
-                child: Container(),
-              ),
-              SafeArea(
-                child: Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isCupertino() ? 15 : 0,
-                      vertical: 10,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: isMaterial()
-                              ? MainAxisAlignment.spaceBetween
-                              : MainAxisAlignment.end,
-                          children: [
-                            if (isMaterial())
-                              PlatformIconPlainButton(
-                                icon: Icons.close,
-                                backgroundColor: Colors.black26,
-                                color: Colors.white,
-                                size: 28,
-                                onPressed: () {
-                                  final navigator =
-                                      NavigatorKeys.main.currentState!;
-                                  navigator.pop();
-                                },
-                              ),
-                            PlatformIconPlainButton(
-                              icon: Icons.flashlight_on,
-                              backgroundColor: Colors.black26,
-                              color: Colors.white,
-                              size: 28,
-                              onPressed: () {
-                                controller.handleEvent(
-                                  ScanEvent.toggleFlash(),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                        Consumer(builder: (context, ref, _) {
-                          final state = ref.watch(scanControllerProvider);
-                          if (state.barCode != null &&
-                              state.barCode!.code != null) {
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                state.barCode!.code!.length == 13
-                                    ? l10n
-                                        .scanSearchingISBN(state.barCode!.code!)
-                                    : l10n.scanSearchingPupil,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            );
-                          } else {
-                            return SizedBox.shrink();
-                            /*PlatformTextButton(
-                          title: l10n.scanEnterISBN,
-                          color: Colors.white,
-                          onPressed: () {},
-                        );*/
-                          }
-                        }),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),*/
       ),
     );
   }
@@ -389,11 +310,14 @@ class UnknownBook extends ConsumerWidget {
             child: PlatformElevatedButton(
               title: l10n.scanAddBook,
               onPressed: () {
+                final id = ref.read(bookRepositoryProvider).newDocumentId;
                 final navigator = NavigatorKeys.main.currentState!;
-                navigator.pushNamedAndRemoveUntil(
+                navigator.pushReplacementNamed(AppRoutes.bookFormPage(id));
+
+                /*navigator.pushNamedAndRemoveUntil(
                     AppRoutes.bookFormPage(state.barCode!.code!),
                     (route) => route.isFirst,
-                    arguments: ref);
+                    arguments: ref);*/
               },
             ),
           ),
@@ -625,11 +549,6 @@ class BookReturnTile extends ConsumerWidget {
 class BookLoanTile extends ConsumerWidget {
   const BookLoanTile({Key? key}) : super(key: key);
 
-  void _onPupilSelected(WidgetRef ref, Pupil pupil) {
-    final controller = ref.read(scanControllerProvider.notifier);
-    controller.handleEvent(ScanEvent.pupilSelected(pupil));
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
@@ -644,16 +563,7 @@ class BookLoanTile extends ConsumerWidget {
         ),
         PlatformTextButton(
           title: l10n.scanPickPupil,
-          onPressed: () {
-            final navigator = NavigatorKeys.main.currentState!;
-            navigator.pushReplacementNamed(
-              AppRoutes.pupilListPage,
-              arguments: PupilPageArguments(
-                null,
-                (pupil) => _onPupilSelected(ref, pupil),
-              ),
-            );
-          },
+          onPressed: () => _openLoanForm(ref),
         ),
       ],
     );

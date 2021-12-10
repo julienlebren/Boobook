@@ -11,16 +11,18 @@ part 'book.g.dart';
 class Book with _$Book {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
   factory Book({
-    required String title,
+    @Default("") String title,
     String? isbn,
-    required String isbn13,
+    @Default("") String isbn13,
     @NullableTimestampConverter() DateTime? datePublished,
     String? publisher,
     int? pages,
     String? imageUrl,
+    bool? isNewBook,
     String? synopsys,
     @Default([]) List<String?> authors,
     String? id,
+    @Default(1) int copies,
     @Default(true) isAvailable,
     @Default(0) int totalLoans,
     @Default(false) isFromISBNdb,
@@ -52,9 +54,17 @@ class Book with _$Book {
   }) =>
       Book(
         id: id,
-        title: "",
-        isbn: "",
-        isbn13: "",
+        isNewBook: true,
+      );
+
+  factory Book.fromUnknownISBN({
+    required String id,
+    required String isbn13,
+  }) =>
+      Book(
+        id: id,
+        isbn13: isbn13,
+        isNewBook: true,
       );
 }
 
@@ -72,14 +82,18 @@ extension BookX on Book {
   }
 
   String get dashedISBN {
-    return isbn13.substring(0, 3) +
-        "-" +
-        isbn13.substring(3, 4) +
-        "-" +
-        isbn13.substring(4, 6) +
-        "-" +
-        isbn13.substring(6, 12) +
-        "-" +
-        isbn13.substring(12, 13);
+    if (isbn13.length == 13) {
+      return isbn13.substring(0, 3) +
+          "-" +
+          isbn13.substring(3, 4) +
+          "-" +
+          isbn13.substring(4, 6) +
+          "-" +
+          isbn13.substring(6, 12) +
+          "-" +
+          isbn13.substring(12, 13);
+    } else {
+      return isbn13;
+    }
   }
 }

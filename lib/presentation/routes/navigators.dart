@@ -7,4 +7,5 @@ class NavigatorKeys {
   static final books = GlobalKey<NavigatorState>();
   static final pupils = GlobalKey<NavigatorState>();
   static final settings = GlobalKey<NavigatorState>();
+  static final loan = GlobalKey<NavigatorState>();
 }

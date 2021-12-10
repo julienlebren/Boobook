@@ -5,6 +5,7 @@ import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/providers/books.dart';
 import 'package:boobook/providers/common.dart';
+import 'package:boobook/repositories/book_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +14,7 @@ import 'package:layout_builder/layout_builder.dart';
 enum BookSort { title, available }
 
 /// This provider stores the way we sort the list of the books in the view.
-final bookSortProvider = StateProvider.autoDispose<BookSort>(
+final bookSortProvider = StateProvider<BookSort>(
   (_) => BookSort.title,
 );
 
@@ -24,20 +25,30 @@ final bookSortProvider = StateProvider.autoDispose<BookSort>(
 /// while the new sort is processed.
 /// So by storing the list in a provider and the sorted list in another one, we do not
 /// request the database each time we sort the list by a new parameter.
-final sortedBookListProvider = Provider.family
-    .autoDispose<AsyncValue<List<Book>>, BookSort>((ref, sortBy) {
+final sortedBookListProvider =
+    Provider.family<AsyncValue<List<Book>>, BookSort>((ref, sortBy) {
   return ref.watch(bookListProvider).whenData((books) {
     switch (sortBy) {
       case BookSort.title:
         books.sort((a, b) => a.title.compareTo(b.title));
         break;
       case BookSort.available:
-        books.sort((a, b) => a.isAvailable.compareTo(b.isAvailable));
+        books.sort((b, a) => (a.isAvailable == true ? 1 : 0)
+            .compareTo((b.isAvailable == true ? 1 : 0)));
         break;
     }
     return books;
   });
 });
+
+/// A class that handles the arguments passed to the navigator
+class BookPageArguments {
+  final String? bookId;
+  final Function(Book book) onBookChanged;
+  final bool isPicker;
+
+  BookPageArguments(this.bookId, this.onBookChanged, this.isPicker);
+}
 
 class BookListPage extends ConsumerWidget {
   const BookListPage({Key? key}) : super(key: key);
@@ -61,25 +72,50 @@ class BookListPage extends ConsumerWidget {
       ],
       onPressed: (sortBy) {
         if (sortBy != null) {
-          final navigator = NavigatorKeys.main.currentState!;
-          navigator.pop(context);
           ref.read(bookSortProvider.state).state = sortBy;
         }
       },
     );
   }
 
+  _addBook(WidgetRef ref) {
+    final id = ref.read(bookRepositoryProvider).newDocumentId;
+    final navigator = NavigatorKeys.main.currentState!;
+    navigator.pushNamed(AppRoutes.bookFormPage(id));
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
+    final isPicker = ref.watch(pickerProvider);
 
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
-        title: l10n.bookListTitle,
-        trailing: PlatformNavigationBarButton(
-          icon: Icons.sort,
-          onPressed: () => _openMenu(context, ref),
-        ),
+        title: isPicker ? l10n.bookPickerTitle : l10n.bookListTitle,
+        leading: isPicker
+            ? PlatformNavigationBarCloseButton(
+                onPressed: () {
+                  final navigator = NavigatorKeys.main.currentState!;
+                  navigator.pop();
+                },
+              )
+            : null,
+        trailing: isPicker
+            ? null
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (isCupertino())
+                    PlatformNavigationBarButton(
+                      icon: PlatformIcons.add,
+                      onPressed: () => _addBook(ref),
+                    ),
+                  PlatformNavigationBarButton(
+                    icon: Icons.sort,
+                    onPressed: () => _openMenu(context, ref),
+                  ),
+                ],
+              ),
       ),
       body: const BooksOverviewPageContents(),
       floatingActionButton: FloatingActionButton(
@@ -91,6 +127,7 @@ class BookListPage extends ConsumerWidget {
         child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
         heroTag: null,
       ),
+      isModal: isPicker,
     );
   }
 }
@@ -100,6 +137,7 @@ class BooksOverviewPageContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isPicker = ref.watch(pickerProvider);
     final sortBy = ref.watch(bookSortProvider);
     final books = ref.watch(sortedBookListProvider(sortBy));
     final l10n = ref.watch(localizationProvider);
@@ -115,6 +153,10 @@ class BooksOverviewPageContents extends ConsumerWidget {
         return Center(child: Text(error.toString()));
       },
       data: (data) {
+        if (isPicker) {
+          data = data.where((book) => book.isAvailable == true).toList();
+        }
+
         if (data.isEmpty) {
           return EmptyData(l10n.bookEmptyCaption);
         }
@@ -127,6 +169,7 @@ class BooksOverviewPageContents extends ConsumerWidget {
               ),
             ],
             child: PlatformListView(
+              isModal: isPicker,
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ProviderScope(
@@ -154,24 +197,26 @@ class _BookItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final book = ref.watch(_currentBook);
+    final isPicker = ref.watch(pickerProvider);
 
     return PlatformListTile(
       leading: BookCover(book: book),
       label: book.title,
-      trailing: Padding(
-        padding: EdgeInsets.only(right: 8),
-        child: Container(
-          width: 16,
-          height: 16,
-          decoration: BoxDecoration(
-            color: book.isAvailable ? Colors.green : Colors.red,
-            shape: BoxShape.circle,
-          ),
-        ),
-      ),
+      trailing: isPicker
+          ? null
+          : Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                  color: book.isAvailable ? Colors.green : Colors.red,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
       onTap: () {
-        final navigator = NavigatorKeys.books.currentState!;
-        navigator.pushNamed(AppRoutes.bookDetailsPage(book.id!));
+        ref.read(bookHandler)(book);
       },
     );
   }

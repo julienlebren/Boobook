@@ -45,15 +45,17 @@ class BookCover extends ConsumerWidget {
               children: [
                 Icon(
                   Icons.no_photography_outlined,
-                  size: 48,
+                  size: width > 30 ? width / 4 : width,
                   color: Colors.grey,
                 ),
-                SizedBox(height: 12),
-                Text(
-                  l10n.bookCoverPlaceholder,
-                  style: TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.center,
-                ),
+                if (width > 30) ...[
+                  SizedBox(height: 12),
+                  Text(
+                    l10n.bookCoverPlaceholder,
+                    style: TextStyle(color: Colors.grey),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ],
             ),
           );

@@ -20,6 +20,7 @@
     "bookGeneralSectionCaption": "Please provide the 13-digit ISBN (for books prior to 2007, this is the number starting with 978 printed under the barcode).",
     "bookISBN": "ISBN",
     "bookListTitle": "Books",
+    "bookPickerTitle": "Select a book",
     "bookLoanHistory": "Borrowing history",
     "bookLoanFromTo": "From {loanDate} to {returnDate}",
     "@bookLoanFromTo" : {
@@ -106,6 +107,7 @@
     "pupilEditTitle": "Edit pupil",
     "pupilEmptyCaption": "No pupil has been created tey!",
     "pupilListTitle": "Pupils",
+    "pupilPickerTitle": "Select a pupil",
     "pupilNewTitle": "New pupil",
     "pupilNoLoan": "No loan made!",
     "pupilNoRunningLoan": "No current loans",

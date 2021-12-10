@@ -10,7 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// This provider reads the stream from the database to get the list of the pupils.
-final pupilListProvider = StreamProvider.autoDispose<List<Pupil>>((ref) {
+final pupilListProvider = StreamProvider<List<Pupil>>((ref) {
   final repository = ref.watch(pupilRepositoryProvider);
   return repository.pupilsStream();
 });

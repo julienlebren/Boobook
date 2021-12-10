@@ -9,7 +9,6 @@ final boobookThemeProvider = Provider<AppTheme>((ref) {
   Color scaffoldBackgroundColor;
   Color listTileBackground;
   Color navigationBarBorderColor;
-  Color cupertinoBarBackgroundColor;
   Color textColor;
   Color selectedColor;
   Color dividerColor;
@@ -22,17 +21,15 @@ final boobookThemeProvider = Provider<AppTheme>((ref) {
       navigationBarBorderColor = Color(0xFF333333);
       textColor = Colors.white;
       selectedColor = Colors.grey.shade800;
-      cupertinoBarBackgroundColor = Color(0xFF232323);
       dividerColor = Color(0xFF333333);
       shadowColor = Color(0xFF666666);
       break;
     case Brightness.light:
-      scaffoldBackgroundColor = Color(0xFFF0F0F0);
+      scaffoldBackgroundColor = Color(0xFFF5F5F5);
       navigationBarBorderColor = Color(0xFFE0E0E0);
       listTileBackground = Colors.white;
       textColor = Colors.black;
       selectedColor = Colors.grey.shade200;
-      cupertinoBarBackgroundColor = Color.fromRGBO(255, 255, 255, 0.5);
       dividerColor = Color(0xFFE6E6E6);
       shadowColor = Color(0xFF999999);
       break;

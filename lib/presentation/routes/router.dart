@@ -11,6 +11,7 @@ import 'package:boobook/presentation/views/home/settings/settings_page.dart';
 import 'package:boobook/presentation/views/home/subscription/subscription_page.dart';
 import 'package:boobook/presentation/views/splash/splash_page.dart';
 import 'package:boobook/providers/books.dart';
+import 'package:boobook/providers/common.dart';
 import 'package:boobook/providers/pupils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,6 +33,7 @@ class AppRoutes {
   static const loans = 'loans';
   static const loanListPage = 'loans';
   static const loanNewPage = 'loans/new';
+  static loanFormNavigator(String id) => 'loans/$id';
   static loanFormPage(String id) => 'loans/$id/edit';
   static const settingsPage = 'settings';
   static const subscriptionPage = 'subscription';
@@ -77,27 +79,36 @@ class AppRouter {
                   overrides: [
                     selectedPupilId.overrideWithValue(args.pupilId),
                     pupilHandler.overrideWithValue(args.onPupilChanged),
+                    pickerProvider.overrideWithValue(args.isPicker),
                   ],
                   child: const PupilListPage(),
                 );
               }
               return const PupilListPage();
             },
-            fullscreenDialog: true,
+            fullscreenDialog: args?.isFullScreenRoute ?? false,
           );
         case AppRoutes.bookListPage:
-          return platformPageRoute(
-            builder: (_) => const BookListPage(),
+          final args = settings.arguments as BookPageArguments?;
+          return MaterialPageRoute<dynamic>(
+            builder: (_) {
+              if (args != null) {
+                return ProviderScope(
+                  overrides: [
+                    selectedPupilId.overrideWithValue(args.bookId),
+                    bookHandler.overrideWithValue(args.onBookChanged),
+                    pickerProvider.overrideWithValue(args.isPicker),
+                  ],
+                  child: const BookListPage(),
+                );
+              }
+              return const BookListPage();
+            },
             fullscreenDialog: true,
           );
         case AppRoutes.loanListPage:
           return platformPageRoute(
             builder: (_) => const LoanListPage(),
-            fullscreenDialog: true,
-          );
-        case AppRoutes.loanNewPage:
-          return platformPageRoute(
-            builder: (_) => const LoanFormPage(),
             fullscreenDialog: true,
           );
       }
@@ -109,15 +120,22 @@ class AppRouter {
 
         // Loans
         if (settings.name!.startsWith(AppRoutes.loans)) {
-          return platformPageRoute(
-            builder: (_) => ProviderScope(
-              overrides: [
-                selectedLoanId.overrideWithValue(id),
-              ],
-              child: const LoanFormPage(),
-            ),
-            fullscreenDialog: true,
-          );
+          if (split.length == 3) {
+            return platformPageRoute(
+              builder: (_) => const LoanFormPage(),
+            );
+          } else {
+            return platformPageRoute(
+              builder: (_) => ProviderScope(
+                overrides: [
+                  pickerProvider.overrideWithValue(true),
+                  selectedLoanId.overrideWithValue(id),
+                ],
+                child: const LoanFormNavigator(),
+              ),
+              fullscreenDialog: true,
+            );
+          }
         }
 
         // Books

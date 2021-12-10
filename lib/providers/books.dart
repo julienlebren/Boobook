@@ -1,5 +1,7 @@
 import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/loan.dart';
+import 'package:boobook/presentation/routes/navigators.dart';
+import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/repositories/book_repository.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:boobook/repositories/user_repository.dart';
@@ -8,14 +10,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// This provider reads the stream from the database to get the list of the books.
-final bookListProvider = StreamProvider.autoDispose<List<Book>>((ref) {
+final bookListProvider = StreamProvider<List<Book>>((ref) {
   final repository = ref.watch(bookRepositoryProvider);
   return repository.booksStream();
 });
 
 /// The selected [Book] id
 /// It must be overridden in a [ProviderScope] before being used.
-final selectedBookId = Provider<String?>((_) => null);
+final selectedBookId = Provider<String>((_) => throw UnimplementedError());
 
 /// A provider that returns the selected [Book] from its id.
 /// The list is fetched with a !, which usually can lead to some fatal
@@ -31,6 +33,15 @@ final bookLoansProvider =
   final repository = ref.watch(loanRepositoryProvider);
   return repository.bookLoans(bookId);
 });
+
+/// A provider that needs to be scoped with the callback that
+/// will be used when the user selects a book in the list.
+final bookHandler = Provider<Function(Book)>(
+  (ref) => ((Book book) {
+    final navigator = NavigatorKeys.books.currentState!;
+    navigator.pushNamed(AppRoutes.bookDetailsPage(book.id!));
+  }),
+);
 
 final bookRefProvider = Provider<CollectionReference<Book>>((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
@@ -52,7 +63,8 @@ final bookRefProvider = Provider<CollectionReference<Book>>((ref) {
     toFirestore: (book, _) {
       return book.toJson()
         ..remove("id")
-        ..remove("isFromISBNdb");
+        ..remove("isFromISBNdb")
+        ..remove("isNewBook");
     },
   );
 });

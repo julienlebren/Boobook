@@ -26,6 +26,20 @@ class Loan with _$Loan {
   }) = _Loan;
 
   factory Loan.fromJson(Map<String, dynamic> json) => _$LoanFromJson(json);
+
+  factory Loan.create({
+    required String id,
+    Book? book,
+    Pupil? pupil,
+  }) =>
+      Loan(
+        id: id,
+        isNewLoan: true,
+        loanDate: DateTime.now(),
+        expectedReturnDate: DateTime.now().add(const Duration(days: 14)),
+        book: book,
+        pupil: pupil,
+      );
 }
 
 extension LoanX on Loan {

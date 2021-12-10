@@ -1,4 +1,5 @@
 import 'package:boobook/controllers/loan_form_controller.dart';
+import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/loan.dart';
 import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/presentation/common_widgets/book_tile.dart';
@@ -9,33 +10,124 @@ import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/providers/loans.dart';
+import 'package:boobook/providers/pupils.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
 
-final selectedLoanId = Provider<String?>((ref) => null);
+enum LoanMode { add, edit }
+
+final selectedLoanId = Provider<String>((ref) => throw UnimplementedError());
 
 final loanControllerProvider = StateNotifierProvider.family
-    .autoDispose<LoanFormController, LoanFormState, String?>((ref, id) {
+    .autoDispose<LoanFormController, LoanFormState, String>((ref, id) {
   final repository = ref.watch(loanRepositoryProvider);
-  if (id == null) {
-    final scanController = ref.watch(scanControllerProvider);
-    final loan = Loan(
-      isNewLoan: true,
-      book: scanController.book!,
-      pupil: scanController.pupil,
-      loanDate: DateTime.now(),
-      expectedReturnDate: DateTime.now().add(const Duration(days: 14)),
+
+  final loanList = ref.read(loanListProvider).asData!.value;
+  final filteredList = loanList.where((pupil) => pupil.id == id);
+
+  if (filteredList.isEmpty) {
+    // Because we are dismissing the modal sheet in the [ScanPage] when we push this form,
+    // `pupil` and `book` are resetted from the [ScanController], so if we use `ref.watch` below,
+    // we are also losing `pupil` and `book` in the form. To fix this, we use `ref.read` to only
+    // get  `pupil` and `book` once, when the form is loaded.
+    final scanController = ref.read(scanControllerProvider);
+    final book = scanController.book;
+    final pupil = scanController.pupil;
+
+    return LoanFormController(
+      repository,
+      Loan.create(
+        id: id,
+        pupil: pupil,
+        book: book,
+      ),
     );
-    return LoanFormController(repository, loan);
   } else {
-    final loanList = ref.read(loanListProvider).asData!.value;
-    final loan = loanList.where((loan) => loan.id == id).first;
-    return LoanFormController(repository, loan);
+    return LoanFormController(
+      repository,
+      filteredList.first,
+    );
   }
 });
+
+final loanModeProvider = Provider<LoanMode>((_) => LoanMode.edit);
+
+class LoanFormNavigator extends ConsumerWidget {
+  const LoanFormNavigator({Key? key}) : super(key: key);
+
+  void _onBookSelected(WidgetRef ref, Book book) {
+    _handleEvent(ref, LoanFormEvent.bookChanged(book));
+    final navigator = NavigatorKeys.loan.currentState!;
+    navigator.pushNamed(
+      AppRoutes.pupilListPage,
+      arguments: PupilPageArguments(
+        onPupilChanged: (pupil) => _onPupilSelected(ref, pupil),
+        isPicker: true,
+        isFullScreenRoute: false,
+      ),
+    );
+  }
+
+  void _onPupilSelected(WidgetRef ref, Pupil pupil) {
+    _handleEvent(ref, LoanFormEvent.pupilChanged(pupil));
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final id = ref.watch(selectedLoanId);
+    final book = ref.watch(
+      loanControllerProvider(id).select((state) => state.loan.book),
+    );
+    final pupil = ref.watch(
+      loanControllerProvider(id).select((state) => state.loan.pupil),
+    );
+
+    ref.listen<LoanFormState>(loanControllerProvider(id), (_, state) {
+      final l10n = ref.watch(localizationProvider);
+
+      if (state.isSuccess) {
+        final navigator = NavigatorKeys.main.currentState!;
+        navigator.pop(context);
+      } else if (state.loan.book != null && state.loan.pupil != null) {
+        final navigator = NavigatorKeys.loan.currentState!;
+        navigator.pushNamedAndRemoveUntil(
+          AppRoutes.loanFormPage(id),
+          (Route<dynamic> route) => false,
+        );
+      } else if (state.errorText != null) {
+        showErrorDialog(
+          context,
+          ref,
+          title: l10n.errorTitle,
+          content: state.errorText,
+        );
+      }
+    });
+
+    return ProviderScope(
+      overrides: [
+        bookHandler.overrideWithValue((book) => _onBookSelected(ref, book)),
+        pupilHandler.overrideWithValue((pupil) => _onPupilSelected(ref, pupil)),
+      ],
+      child: Navigator(
+        key: NavigatorKeys.loan,
+        onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, ref),
+        initialRoute: (() {
+          if (book == null) {
+            return AppRoutes.bookListPage;
+          } else if (pupil == null) {
+            return AppRoutes.pupilListPage;
+          } else {
+            return AppRoutes.loanFormPage(id);
+          }
+        }()),
+      ),
+    );
+  }
+}
 
 void _handleEvent(WidgetRef ref, LoanFormEvent event) {
   final id = ref.watch(selectedLoanId);
@@ -48,31 +140,6 @@ class LoanFormPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final id = ref.watch(selectedLoanId);
-
-    ref.listen<LoanFormState>(loanControllerProvider(id), (_, state) {
-      final l10n = ref.watch(localizationProvider);
-      if (state.isSuccess) {
-        Navigator.pop(context);
-      } else if (state.errorText != null) {
-        showErrorDialog(
-          context,
-          ref,
-          title: l10n.errorTitle,
-          content: state.errorText,
-        );
-      }
-    });
-
-    return const LoanFormPageBuilder();
-  }
-}
-
-class LoanFormPageBuilder extends ConsumerWidget {
-  const LoanFormPageBuilder({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
     final id = ref.watch(selectedLoanId);
     final isSaving = ref.watch(
@@ -81,10 +148,19 @@ class LoanFormPageBuilder extends ConsumerWidget {
     final canSubmit = ref.watch(
       loanControllerProvider(id).select((state) => state.canSubmit),
     );
+    final isNewLoan = ref.watch(
+      loanControllerProvider(id).select((state) => state.loan.isNewLoan),
+    );
 
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
-        title: id == null ? l10n.loanNewTitle : l10n.loanDetailsTitle,
+        title: isNewLoan == true ? l10n.loanNewTitle : l10n.loanDetailsTitle,
+        leading: PlatformNavigationBarCloseButton(
+          onPressed: () {
+            final navigator = NavigatorKeys.main.currentState!;
+            navigator.pop();
+          },
+        ),
         trailing: LoanFormSubmitButton(
           isSaving: isSaving,
           canSubmit: canSubmit,
@@ -148,15 +224,21 @@ class LoanFormBookSection extends ConsumerWidget {
       loanControllerProvider(id).select((controller) => controller.loan.book),
     );
 
-    return FormSection(
-      child: ProviderScope(
-        overrides: [
-          bookAvailableProvider.overrideWithValue(false),
-          selectedBookId.overrideWithValue(book!.id),
-        ],
-        child: const BookTile(),
-      ),
-    );
+    if (book != null) {
+      return FormSection(
+        child: ProviderScope(
+          overrides: [
+            bookAvailableProvider.overrideWithValue(false),
+            selectedBookId.overrideWithValue(book.id!),
+          ],
+          child: const BookTile(),
+        ),
+      );
+    } else {
+      return FormSection(
+        child: Text("Pas de bouquin"),
+      );
+    }
   }
 }
 
@@ -175,7 +257,10 @@ class _LoanFormGeneralSectionState
     final navigator = NavigatorKeys.main.currentState!;
     navigator.pushNamed(
       AppRoutes.pupilListPage,
-      arguments: PupilPageArguments(state.loan.pupil?.id, _onPupilChanged),
+      arguments: PupilPageArguments(
+        pupilId: state.loan.pupil?.id,
+        onPupilChanged: _onPupilChanged,
+      ),
     );
   }
 

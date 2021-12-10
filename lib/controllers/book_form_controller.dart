@@ -55,9 +55,7 @@ class BookFormController extends StateNotifier<BookFormState> {
         _checkIfCanSubmit();
       },
       isbnChanged: (String isbn) {
-        state = state.copyWith.book(
-          isbn13: isbn.replaceAll(RegExp(r'\d+'), ''),
-        );
+        state = state.copyWith.book(isbn13: isbn);
         _checkIfCanSubmit();
       },
       save: () {

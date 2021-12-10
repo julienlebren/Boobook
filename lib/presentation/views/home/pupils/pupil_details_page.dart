@@ -46,11 +46,6 @@ class PupilDetailsPage extends ConsumerWidget {
         ),
       ],
       onPressed: (value) {
-        if (isCupertino()) {
-          final navigator = NavigatorKeys.main.currentState!;
-          navigator.pop();
-        }
-
         switch (value) {
           case PupilMenuActions.edit:
             _edit(id);
@@ -182,7 +177,9 @@ class PupilDetailsPageContents extends ConsumerWidget {
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
                               if (index.isOdd) {
-                                return const ListDivider();
+                                return isCupertino()
+                                    ? const ListDivider()
+                                    : SizedBox.shrink();
                               }
                               return ProviderScope(
                                 overrides: [
@@ -237,7 +234,9 @@ class PupilDetailsPageContents extends ConsumerWidget {
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
                             if (index.isOdd) {
-                              return const ListDivider();
+                              return isCupertino()
+                                  ? const ListDivider()
+                                  : SizedBox.shrink();
                             }
                             return ProviderScope(
                               overrides: [

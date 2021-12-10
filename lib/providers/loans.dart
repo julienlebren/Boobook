@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// This provider reads the stream from the database to get the list of the loans.
-final loanListProvider = StreamProvider.autoDispose<List<Loan>>((ref) {
+final loanListProvider = StreamProvider<List<Loan>>((ref) {
   final repository = ref.watch(loanRepositoryProvider);
   return repository.loansStream();
 });
