@@ -182,6 +182,7 @@ class BookFormCoverSection extends ConsumerWidget {
         onDelete: () => _handleEvent(ref, BookFormEvent.deleteImage()),
         onStart: () {},
         onSuccess: (url) => _handleEvent(ref, BookFormEvent.imageUploaded(url)),
+        maxWidth: 1000,
         child: BookCover(
           book: book,
           width: 300,

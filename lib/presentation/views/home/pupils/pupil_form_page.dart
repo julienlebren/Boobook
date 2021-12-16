@@ -152,6 +152,7 @@ class PupilFormAvatarSection extends ConsumerWidget {
         onStart: () {},
         onSuccess: (url) =>
             _handleEvent(ref, PupilFormEvent.photoUploaded(url)),
+        maxWidth: 1000,
         child: Avatar(
           name: pupil.displayName,
           color: pupil.color,
