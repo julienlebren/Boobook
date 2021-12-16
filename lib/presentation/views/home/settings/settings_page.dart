@@ -153,7 +153,6 @@ class SettingsCardsSection extends ConsumerWidget {
                       ref,
                       SettingsEvent.cardTitleChanged(textController.text),
                     );
-                    //Navigator.pop(context);
                   },
                   isDefaultAction: true,
                 ),

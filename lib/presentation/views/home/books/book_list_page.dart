@@ -118,15 +118,29 @@ class BookListPage extends ConsumerWidget {
               ),
       ),
       body: const BooksOverviewPageContents(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final navigator = NavigatorKeys.main.currentState!;
-          navigator.pushNamed(AppRoutes.scanPage);
-        },
-        tooltip: l10n.scanBarcode,
-        child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
-        heroTag: null,
-      ),
+      floatingActionButton: isPicker
+          ? null
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton(
+                  onPressed: () => _addBook(ref),
+                  tooltip: l10n.scanBarcode,
+                  child: Icon(Icons.add, size: 30),
+                  heroTag: null,
+                ),
+                SizedBox(height: 10),
+                FloatingActionButton(
+                  onPressed: () {
+                    final navigator = NavigatorKeys.main.currentState!;
+                    navigator.pushNamed(AppRoutes.scanPage);
+                  },
+                  tooltip: l10n.scanBarcode,
+                  child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
+                  heroTag: null,
+                ),
+              ],
+            ),
       isModal: isPicker,
     );
   }

@@ -122,7 +122,12 @@ class AppRouter {
         if (settings.name!.startsWith(AppRoutes.loans)) {
           if (split.length == 3) {
             return platformPageRoute(
-              builder: (_) => const LoanFormPage(),
+              builder: (_) => ProviderScope(
+                overrides: [
+                  selectedLoanId.overrideWithValue(id),
+                ],
+                child: const LoanFormPage(),
+              ),
             );
           } else {
             return platformPageRoute(

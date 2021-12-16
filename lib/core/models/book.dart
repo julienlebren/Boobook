@@ -22,10 +22,12 @@ class Book with _$Book {
     String? synopsys,
     @Default([]) List<String?> authors,
     String? id,
+    String? userId,
     @Default(1) int copies,
     @Default(true) isAvailable,
     @Default(0) int totalLoans,
     @Default(false) isFromISBNdb,
+    @Default(false) isFromUnknownISBN,
     @Default(false) bool isArchived,
   }) = _Book;
 
@@ -65,6 +67,7 @@ class Book with _$Book {
         id: id,
         isbn13: isbn13,
         isNewBook: true,
+        isFromUnknownISBN: true,
       );
 }
 

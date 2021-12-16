@@ -25,7 +25,10 @@ final bookControllerProvider = StateNotifierProvider.family
     } else if (scanController.barCode?.code != null) {
       return BookFormController(
         repository,
-        Book.fromUnknownISBN(id: id, isbn13: scanController.barCode!.code!),
+        Book.fromUnknownISBN(
+          id: id,
+          isbn13: scanController.barCode!.code!,
+        ),
       );
     } else {
       return BookFormController(repository, Book.create(id: id));
@@ -171,7 +174,9 @@ class BookFormCoverSection extends ConsumerWidget {
         height: 150,
         isRounded: false,
         title: l10n.bookCover,
-        storageRef: repository.storageRef(book.id!),
+        storageRef: book.isFromUnknownISBN
+            ? repository.storageLibraryRef(book.id!)
+            : repository.storageRef(book.id!),
         showDeleteButton: book.imageUrl != null &&
             !book.imageUrl!.startsWith("https://images.isbndb.com/"),
         onDelete: () => _handleEvent(ref, BookFormEvent.deleteImage()),

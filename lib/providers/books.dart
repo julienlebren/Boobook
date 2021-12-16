@@ -2,6 +2,7 @@ import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/loan.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/providers/common.dart';
 import 'package:boobook/repositories/book_repository.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:boobook/repositories/user_repository.dart';
@@ -53,7 +54,7 @@ final bookRefProvider = Provider<CollectionReference<Book>>((ref) {
     throw Exception("This provider should not be invoked here.");
   }
 
-  // The reference of the pupils subcollection
+  // The reference of the books subcollection
   return userRepository.ref<Book>(
     FirestorePath.books,
     fromFirestore: (snapshot, _) {
@@ -64,6 +65,32 @@ final bookRefProvider = Provider<CollectionReference<Book>>((ref) {
       return book.toJson()
         ..remove("id")
         ..remove("isFromISBNdb")
+        ..remove("isNewBook")
+        ..remove("userId");
+    },
+  );
+});
+
+final bookLibraryRefProvider = Provider<CollectionReference<Book>>((ref) {
+  final userId = ref.watch(userProvider.select((user) => user!.id));
+
+  if (userId == null) {
+    throw Exception("This provider should not be invoked here.");
+  }
+
+  // The reference of the books subcollection
+  return FirebaseFirestore.instance
+      .collection(FirestorePath.books)
+      .withConverter<Book>(
+    fromFirestore: (snapshot, _) {
+      final bookFromJson = Book.fromJson(snapshot.data()!);
+      return bookFromJson.copyWith(id: snapshot.id);
+    },
+    toFirestore: (book, _) {
+      return book.copyWith(userId: userId).toJson()
+        ..remove("id")
+        ..remove("isFromISBNdb")
+        ..remove("isFromUnknownISBN")
         ..remove("isNewBook");
     },
   );

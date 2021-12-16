@@ -152,15 +152,35 @@ class LoanFormPage extends ConsumerWidget {
       loanControllerProvider(id).select((state) => state.loan.isNewLoan),
     );
 
+    if (isNewLoan != true) {
+      ref.listen<LoanFormState>(loanControllerProvider(id), (_, state) {
+        final l10n = ref.watch(localizationProvider);
+
+        if (state.isSuccess) {
+          final navigator = NavigatorKeys.loans.currentState!;
+          navigator.pop(context);
+        } else if (state.errorText != null) {
+          showErrorDialog(
+            context,
+            ref,
+            title: l10n.errorTitle,
+            content: state.errorText,
+          );
+        }
+      });
+    }
+
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: isNewLoan == true ? l10n.loanNewTitle : l10n.loanDetailsTitle,
-        leading: PlatformNavigationBarCloseButton(
-          onPressed: () {
-            final navigator = NavigatorKeys.main.currentState!;
-            navigator.pop();
-          },
-        ),
+        leading: isNewLoan == true
+            ? PlatformNavigationBarCloseButton(
+                onPressed: () {
+                  final navigator = NavigatorKeys.main.currentState!;
+                  navigator.pop();
+                },
+              )
+            : null,
         trailing: LoanFormSubmitButton(
           isSaving: isSaving,
           canSubmit: canSubmit,
@@ -235,9 +255,7 @@ class LoanFormBookSection extends ConsumerWidget {
         ),
       );
     } else {
-      return FormSection(
-        child: Text("Pas de bouquin"),
-      );
+      return SizedBox.shrink();
     }
   }
 }
@@ -260,6 +278,8 @@ class _LoanFormGeneralSectionState
       arguments: PupilPageArguments(
         pupilId: state.loan.pupil?.id,
         onPupilChanged: _onPupilChanged,
+        isPicker: true,
+        isFullScreenRoute: true,
       ),
     );
   }

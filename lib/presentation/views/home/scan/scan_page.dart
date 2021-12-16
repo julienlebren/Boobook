@@ -134,12 +134,8 @@ class ScanPage extends ConsumerWidget {
         Future.delayed(
           const Duration(seconds: 2),
           () {
-            if (isMaterial()) {
-              Navigator.of(context).pop();
-            } else {
-              // Used to pop only the ScanSheet widget
-              Navigator.of(context, rootNavigator: true).pop();
-            }
+            // Used to pop only the ScanSheet widget
+            Navigator.of(context, rootNavigator: true).pop();
           },
         );
       }

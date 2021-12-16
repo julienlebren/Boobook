@@ -152,12 +152,14 @@ class PupilListPage extends ConsumerWidget {
               ),
       ),
       body: const PupilListPageContents(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _addPupil(ref),
-        tooltip: l10n.pupilAdd,
-        child: Icon(Icons.add),
-        heroTag: null,
-      ),
+      floatingActionButton: isPicker
+          ? null
+          : FloatingActionButton(
+              onPressed: () => _addPupil(ref),
+              tooltip: l10n.pupilAdd,
+              child: Icon(Icons.add, size: 30),
+              heroTag: null,
+            ),
       isModal: isPicker,
     );
   }

@@ -132,10 +132,16 @@ class ScanController extends StateNotifier<ScanState> {
         final books = await bookRepository.findBook(barCode.code!);
 
         if (books.isEmpty) {
-          final _book = await isbnDb.getBook(barCode.code!);
+          final books = await bookRepository.findBookInLibrary(barCode.code!);
 
-          if (_book != null) {
-            book = Book.fromISBNdb(_book, id: bookRepository.newDocumentId);
+          if (books.isNotEmpty) {
+            book = books.first;
+          } else {
+            final _book = await isbnDb.getBook(barCode.code!);
+
+            if (_book != null) {
+              book = Book.fromISBNdb(_book, id: bookRepository.newDocumentId);
+            }
           }
         } else {
           book = books.first;

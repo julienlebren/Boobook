@@ -117,6 +117,13 @@ class LoanListPage extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
+            onPressed: () => _addLoan(ref),
+            tooltip: l10n.scanBarcode,
+            child: Icon(Icons.add, size: 30),
+            heroTag: null,
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
             onPressed: () {
               final navigator = NavigatorKeys.main.currentState!;
               navigator.pushNamed(AppRoutes.scanPage);
@@ -223,7 +230,7 @@ class _LoanItem extends ConsumerWidget {
           title: l10n.loanActionEdit,
           icon: Icons.edit,
           onPressed: () {
-            final navigator = NavigatorKeys.main.currentState!;
+            final navigator = NavigatorKeys.loans.currentState!;
             navigator.pushNamed(AppRoutes.loanFormPage(loan.id!));
           },
         ),
