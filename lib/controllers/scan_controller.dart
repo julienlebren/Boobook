@@ -4,6 +4,7 @@ import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/repositories/book_repository.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:boobook/repositories/pupil_repository.dart';
+import 'package:checkdigit/checkdigit.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -67,12 +68,14 @@ class ScanController extends StateNotifier<ScanState> {
         controller.scannedDataStream.listen((barCode) async {
           if (state.isSuccess ||
               state.isLoading ||
-              (state.book != null && !state.book!.isAvailable) ||
+              state.isUnknownCode ||
+              state.book != null && barCode.code!.length != 20) {
+            /*(state.book != null && !state.book!.isAvailable) ||
               (state.book != null && barCode.code == state.book!.isbn13) ||
               (state.book != null &&
                   state.isUnknownPupil &&
                   barCode.code == state.barCode!.code) ||
-              (state.book != null && state.pupil != null)) {
+              (state.book != null && state.pupil != null)) {*/
             return;
           }
           _searchCode(barCode);
@@ -92,6 +95,8 @@ class ScanController extends StateNotifier<ScanState> {
         state = state.copyWith(
           pupil: null,
           maxLoansReached: false,
+          errorText: null,
+          isUnknownCode: false,
         );
       },
       addBook: () => _addBook(),
@@ -101,28 +106,34 @@ class ScanController extends StateNotifier<ScanState> {
   }
 
   void _searchCode(Barcode barCode) async {
+    if (barCode.code!.length == 20) {
+      _searchMemberId(barCode);
+    } else if (barCode.code!.length == 13 &&
+        (barCode.code!.startsWith("978") || barCode.code!.startsWith("979")) &&
+        isbn13.validate(barCode.code!)) {
+      _searchISBN(barCode);
+    } else {
+      print("Code is ${barCode.code}");
+      state = state.copyWith(
+        isUnknownCode: true,
+      );
+    }
+  }
+
+  void _setLoading(Barcode barCode) {
     state = state.copyWith(
       isLoading: true,
       barCode: barCode,
       errorText: null,
+      isISBN: false,
+      isUnknownPupil: false,
+      maxLoansReached: false,
     );
-
-    switch (barCode.code!.length) {
-      case 13:
-        _searchISBN(barCode);
-        break;
-      case 20:
-        _searchMemberId(barCode);
-        break;
-      default:
-        state = state.copyWith(
-          isLoading: false,
-          isUnknownCode: true,
-        );
-    }
   }
 
   void _searchISBN(Barcode barCode) async {
+    _setLoading(barCode);
+
     Book? book;
 
     try {
@@ -171,12 +182,7 @@ class ScanController extends StateNotifier<ScanState> {
   }
 
   void _searchMemberId(Barcode barCode) async {
-    state = state.copyWith(
-      isISBN: false,
-      isLoading: true,
-      isUnknownPupil: false,
-      maxLoansReached: false,
-    );
+    _setLoading(barCode);
 
     try {
       final pupil = await pupilRepository.get(barCode.code!);
@@ -252,5 +258,27 @@ class ScanController extends StateNotifier<ScanState> {
         errorText: e.toString(),
       );
     }
+  }
+
+  bool isValidISBN(String isbn13) {
+    final isbn = isbn13.substring(3, 13);
+    final n = isbn.length;
+    if (n != 10) return false;
+
+    int sum = 0;
+    for (int i = 0; i < 9; i++) {
+      int digit = int.parse(isbn[i]);
+      if (0 > digit || 9 < digit) return false;
+      sum += (digit * (10 - i));
+    }
+
+    final last = isbn[9];
+    if (last != 'X' && (int.parse(last) < 0 || int.parse(last) > 9)) {
+      return false;
+    }
+
+    sum += ((last == 'X') ? 10 : int.parse(last));
+
+    return (sum % 11 == 0);
   }
 }

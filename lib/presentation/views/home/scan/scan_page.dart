@@ -108,6 +108,25 @@ class ScanPage extends ConsumerWidget {
           ],
           displayCancelButton: false,
         );
+      }
+      if (state.isUnknownCode) {
+        showAlertDialog(
+          context,
+          ref,
+          title: l10n.errorTitle,
+          content: "Ce code-barres n'est pas un numéro ISBN valide.",
+          actions: [
+            PlatformDialogAction(
+              buttonText: MaterialLocalizations.of(context).okButtonLabel,
+              onPressed: () {
+                final controller = ref.read(scanControllerProvider.notifier);
+                controller.handleEvent(ScanEvent.errorDismissed());
+                //Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+          ],
+          displayCancelButton: false,
+        );
       } else if (state.isLoading) {
         if (await Vibration.hasVibrator() ?? false) {
           Vibration.vibrate(duration: 50, amplitude: 30);

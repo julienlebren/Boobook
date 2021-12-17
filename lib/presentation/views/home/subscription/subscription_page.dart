@@ -1,5 +1,6 @@
 import 'package:boobook/config.dart';
 import 'package:boobook/controllers/subscription_controller.dart';
+import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +36,8 @@ class SubscriptionPage extends ConsumerWidget {
           content: state.errorText!,
         );
       } else if (state.isSuccess) {
-        Navigator.pop(context);
+        final navigator = NavigatorKeys.main.currentState!;
+        navigator.pop(context);
       }
     });
 
