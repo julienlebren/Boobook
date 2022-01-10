@@ -16,6 +16,7 @@ abstract class SignInState with _$SignInState {
 class SignInEvent with _$SignInEvent {
   const factory SignInEvent.signInWithFacebook() = _Facebook;
   const factory SignInEvent.signInWithGoogle() = _Google;
+  const factory SignInEvent.signInWithApple() = _Apple;
   const factory SignInEvent.signInAnonymously() = _Anonymously;
 }
 
@@ -28,12 +29,15 @@ class SignInController extends StateNotifier<SignInState> {
     state = SignInState.loading();
     try {
       await event.when(
+        signInWithApple: _service.signInWithApple,
         signInWithFacebook: _service.signInWithFacebook,
         signInWithGoogle: _service.signInWithGoogle,
         signInAnonymously: _service.signInAnonymously,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code != "ERROR_ABORTED_BY_USER") {
+      if (e.code == "ERROR_AUTHORIZATION_DENIED") {
+        state = SignInState.initial();
+      } else if (e.code != "ERROR_ABORTED_BY_USER") {
         state = SignInState.error(e.toString());
       } else {
         state = SignInState.initial();

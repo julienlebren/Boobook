@@ -35,6 +35,8 @@ final bookLoansProvider =
   return repository.bookLoans(bookId);
 });
 
+final magazineProvider = Provider.autoDispose<String?>((_) => null);
+
 /// A provider that needs to be scoped with the callback that
 /// will be used when the user selects a book in the list.
 final bookHandler = Provider<Function(Book)>(

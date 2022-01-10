@@ -43,6 +43,7 @@ class ScanState with _$ScanState {
     @Default(false) bool isSaving,
     @Default(false) bool isSuccess,
     @Default(false) bool maxLoansReached,
+    String? magazineBarCode,
     String? errorText,
   }) = _ScanState;
 }
@@ -107,17 +108,21 @@ class ScanController extends StateNotifier<ScanState> {
 
   void _searchCode(Barcode barCode) async {
     if (barCode.code!.length == 20) {
-      _searchMemberId(barCode);
-    } else if (barCode.code!.length == 13 &&
-        (barCode.code!.startsWith("978") || barCode.code!.startsWith("979")) &&
-        isbn13.validate(barCode.code!)) {
-      _searchISBN(barCode);
-    } else {
-      print("Code is ${barCode.code}");
-      state = state.copyWith(
-        isUnknownCode: true,
-      );
+      return _searchMemberId(barCode);
+    } else if (barCode.code!.length == 13) {
+      if (barCode.code!.startsWith("978") || barCode.code!.startsWith("979")) {
+        return _searchISBN(barCode);
+      } /*else if (barCode.code!.startsWith("378") ||
+          barCode.code!.startsWith("379")) {
+        state = state.copyWith(
+          magazineBarCode: barCode.code!,
+        );
+      }*/
     }
+
+    state = state.copyWith(
+      isUnknownCode: true,
+    );
   }
 
   void _setLoading(Barcode barCode) {

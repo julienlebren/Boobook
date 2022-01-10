@@ -13,10 +13,21 @@ import 'package:layout_builder/layout_builder.dart';
 
 enum BookSort { title, available }
 
+/// A class that handles the arguments to filter the book list
+class BookFilters {
+  final String? title;
+  final String? magazineBarCode;
+  final BookSort sortBy;
+
+  BookFilters(this.title, this.magazineBarCode, this.sortBy);
+}
+
 /// This provider stores the way we sort the list of the books in the view.
 final bookSortProvider = StateProvider<BookSort>(
   (_) => BookSort.title,
 );
+
+final bookTitleProvider = StateProvider<String?>((_) => null);
 
 /// This provider is a workaround to avoid useless reads to the database.
 /// If we pass the sortBy method to [PupilRepository.pupilsStream], we could avoid
@@ -25,10 +36,22 @@ final bookSortProvider = StateProvider<BookSort>(
 /// while the new sort is processed.
 /// So by storing the list in a provider and the sorted list in another one, we do not
 /// request the database each time we sort the list by a new parameter.
-final sortedBookListProvider =
-    Provider.family<AsyncValue<List<Book>>, BookSort>((ref, sortBy) {
+final filteredBookListProvider = Provider.autoDispose
+    .family<AsyncValue<List<Book>>, BookFilters>((ref, filters) {
   return ref.watch(bookListProvider).whenData((books) {
-    switch (sortBy) {
+    if (filters.magazineBarCode != null) {
+      books = books
+          .where((book) => book.isbn13 == filters.magazineBarCode)
+          .toList();
+    }
+    if (filters.title != null) {
+      books = books
+          .where((book) =>
+              book.title.contains(RegExp(filters.title!, caseSensitive: false)))
+          .toList();
+    }
+
+    switch (filters.sortBy) {
       case BookSort.title:
         books.sort((a, b) => a.title.compareTo(b.title));
         break;
@@ -37,6 +60,7 @@ final sortedBookListProvider =
             .compareTo((b.isAvailable == true ? 1 : 0)));
         break;
     }
+
     return books;
   });
 });
@@ -44,10 +68,16 @@ final sortedBookListProvider =
 /// A class that handles the arguments passed to the navigator
 class BookPageArguments {
   final String? bookId;
+  final String? magazineBarCode;
   final Function(Book book) onBookChanged;
   final bool isPicker;
 
-  BookPageArguments(this.bookId, this.onBookChanged, this.isPicker);
+  BookPageArguments({
+    this.bookId,
+    this.magazineBarCode,
+    required this.onBookChanged,
+    this.isPicker = false,
+  });
 }
 
 class BookListPage extends ConsumerWidget {
@@ -92,6 +122,7 @@ class BookListPage extends ConsumerWidget {
     return PlatformScaffold(
       appBar: PlatformNavigationBar(
         title: isPicker ? l10n.bookPickerTitle : l10n.bookListTitle,
+        hasBorder: isMaterial(),
         leading: isPicker
             ? PlatformNavigationBarCloseButton(
                 onPressed: () {
@@ -117,7 +148,17 @@ class BookListPage extends ConsumerWidget {
                 ],
               ),
       ),
-      body: const BooksOverviewPageContents(),
+      body: Column(
+        children: [
+          if (isCupertino()) ...[
+            BookListSearchBar(),
+            CupertinoNavigationBarBorder(),
+          ],
+          Expanded(
+            child: const BookListPageContents(),
+          ),
+        ],
+      ),
       floatingActionButton: isPicker
           ? null
           : Column(
@@ -146,14 +187,58 @@ class BookListPage extends ConsumerWidget {
   }
 }
 
-class BooksOverviewPageContents extends ConsumerWidget {
-  const BooksOverviewPageContents({Key? key}) : super(key: key);
+class BookListSearchBar extends ConsumerStatefulWidget {
+  @override
+  createState() => _BookListSearchBarState();
+}
+
+class _BookListSearchBarState extends ConsumerState<BookListSearchBar> {
+  final textController = TextEditingController();
+  final focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(milliseconds: 1000), () {
+      textController.addListener(() {
+        ref.read(bookTitleProvider.state).state =
+            textController.text != "" ? textController.text : null;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = ref.read(localizationProvider);
+    return PlatformSearchBar(
+      controller: textController,
+      focusNode: focusNode,
+      placeholder: l10n
+          .bookSearchPlaceholder, //isCupertino() ? l10n.searchHint : l10n.schoolsTitle,
+    );
+  }
+}
+
+class BookListPageContents extends ConsumerWidget {
+  const BookListPageContents({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isPicker = ref.watch(pickerProvider);
     final sortBy = ref.watch(bookSortProvider);
-    final books = ref.watch(sortedBookListProvider(sortBy));
+    final magazineBarCode = ref.watch(magazineProvider);
+    final bookTitle = ref.watch(bookTitleProvider);
+
+    final filters = BookFilters(bookTitle, magazineBarCode, sortBy);
+
+    final books = ref.watch(filteredBookListProvider(filters));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
 
@@ -172,7 +257,8 @@ class BooksOverviewPageContents extends ConsumerWidget {
         }
 
         if (data.isEmpty) {
-          return EmptyData(l10n.bookEmptyCaption);
+          return EmptyData(
+              bookTitle != null ? l10n.bookNoResult : l10n.bookEmptyCaption);
         }
         return Container(
           color: appTheme.listTileBackground,

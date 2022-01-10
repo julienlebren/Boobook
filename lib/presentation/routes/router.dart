@@ -98,6 +98,7 @@ class AppRouter {
                     selectedPupilId.overrideWithValue(args.bookId),
                     bookHandler.overrideWithValue(args.onBookChanged),
                     pickerProvider.overrideWithValue(args.isPicker),
+                    magazineProvider.overrideWithValue(args.magazineBarCode),
                   ],
                   child: const BookListPage(),
                 );

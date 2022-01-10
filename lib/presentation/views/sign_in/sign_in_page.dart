@@ -4,6 +4,7 @@ import 'package:firebase_auth_service/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 final signInControllerProvider =
     StateNotifierProvider.autoDispose<SignInController, SignInState>((ref) {
@@ -82,7 +83,7 @@ class SignInPage extends ConsumerWidget {
                 ),
                 Spacer(),
                 Container(
-                  height: 200,
+                  height: isCupertino() ? 260 : 200,
                   child: isLoading
                       ? Loader(
                           delayBeforeDisplay: 0,
@@ -115,26 +116,57 @@ class SignInPageButtons extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          width: double.infinity,
-          child: PlatformSocialButton(
-            assetName: "assets/images/facebook-logo.png",
-            title: l10n.signInWithFacebook,
-            color: appTheme.navigationBarBorderColor,
-            textColor: appTheme.textColor,
-            onPressed: () =>
-                _handleEvent(ref, SignInEvent.signInWithFacebook()),
+        if (isCupertino()) ...[
+          Container(
+            constraints: BoxConstraints(maxWidth: 400),
+            child: SizedBox(
+              width: double.infinity,
+              child: PlatformSocialButton(
+                icon: SizedBox(
+                  width: 30 * (25 / 31),
+                  height: 30,
+                  child: CustomPaint(
+                    painter: AppleLogoPainter(
+                      color: appTheme.textColor,
+                    ),
+                  ),
+                ),
+                title: l10n.signInWithApple,
+                color: appTheme.listTileBackground,
+                textColor: appTheme.textColor,
+                onPressed: () =>
+                    _handleEvent(ref, SignInEvent.signInWithApple()),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+        ],
+        Container(
+          constraints: BoxConstraints(maxWidth: 400),
+          child: SizedBox(
+            child: PlatformSocialButton(
+              assetName: "assets/images/google-logo.png",
+              title: l10n.signInWithGoogle,
+              color: appTheme.listTileBackground,
+              textColor: appTheme.textColor,
+              onPressed: () =>
+                  _handleEvent(ref, SignInEvent.signInWithGoogle()),
+            ),
           ),
         ),
         SizedBox(height: 15),
-        SizedBox(
-          width: double.infinity,
-          child: PlatformSocialButton(
-            assetName: "assets/images/google-logo.png",
-            title: l10n.signInWithGoogle,
-            color: appTheme.navigationBarBorderColor,
-            textColor: appTheme.textColor,
-            onPressed: () => _handleEvent(ref, SignInEvent.signInWithGoogle()),
+        Container(
+          constraints: BoxConstraints(maxWidth: 400),
+          child: SizedBox(
+            width: double.infinity,
+            child: PlatformSocialButton(
+              assetName: "assets/images/facebook-logo.png",
+              title: l10n.signInWithFacebook,
+              color: appTheme.listTileBackground,
+              textColor: appTheme.textColor,
+              onPressed: () =>
+                  _handleEvent(ref, SignInEvent.signInWithFacebook()),
+            ),
           ),
         ),
         SizedBox(height: 15),

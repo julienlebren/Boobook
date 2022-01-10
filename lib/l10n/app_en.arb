@@ -17,7 +17,7 @@
             }
         }
     },
-    "bookGeneralSectionCaption": "Please provide the 13-digit ISBN (for books prior to 2007, this is the number starting with 978 printed under the barcode).",
+    "bookGeneralSectionCaption": "Please provide the 13-digit ISBN (for books prior to 2007, this is the number starting with 978 printed under the barcode). Leave blank if you are adding a magazine.",
     "bookISBN": "ISBN",
     "bookListTitle": "Books",
     "bookPickerTitle": "Select a book",
@@ -44,8 +44,10 @@
     },
     "bookNewTitle": "Add a book",
     "bookNeverLent": "This book has never been borrowed before.",
+    "bookNoResult": "No books match your search...",
     "bookPages": "Pages count",
     "bookPublisher": "Publisher",
+    "bookSearchPlaceholder": "Search for a book ...",
     "bookSort": "Sort books",
     "bookTitle": "Title",
     "bookUnavailable": "Unavailable",

@@ -66,7 +66,8 @@ class BookFormController extends StateNotifier<BookFormState> {
 
   void _checkIfCanSubmit() {
     bool canSubmit = state.book.title.length > 1 &&
-        state.book.isbn13.onlyDigits.length == 13;
+        (state.book.isbn13.isEmpty ||
+            state.book.isbn13.onlyDigits.length == 13);
 
     if (canSubmit != state.canSubmit) {
       state = state.copyWith(

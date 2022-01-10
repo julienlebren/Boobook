@@ -57,6 +57,12 @@ class BookRepository {
     );
   }
 
+  Future<List<Book>> findMagazines(String magazineBarCode) async {
+    return _service.getDocuments<Book>(_bookRef
+        .where('isArchived', isEqualTo: false)
+        .where('magazineBarCode', isEqualTo: magazineBarCode));
+  }
+
   Future<List<Book>> findBook(String isbn) async {
     return _service.getDocuments<Book>(_bookRef
         .where('isArchived', isEqualTo: false)

@@ -28,6 +28,7 @@ class Book with _$Book {
     @Default(0) int totalLoans,
     @Default(false) isFromISBNdb,
     @Default(false) isFromUnknownISBN,
+    @Default(false) isMagazine,
     @Default(false) bool isArchived,
   }) = _Book;
 

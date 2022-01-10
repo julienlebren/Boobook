@@ -2,6 +2,7 @@ import 'package:boobook/config.dart';
 import 'package:boobook/controllers/scan_controller.dart';
 import 'package:boobook/core/models/book.dart';
 import 'package:boobook/presentation/common_widgets/book_availability.dart';
+import 'package:boobook/presentation/views/home/books/book_list_page.dart';
 import 'package:boobook/providers/books.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
@@ -143,6 +144,15 @@ class ScanPage extends ConsumerWidget {
             ScanEvent.modalDismissed(),
           );
         });
+      } else if (state.magazineBarCode != null) {
+        final navigator = NavigatorKeys.main.currentState!;
+        navigator.pushNamed(
+          AppRoutes.bookListPage,
+          arguments: BookPageArguments(
+            magazineBarCode: state.magazineBarCode,
+            onBookChanged: (book) => null,
+          ),
+        );
       } else if (state.book != null &&
           state.pupil != null &&
           !state.maxLoansReached) {
