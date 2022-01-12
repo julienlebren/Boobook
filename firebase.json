@@ -12,7 +12,8 @@
   "hosting": {
     "public": "web",
     "rewrites": [
-      { "source": "/privacy**", "destination": "/privacy.html" }
+      { "source": "/privacy**", "destination": "/privacy.html" },
+      { "source": "/help**", "destination": "/help.html" }
     ],
     "ignore": [
       "firebase.json",
