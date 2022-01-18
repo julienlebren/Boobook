@@ -360,6 +360,12 @@ class _SubscriptionFooterButtons extends ConsumerWidget {
     }
   }
 
+  Future<void> _openTerms() async {
+    if (await canLaunch(termsURL)) {
+      await launch(termsURL);
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.read(localizationProvider);
@@ -368,9 +374,21 @@ class _SubscriptionFooterButtons extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          PlatformTextButton(
-              title: l10n.subscriptionPrivacyPolicyButton,
-              onPressed: _openPrivacyPolicy),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PlatformTextButton(
+                title: l10n.subscriptionTermsButton,
+                onPressed: _openTerms,
+                fontSize: 12,
+              ),
+              PlatformTextButton(
+                title: l10n.subscriptionPrivacyPolicyButton,
+                onPressed: _openPrivacyPolicy,
+                fontSize: 12,
+              ),
+            ],
+          ),
           PlatformTextButton(
             title: l10n.subscriptionRestoreButton,
             onPressed: isPurchasing
