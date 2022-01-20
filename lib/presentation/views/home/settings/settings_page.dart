@@ -5,11 +5,11 @@ import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/repositories/user_repository.dart';
-import 'package:firebase_auth_service/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
 import 'package:models/models.dart';
+import 'package:sign_in/sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final settingsControllerProvider =
@@ -241,7 +241,8 @@ class SettingsAccountSection extends ConsumerWidget {
             if (isMaterial()) {
               Navigator.of(context, rootNavigator: true).pop();
             }
-            await ref.read(authServiceProvider).signOut();
+            final controller = ref.read(signInControllerProvider.notifier);
+            controller.handleEvent(SignInEvent.signOut());
           },
         ),
       ],
