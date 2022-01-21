@@ -50,7 +50,7 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/sign_in
-    version: ^1.0.0
+    version: ^1.0.1
   subscription_service:
     git:
       url: https://github.com/julienlebren/flutter_packages
