@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin';
 
 const db = admin.firestore()
+db.settings({ ignoreUndefinedProperties: true })
 
 export async function onUserCreated(user: any): Promise<boolean> {
 	if(typeof user.phoneNumber != "undefined") {
@@ -14,7 +15,7 @@ export async function onUserCreated(user: any): Promise<boolean> {
 			"emailVerified": user.emailVerified,
 			"creationTime": new Date(user.metadata.creationTime),
 			"lastSeenTime": new Date(user.metadata.creationTime),
-			"provider": typeof user.providerData != "undefined" ? user.providerData[0].providerId : null,
+			"provider": typeof user.providerData != "undefined" ? user.providerData[0]?.providerId : null,
 			"color": color,
 			"theme": 0,
 			"isSubscribed": false,

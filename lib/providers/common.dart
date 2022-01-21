@@ -7,6 +7,7 @@ import 'package:firebase_auth_service/firebase_auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:models/models.dart';
+import 'package:sign_in/sign_in.dart';
 import 'package:subscription_service/subscription_service.dart';
 
 /// A provider to access AppLocalizations from everywhere in the app
@@ -32,36 +33,6 @@ final userProvider = Provider<User?>((ref) {
   return userAsyncValue.maybeWhen(
     data: (user) => user,
     orElse: () => null,
-  );
-});
-
-/// A provider to get the current auth status of the user
-/// Listens two providers to return the correct state:
-/// `authStateChangesProvider` if the user is authenticated with Firebase
-/// `userStreamProvider` to get the user data from Firestore.
-final authStateProvider = StateProvider<AuthState>((ref) {
-  final authStateChanges = ref.watch(authStateChangesProvider);
-  return authStateChanges.when(
-    loading: () => AuthState.initializing(),
-    error: (error, _) => AuthState.error(error.toString()),
-    data: (user) {
-      if (user == null) {
-        return AuthState.notAuthed();
-      } else {
-        final user = ref.watch(userStreamProvider);
-        return user.when(
-          loading: () => AuthState.initializing(),
-          error: (error, _) => AuthState.error(error.toString()),
-          data: (user) {
-            if (user is User) {
-              return AuthState.authed();
-            } else {
-              return AuthState.waitingUserCreation();
-            }
-          },
-        );
-      }
-    },
   );
 });
 
