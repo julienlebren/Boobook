@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:layout_builder/layout_builder.dart'
     show PlatformApp, appThemeProvider;
+import 'package:purchases/purchases.dart';
 
 void main() async {
   await runZonedGuarded(() async {
@@ -30,12 +31,13 @@ class BoobookApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appTheme = ref.watch(boobookThemeProvider);
     final selectedLang = ref.watch(selectedLangProvider);
 
     return ProviderScope(
       overrides: [
-        appThemeProvider.overrideWithValue(appTheme),
+        appThemeProvider.overrideWithProvider(boobookTheme),
+        purchasesSettingsProvider
+            .overrideWithProvider(boobookPurchasesSettings),
       ],
       child: PlatformApp(
         locale: Locale.fromSubtags(languageCode: selectedLang.identifier),

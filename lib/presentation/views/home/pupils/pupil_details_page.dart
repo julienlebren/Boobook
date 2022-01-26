@@ -1,4 +1,5 @@
 import 'package:boobook/core/models/loan.dart';
+import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/presentation/common_widgets/book_cover.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/common_widgets/pupil_card.dart';
@@ -7,6 +8,7 @@ import 'package:boobook/providers/common.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/providers/pupils.dart';
+import 'package:boobook/repositories/loan_repository.dart';
 import 'package:boobook/repositories/pupil_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,23 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 enum PupilMenuActions { edit, card, archive }
+
+final pupilProvider = Provider.family.autoDispose<Pupil, String>((ref, id) {
+  final pupilList = ref.watch(pupilListProvider).asData!.value;
+  final filteredList = pupilList.where((pupil) => pupil.id == id);
+
+  if (filteredList.isEmpty) {
+    return Pupil.create(id: id);
+  } else {
+    return filteredList.first;
+  }
+});
+
+final pupilLoansProvider =
+    StreamProvider.family.autoDispose<List<Loan>, String>((ref, pupilId) {
+  final repository = ref.watch(loanRepositoryProvider);
+  return repository.pupilLoans(pupilId);
+});
 
 class PupilDetailsPage extends ConsumerWidget {
   const PupilDetailsPage({Key? key}) : super(key: key);

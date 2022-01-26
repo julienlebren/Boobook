@@ -1,11 +1,9 @@
 import 'package:boobook/config.dart';
 import 'package:boobook/core/models/book.dart';
-import 'package:boobook/core/models/loan.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/repositories/book_repository.dart';
-import 'package:boobook/repositories/loan_repository.dart';
 import 'package:boobook/repositories/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,12 +25,6 @@ final selectedBookId = Provider<String>((_) => throw UnimplementedError());
 final bookProvider = Provider.autoDispose.family<Book, String>((ref, id) {
   final bookList = ref.watch(bookListProvider).asData!.value;
   return bookList.where((book) => book.id == id).first;
-});
-
-final bookLoansProvider =
-    StreamProvider.family.autoDispose<List<Loan>, String>((ref, bookId) {
-  final repository = ref.watch(loanRepositoryProvider);
-  return repository.bookLoans(bookId);
 });
 
 final magazineProvider = Provider.autoDispose<String?>((_) => null);

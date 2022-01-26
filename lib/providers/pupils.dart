@@ -1,9 +1,7 @@
 import 'package:boobook/config.dart';
-import 'package:boobook/core/models/loan.dart';
 import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
-import 'package:boobook/repositories/loan_repository.dart';
 import 'package:boobook/repositories/pupil_repository.dart';
 import 'package:boobook/repositories/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,23 +14,6 @@ final pupilListProvider = StreamProvider<List<Pupil>>((ref) {
 });
 
 final selectedPupilId = Provider<String?>((ref) => null);
-
-final pupilProvider = Provider.family.autoDispose<Pupil, String>((ref, id) {
-  final pupilList = ref.watch(pupilListProvider).asData!.value;
-  final filteredList = pupilList.where((pupil) => pupil.id == id);
-
-  if (filteredList.isEmpty) {
-    return Pupil.create(id: id);
-  } else {
-    return filteredList.first;
-  }
-});
-
-final pupilLoansProvider =
-    StreamProvider.family.autoDispose<List<Loan>, String>((ref, pupilId) {
-  final repository = ref.watch(loanRepositoryProvider);
-  return repository.pupilLoans(pupilId);
-});
 
 /// A provider that needs to be scoped with the callback that
 /// will be used when the user selects a pupil in the list.

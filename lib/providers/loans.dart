@@ -11,10 +11,6 @@ final loanListProvider = StreamProvider<List<Loan>>((ref) {
   return repository.loansStream();
 });
 
-final loanProvider = Provider.autoDispose<Loan>(
-  (_) => throw UnimplementedError(),
-);
-
 final loanRefProvider = Provider<CollectionReference<Loan>>((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
 

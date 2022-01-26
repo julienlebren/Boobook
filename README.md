@@ -68,5 +68,6 @@ The project folders are structured like this:
       /subscription
     /sign_in
     /splash
+/providers
 /repositories
 ```

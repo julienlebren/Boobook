@@ -7,11 +7,18 @@ import 'package:boobook/presentation/theme/theme.dart';
 import 'package:boobook/providers/books.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:boobook/repositories/book_repository.dart';
+import 'package:boobook/repositories/loan_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
 
 enum BookMenuActions { edit, archive }
+
+final bookLoansProvider =
+    StreamProvider.family.autoDispose<List<Loan>, String>((ref, bookId) {
+  final repository = ref.watch(loanRepositoryProvider);
+  return repository.bookLoans(bookId);
+});
 
 class BookDetailsPage extends ConsumerWidget {
   const BookDetailsPage({Key? key}) : super(key: key);
