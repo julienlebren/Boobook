@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
 
-final boobookThemeProvider = Provider<AppTheme>((ref) {
+final boobookTheme = Provider<AppTheme>((ref) {
   final brightness = ref.watch(brightnessProvider);
 
   Color scaffoldBackgroundColor;

@@ -51,11 +51,11 @@ dependencies:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/sign_in
     version: ^1.0.2
-  subscription_service:
+  purchases:
     git:
       url: https://github.com/julienlebren/flutter_packages
-      path: packages/subscription_service
-    version: ^0.1.1
+      path: packages/purchases
+    version: ^1.0.0
   badges: ^2.0.1
   barcode_image: ^2.0.0
   barcode_widget: ^2.0.1

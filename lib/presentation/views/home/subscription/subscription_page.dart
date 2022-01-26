@@ -1,20 +1,14 @@
 import 'package:boobook/config.dart';
-import 'package:boobook/controllers/subscription_controller.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
+import 'package:purchases/purchases.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final subscriptionControllerProvider = StateNotifierProvider.autoDispose<
-    SubscriptionController, SubscriptionState>((ref) {
-  final service = ref.watch(subscriptionServiceProvider);
-  return SubscriptionController(service);
-});
-
-void _handleEvent(WidgetRef ref, SubscriptionEvent event) {
-  final controller = ref.read(subscriptionControllerProvider.notifier);
+void _handleEvent(WidgetRef ref, PurchasesEvent event) {
+  final controller = ref.read(purchasesControllerProvider.notifier);
   controller.handleEvent(event);
 }
 
@@ -23,10 +17,10 @@ class SubscriptionPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(subscriptionControllerProvider);
+    final state = ref.watch(purchasesControllerProvider);
     final l10n = ref.read(localizationProvider);
 
-    ref.listen<SubscriptionState>(subscriptionControllerProvider, (_, state) {
+    ref.listen<PurchasesState>(purchasesControllerProvider, (_, state) {
       if (state.errorText != null) {
         final l10n = ref.read(localizationProvider);
         showErrorDialog(
@@ -47,7 +41,7 @@ class SubscriptionPage extends ConsumerWidget {
         trailing: isCupertino()
             ? PlatformNavigationBarButton(
                 onPressed: () {
-                  _handleEvent(ref, SubscriptionEvent.openOffers());
+                  _handleEvent(ref, PurchasesEvent.openOffers());
                 },
                 icon: Icons.redeem,
               )
@@ -214,7 +208,7 @@ class _SubscriptionIssue extends ConsumerWidget {
   const _SubscriptionIssue({Key? key}) : super(key: key);
 
   _getOfferings(WidgetRef ref) {
-    _handleEvent(ref, SubscriptionEvent.fetchOfferings());
+    _handleEvent(ref, PurchasesEvent.fetchOfferings());
   }
 
   @override
@@ -270,7 +264,7 @@ class _SubscriptionFooter extends StatelessWidget {
 }
 
 final priceProvider = Provider.autoDispose<String?>(
-    (ref) => ref.watch(subscriptionControllerProvider).price);
+    (ref) => ref.watch(purchasesControllerProvider).price);
 
 class _SubscriptionPriceSection extends ConsumerWidget {
   const _SubscriptionPriceSection({Key? key}) : super(key: key);
@@ -320,7 +314,7 @@ class _SubscriptionPurchaseButton extends ConsumerWidget {
         title: l10n.subscriptionButton,
         onPressed: isPurchasing
             ? null
-            : () => _handleEvent(ref, SubscriptionEvent.purchase()),
+            : () => _handleEvent(ref, PurchasesEvent.purchase()),
       ),
     );
   }
@@ -393,7 +387,7 @@ class _SubscriptionFooterButtons extends ConsumerWidget {
             title: l10n.subscriptionRestoreButton,
             onPressed: isPurchasing
                 ? null
-                : () => _handleEvent(ref, SubscriptionEvent.restorePurchases()),
+                : () => _handleEvent(ref, PurchasesEvent.restorePurchases()),
           ),
         ],
       ),

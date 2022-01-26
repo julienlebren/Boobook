@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:models/models.dart';
 import 'package:sign_in/sign_in.dart';
-import 'package:subscription_service/subscription_service.dart';
+import 'package:purchases/purchases.dart';
 
 /// A provider to access AppLocalizations from everywhere in the app
 /// Overridden in the [PlatformApp] widget which returns either a
@@ -71,9 +71,9 @@ final selectedLangProvider = Provider<Language>((ref) {
   return languages.first;
 });
 
-final subscriptionServiceProvider = Provider<SubscriptionService>((ref) {
+final boobookPurchasesSettings = Provider<PurchasesSettings>((ref) {
   final user = ref.watch(userProvider)!;
-  return SubscriptionService(
+  return PurchasesSettings(
     purchasesApiKey: purchasesApiKey,
     entitlementId: entitlementId,
     userId: user.id!,

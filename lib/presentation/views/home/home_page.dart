@@ -15,6 +15,7 @@ import 'package:layout_builder/layout_builder.dart'
         isCupertino,
         tabsProvider;
 import 'package:layout_builder/theme/theme.dart';
+import 'package:purchases/purchases.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,8 +30,8 @@ class _HomePageState extends ConsumerState<HomePage>
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
-    final subscriptionService = ref.read(subscriptionServiceProvider);
-    subscriptionService.setup();
+    final purchasesService = ref.read(purchasesServiceProvider);
+    purchasesService.setup();
   }
 
   @override
@@ -42,8 +43,8 @@ class _HomePageState extends ConsumerState<HomePage>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      final subscriptionService = ref.read(subscriptionServiceProvider);
-      subscriptionService.refreshSubscription();
+      final purchasesService = ref.read(purchasesServiceProvider);
+      purchasesService.refreshSubscription();
     }
     ref.refresh(brightnessProvider);
   }
