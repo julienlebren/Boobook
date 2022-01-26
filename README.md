@@ -71,3 +71,37 @@ The project folders are structured like this:
 /providers
 /repositories
 ```
+
+`lib` folder only contains **main.dart** which contains the main Widget to make the app launchable.
+
+Then inside `lib` you will find:
+- `controllers` which contains our "freezed" state files
+- `core` which contains the models and enums handled in the app (subfolders detailed below)
+- `l10n` with contains the arb files for localization
+- `presentation` with all the ui stuff (subfolders detailed below)
+- `repositories` which contains the repositories used to access the database
+
+### core ###
+
+`core` is usually divided in two parts in my app structures:
+- `enums` with all the enums
+- `models` with all the models (generated with [Freezed](https://pub.dev/packages/freezed))
+
+### presentation ###
+
+`presentation` is divided in subfolders:
+- `common_widgets` with all the widgets which are used more than once
+- `routes` which contains the app router
+- `theme` which contains the layout stuff
+- `views` which contains the pages.
+
+### views ###
+
+`views` is also divided in subfolders:
+-  `home` which contains the content of the app once the user is logged in
+- `sign_in` which contains the sign in page
+- `splash` which contains the splash page, ie the first view loaded when the app starts
+
+### views ###
+
+`home` is generally divided with subfolders for each part of the app, usually once per tab when using a TabScaffold. 
