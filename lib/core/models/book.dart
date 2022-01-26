@@ -1,5 +1,5 @@
-import 'package:boobook/core/firestore_converters.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firestore_service/firestore_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:isbndb/models/book.dart' as isbn_db;

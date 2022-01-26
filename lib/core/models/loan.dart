@@ -1,9 +1,9 @@
-import 'package:boobook/core/firestore_converters.dart';
 import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/providers/common.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extensions/extensions.dart';
+import 'package:firestore_service/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

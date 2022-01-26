@@ -1,13 +1,10 @@
 import 'dart:ui' as ui;
 import 'package:boobook/config.dart';
-import 'package:boobook/core/auth.dart';
 import 'package:boobook/core/models/user.dart';
 import 'package:boobook/repositories/user_repository.dart';
-import 'package:firebase_auth_service/firebase_auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:models/models.dart';
-import 'package:sign_in/sign_in.dart';
 import 'package:purchases/purchases.dart';
 
 /// A provider to access AppLocalizations from everywhere in the app
