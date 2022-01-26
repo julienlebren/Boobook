@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart'
     show
+        PlatformIcons,
         PlatformTabNavigator,
         PlatformTabScaffold,
         TabItem,
@@ -58,8 +59,7 @@ class _HomePageState extends ConsumerState<HomePage>
           [
             TabItem(
               title: l10n.loansTab,
-              icon: Icons.home,
-              selectedIcon: Icons.home,
+              icon: Icon(Icons.home),
               router: PlatformTabNavigator(
                 navigatorKey: NavigatorKeys.loans,
                 onGenerateRoute: (settings) =>
@@ -73,8 +73,7 @@ class _HomePageState extends ConsumerState<HomePage>
             ),
             TabItem(
               title: l10n.booksTab,
-              icon: Icons.auto_stories,
-              selectedIcon: Icons.auto_stories,
+              icon: Icon(Icons.auto_stories),
               router: PlatformTabNavigator(
                 navigatorKey: NavigatorKeys.books,
                 onGenerateRoute: (settings) =>
@@ -89,14 +88,13 @@ class _HomePageState extends ConsumerState<HomePage>
             if (isCupertino())
               TabItem(
                 title: l10n.scanTab,
-                icon: CupertinoIcons.barcode_viewfinder,
-                selectedIcon: CupertinoIcons.barcode_viewfinder,
+                icon: Icon(CupertinoIcons.barcode_viewfinder),
+                selectedIcon: Icon(CupertinoIcons.barcode_viewfinder),
                 router: const ScanNavigator(),
               ),
             TabItem(
               title: l10n.pupilsTab,
-              icon: Icons.people,
-              selectedIcon: Icons.people,
+              icon: Icon(Icons.people),
               router: PlatformTabNavigator(
                 navigatorKey: NavigatorKeys.pupils,
                 onGenerateRoute: (settings) =>
@@ -110,8 +108,7 @@ class _HomePageState extends ConsumerState<HomePage>
             ),
             TabItem(
               title: l10n.settingsTab,
-              icon: Icons.tune,
-              selectedIcon: Icons.tune,
+              icon: Icon(PlatformIcons.settings),
               router: PlatformTabNavigator(
                 navigatorKey: NavigatorKeys.settings,
                 onGenerateRoute: (settings) =>

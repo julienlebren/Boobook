@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:boobook/config.dart';
 import 'package:boobook/core/models/pupil.dart';
 import 'package:boobook/providers/pupils.dart';
 import 'package:boobook/repositories/user_repository.dart';
-import 'package:boobook/repositories/helpers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firestore_service/firestore_service.dart';

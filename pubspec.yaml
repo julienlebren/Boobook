@@ -1,7 +1,7 @@
 name: boobook
 description: Your library management assistant at school!
 publish_to: 'none' 
-version: 1.0.0+26
+version: 1.0.1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -15,7 +15,7 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/avatar
-    version: ^0.1.11
+    version: ^0.1.12
   extensions:
     git:
       url: https://github.com/julienlebren/flutter_packages
@@ -35,7 +35,7 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/layout_builder
-    version: ^0.17.12+1
+    version: ^0.18.1+2
   models:
     git:
       url: https://github.com/julienlebren/flutter_packages
@@ -45,12 +45,12 @@ dependencies:
     git: 
       url: https://github.com/julienlebren/flutter_packages
       path: packages/photo_upload
-    version: ^0.4.5
+    version: ^0.4.6
   sign_in:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/sign_in
-    version: ^1.0.1
+    version: ^1.0.2
   subscription_service:
     git:
       url: https://github.com/julienlebren/flutter_packages

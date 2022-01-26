@@ -217,11 +217,16 @@ class _BookListSearchBarState extends ConsumerState<BookListSearchBar> {
   @override
   Widget build(BuildContext context) {
     final l10n = ref.read(localizationProvider);
-    return PlatformSearchBar(
-      controller: textController,
-      focusNode: focusNode,
-      placeholder: l10n
-          .bookSearchPlaceholder, //isCupertino() ? l10n.searchHint : l10n.schoolsTitle,
+    final appTheme = ref.watch(appThemeProvider);
+
+    return Container(
+      color: appTheme.cupertinoNavigationBarBackgroundColor,
+      child: PlatformSearchBar(
+        controller: textController,
+        focusNode: focusNode,
+        placeholder: l10n
+            .bookSearchPlaceholder, //isCupertino() ? l10n.searchHint : l10n.schoolsTitle,
+      ),
     );
   }
 }
