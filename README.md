@@ -85,7 +85,11 @@ Then inside `lib` you will find:
 
 `core` is usually divided in two parts in my app structures:
 - `enums` with all the enums
+<<<<<<< HEAD
 - `models` with all the models (generated with [Freezed](https://pub.dev/packages/freezed))
+=======
+- `models` with all the models (generated with [Freezed](https://pub.dev/packages/freezed) )
+>>>>>>> addd388ee054f2b0c87a4fe07a5ea54d1fc94a55
 
 ### presentation ###
 
@@ -102,6 +106,9 @@ Then inside `lib` you will find:
 - `sign_in` which contains the sign in page
 - `splash` which contains the splash page, ie the first view loaded when the app starts
 
+<<<<<<< HEAD
 ### views ###
 
 `home` is generally divided with subfolders for each part of the app, usually once per tab when using a TabScaffold. 
+=======
+>>>>>>> addd388ee054f2b0c87a4fe07a5ea54d1fc94a55
