@@ -4,6 +4,7 @@ import 'package:boobook/core/models/user.dart';
 import 'package:boobook/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:layout_builder/theme/theme.dart';
 import 'package:models/models.dart';
 import 'package:purchases/purchases.dart';
 
@@ -86,6 +87,15 @@ final boobookPurchasesSettings = Provider<PurchasesSettings>((ref) {
         );
       }
     },
+  );
+});
+
+final boobookThemeLocalizationProvider = Provider<ThemeLocalizations>((ref) {
+  final l10n = ref.watch(localizationProvider);
+  return ThemeLocalizations(
+    dark: l10n.themeDark,
+    light: l10n.themeLight,
+    system: l10n.themeSystem,
   );
 });
 

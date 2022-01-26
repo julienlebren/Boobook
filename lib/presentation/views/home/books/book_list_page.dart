@@ -246,6 +246,7 @@ class BookListPageContents extends ConsumerWidget {
     final books = ref.watch(filteredBookListProvider(filters));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
+    final listViewTheme = ref.watch(listViewThemeProvider);
 
     return books.when(
       loading: () => const Center(
@@ -270,7 +271,7 @@ class BookListPageContents extends ConsumerWidget {
           child: ProviderScope(
             overrides: [
               listViewThemeProvider.overrideWithValue(
-                ListViewTheme(separatorPadding: 56.0),
+                listViewTheme.copyWith(separatorPadding: 56.0),
               ),
             ],
             child: PlatformListView(

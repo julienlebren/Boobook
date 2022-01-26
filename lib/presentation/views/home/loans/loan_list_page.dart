@@ -147,6 +147,7 @@ class LoanListPageContents extends ConsumerWidget {
     final loans = ref.watch(sortedLoanListProvider(sortBy));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
+    final listViewTheme = ref.watch(listViewThemeProvider);
 
     return loans.when(
       loading: () => const Center(
@@ -166,7 +167,7 @@ class LoanListPageContents extends ConsumerWidget {
           child: ProviderScope(
             overrides: [
               listViewThemeProvider.overrideWithValue(
-                ListViewTheme(separatorPadding: 55.0),
+                listViewTheme.copyWith(separatorPadding: 55.0),
               ),
             ],
             child: PlatformListView(

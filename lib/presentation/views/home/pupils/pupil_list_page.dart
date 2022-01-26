@@ -175,6 +175,7 @@ class PupilListPageContents extends ConsumerWidget {
     final pupils = ref.watch(sortedPupilListProvider(sortBy));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
+    final listViewTheme = ref.watch(listViewThemeProvider);
     final maxSimultaneousLoans =
         ref.watch(userProvider.select((user) => user!.maxSimultaneousLoans));
 
@@ -202,7 +203,7 @@ class PupilListPageContents extends ConsumerWidget {
           child: ProviderScope(
             overrides: [
               listViewThemeProvider.overrideWithValue(
-                ListViewTheme(separatorPadding: 65.0),
+                listViewTheme.copyWith(separatorPadding: 65.0),
               ),
             ],
             child: PlatformListView(

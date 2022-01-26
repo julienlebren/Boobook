@@ -1,6 +1,5 @@
 import 'package:boobook/config.dart';
 import 'package:boobook/controllers/settings_controller.dart';
-import 'package:boobook/l10n/theme.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/providers/common.dart';
@@ -172,7 +171,6 @@ class SettingsAppearanceSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
-    final themeL10n = ref.watch(themeLocalizationProvider(l10n));
     final theme = ref.watch(
       userProvider.select(
         (user) => user?.theme,
@@ -181,42 +179,48 @@ class SettingsAppearanceSection extends ConsumerWidget {
     final languages = ref.read(languagesProvider);
     final selectedLang = ref.watch(selectedLangProvider);
 
-    return FormSection(
-      title: l10n.settingsAppearanceSectionTitle,
-      children: [
-        FormTappableField(
-          label: l10n.settingsThemeLabel,
-          value: theme?.description(themeL10n),
-          onPressed: () => showPlatformSinglePicker<ThemeType>(
-            context,
-            ref,
-            title: l10n.settingsThemeLabel,
-            data: ThemeType.values,
-            selectedValue: theme,
-            itemBuilder: (theme) => Text(theme.description(themeL10n)),
-            onChanged: (theme) => _handleEvent(
-              ref,
-              SettingsEvent.themeChanged(theme),
-            ),
-          ),
-        ),
-        FormTappableField(
-          label: l10n.settingsLanguageLabel,
-          value: selectedLang.name,
-          onPressed: () => showPlatformSinglePicker<Language>(
-            context,
-            ref,
-            title: l10n.settingsLanguageLabel,
-            data: languages,
-            selectedValue: selectedLang,
-            itemBuilder: (lang) => Text(lang.name),
-            onChanged: (lang) => _handleEvent(
-              ref,
-              SettingsEvent.langChanged(lang.identifier),
-            ),
-          ),
-        ),
+    return ProviderScope(
+      overrides: [
+        themeLocalizationProvider
+            .overrideWithProvider(boobookThemeLocalizationProvider),
       ],
+      child: FormSection(
+        title: l10n.settingsAppearanceSectionTitle,
+        children: [
+          FormTappableField(
+            label: l10n.settingsThemeLabel,
+            value: theme?.description(ref),
+            onPressed: () => showPlatformSinglePicker<ThemeType>(
+              context,
+              ref,
+              title: l10n.settingsThemeLabel,
+              data: ThemeType.values,
+              selectedValue: theme,
+              itemBuilder: (theme) => Text(theme.description(ref)),
+              onChanged: (theme) => _handleEvent(
+                ref,
+                SettingsEvent.themeChanged(theme),
+              ),
+            ),
+          ),
+          FormTappableField(
+            label: l10n.settingsLanguageLabel,
+            value: selectedLang.name,
+            onPressed: () => showPlatformSinglePicker<Language>(
+              context,
+              ref,
+              title: l10n.settingsLanguageLabel,
+              data: languages,
+              selectedValue: selectedLang,
+              itemBuilder: (lang) => Text(lang.name),
+              onChanged: (lang) => _handleEvent(
+                ref,
+                SettingsEvent.langChanged(lang.identifier),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

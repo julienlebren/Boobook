@@ -91,11 +91,12 @@ class BookDetailsPageContents extends ConsumerWidget {
     final loans = ref.watch(bookLoansProvider(id));
     final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
+    final listViewTheme = ref.watch(listViewThemeProvider);
 
     return ProviderScope(
       overrides: [
         listViewThemeProvider.overrideWithValue(
-          ListViewTheme(separatorPadding: 65.0),
+          listViewTheme.copyWith(separatorPadding: 65.0),
         ),
       ],
       child: Container(
