@@ -50,9 +50,7 @@ The project folders are structured like this:
 
 ```
 /controllers
-/core
-  /enums
-  /models
+/models
 /l10n
 /presentation
   /common_widgets
@@ -68,24 +66,17 @@ The project folders are structured like this:
       /subscription
     /sign_in
     /splash
-/providers
 /repositories
 ```
 
-`lib` folder only contains **main.dart** which contains the main Widget to make the app launchable.
+`lib` folder only contains **main.dart** which contains the main Widget to make the app launchable, and **common_providers.dart** which includes some providers reused all accross the code.
 
 Then inside `lib` you will find:
 - `controllers` which contains our "freezed" state files
-- `core` which contains the models and enums handled in the app (subfolders detailed below)
+- `models` which contains all the models (generated with [Freezed](https://pub.dev/packages/freezed))
 - `l10n` with contains the arb files for localization
 - `presentation` with all the ui stuff (subfolders detailed below)
 - `repositories` which contains the repositories used to access the database
-
-### core ###
-
-`core` is usually divided in two parts in my app structures:
-- `enums` with all the enums
-- `models` with all the models (generated with [Freezed](https://pub.dev/packages/freezed))
 
 ### presentation ###
 
@@ -105,3 +96,20 @@ Then inside `lib` you will find:
 ### home ###
 
 `home` is generally divided with subfolders for each part of the app, usually once per tab when using a TabScaffold. 
+
+## Something important about the way the source code is built ##
+
+This source code refers to a lot of personal Flutter packages hosted on my GitHub repository.
+These packages have been created for my personal Flutter projects because I reuse a lot of code accross all my Flutter projects to avoid too much copy and paste across all my projects.
+If you want to understand all the source code of Boobook, you will need to have a look to each package the code refers to:
+
+- [x] [avatar](https://github.com/julienlebren/flutter_packages/packages/avatar) generates a profile picture with a photo or a fallback with initials
+- [x] [extensions](https://github.com/julienlebren/flutter_packages/packages/extensions) brings some extensions on common classes that I use a lot in all my apps
+- [x] [firestore_service](https://github.com/julienlebren/flutter_packages/packages/firestore_service) is a class that helps to handle data from Firestore
+- [x] [firebase_storage_service](https://github.com/julienlebren/flutter_packages/packages/avatar) is a class that helps to upload or download files from Firebase Storage
+- [x] [layout_builder](https://github.com/julienlebren/flutter_packages/packages/layout_builder) brings all the layout stuff I use in my apps with ready-to-use cross-platform widgets
+- [x] [photo_upload](https://github.com/julienlebren/flutter_packages/packages/photo_upload) is a ready-to-use widget+controller to upload pictures using `firebase_storage_service`
+- [x] [sign_in](https://github.com/julienlebren/flutter_packages/packages/avatar) is a ready-to-use widget+controller to handle authentication with Firebase Auth
+- [x] [purchases](https://github.com/julienlebren/flutter_packages/packages/purchases) bring some help to handle in-app purchases using [RevenueCat](https://revenuecat.com)]
+
+These packages are hosted on my GitHub repository and not as official packages on [pub.dev](https://pub.dev) because they are built only to fit my personal needs and I regulary make important breaking changes.
