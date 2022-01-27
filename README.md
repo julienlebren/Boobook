@@ -112,7 +112,7 @@ If you want to understand all the source code of Boobook, you will need to have 
 - [x] [firebase_storage_service](https://github.com/julienlebren/flutter_packages/tree/main/packages/avatar) is a class that helps to upload or download files from Firebase Storage
 - [x] [layout_builder](https://github.com/julienlebren/flutter_packages/tree/main/packages/layout_builder) brings all the layout stuff I use in my apps with ready-to-use cross-platform widgets
 - [x] [photo_upload](https://github.com/julienlebren/flutter_packages/tree/main/packages/photo_upload) is a ready-to-use widget+controller to upload pictures using `firebase_storage_service`
-- [x] [sign_in](https://github.com/julienlebren/flutter_packages/tree/main/packages/avatar) is a ready-to-use widget+controller to handle authentication with Firebase Auth
+- [x] [sign_in](https://github.com/julienlebren/flutter_packages/tree/main/packages/sign_in) is a ready-to-use widget+controller to handle authentication with Firebase Auth
 - [x] [purchases](https://github.com/julienlebren/flutter_packages/tree/main/packages/purchases) bring some help to handle in-app purchases using [RevenueCat](https://revenuecat.com)]
 
 These packages are hosted on my GitHub repository and not as official packages on [pub.dev](https://pub.dev) because they are built only to fit my personal needs and I regulary make important breaking changes.
