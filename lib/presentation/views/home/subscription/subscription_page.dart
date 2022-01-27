@@ -263,9 +263,6 @@ class _SubscriptionFooter extends StatelessWidget {
   }
 }
 
-final priceProvider = Provider.autoDispose<String?>(
-    (ref) => ref.watch(purchasesControllerProvider).price);
-
 class _SubscriptionPriceSection extends ConsumerWidget {
   const _SubscriptionPriceSection({Key? key}) : super(key: key);
 
@@ -273,7 +270,7 @@ class _SubscriptionPriceSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.read(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
-    final price = ref.watch(priceProvider);
+    final price = ref.watch(purchasesControllerProvider).price;
 
     return Container(
       height: 65,
