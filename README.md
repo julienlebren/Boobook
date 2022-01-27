@@ -4,7 +4,7 @@
 
 # Boobook
 
-[(assets/app_store_btn.png)](https://apps.apple.com/app/boobook/1585948226)  [(assets/google_play_btn.png)](https://play.google.com/store/apps/details?id=net.jlbiz.boobook) 
+[https://apps.apple.com/app/boobook/1585948226](assets/app_store_btn.png) [https://play.google.com/store/apps/details?id=net.jlbiz.boobook](assets/google_play_btn.png)
 
 This open-source project shows how to build a Flutter app with:
 - [x] [Firebase Authentication](https://firebase.google.com/products/auth) to handle user authentication
