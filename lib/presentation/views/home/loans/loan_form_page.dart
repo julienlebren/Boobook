@@ -1,7 +1,7 @@
 import 'package:boobook/controllers/loan_form_controller.dart';
-import 'package:boobook/core/models/book.dart';
-import 'package:boobook/core/models/loan.dart';
-import 'package:boobook/core/models/pupil.dart';
+import 'package:boobook/models/book.dart';
+import 'package:boobook/models/loan.dart';
+import 'package:boobook/models/pupil.dart';
 import 'package:boobook/presentation/common_widgets/book_tile.dart';
 import 'package:boobook/presentation/views/home/books/book_list_page.dart';
 import 'package:boobook/presentation/views/home/loans/loan_list_page.dart';

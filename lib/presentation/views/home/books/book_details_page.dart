@@ -1,6 +1,6 @@
 import 'package:avatar/avatar.dart';
-import 'package:boobook/core/models/book.dart';
-import 'package:boobook/core/models/loan.dart';
+import 'package:boobook/models/book.dart';
+import 'package:boobook/models/loan.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';

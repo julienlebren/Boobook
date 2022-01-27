@@ -1,6 +1,6 @@
 import 'package:boobook/config.dart';
 import 'package:boobook/controllers/scan_controller.dart';
-import 'package:boobook/core/models/book.dart';
+import 'package:boobook/models/book.dart';
 import 'package:boobook/presentation/common_widgets/book_availability.dart';
 import 'package:boobook/presentation/views/home/books/book_list_page.dart';
 import 'package:boobook/common_providers.dart';

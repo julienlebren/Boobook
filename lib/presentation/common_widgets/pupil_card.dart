@@ -1,4 +1,4 @@
-import 'package:boobook/core/models/pupil.dart';
+import 'package:boobook/models/pupil.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:pdf/pdf.dart';

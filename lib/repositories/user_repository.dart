@@ -1,5 +1,5 @@
 import 'package:boobook/config.dart';
-import 'package:boobook/core/models/user.dart';
+import 'package:boobook/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth_service/firebase_auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';

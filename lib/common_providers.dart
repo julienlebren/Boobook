@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:boobook/config.dart';
-import 'package:boobook/core/models/user.dart';
+import 'package:boobook/models/user.dart';
 import 'package:boobook/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -1,4 +1,4 @@
-import 'package:boobook/core/models/loan.dart';
+import 'package:boobook/models/loan.dart';
 import 'package:boobook/presentation/common_widgets/book_cover.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/routes/navigators.dart';

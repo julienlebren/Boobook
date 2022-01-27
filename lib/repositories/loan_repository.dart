@@ -1,7 +1,7 @@
 import 'package:boobook/config.dart';
-import 'package:boobook/core/models/book.dart';
-import 'package:boobook/core/models/loan.dart';
-import 'package:boobook/core/models/pupil.dart';
+import 'package:boobook/models/book.dart';
+import 'package:boobook/models/loan.dart';
+import 'package:boobook/models/pupil.dart';
 import 'package:boobook/repositories/book_repository.dart';
 import 'package:boobook/repositories/pupil_repository.dart';
 import 'package:boobook/repositories/user_repository.dart';

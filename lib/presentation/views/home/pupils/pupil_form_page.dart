@@ -1,6 +1,6 @@
 import 'package:avatar/avatar.dart';
 import 'package:boobook/controllers/pupil_form_controller.dart';
-import 'package:boobook/core/models/pupil.dart';
+import 'package:boobook/models/pupil.dart';
 import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/common_providers.dart';
 import 'package:boobook/repositories/pupil_repository.dart';

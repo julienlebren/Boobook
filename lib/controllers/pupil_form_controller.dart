@@ -1,4 +1,4 @@
-import 'package:boobook/core/models/pupil.dart';
+import 'package:boobook/models/pupil.dart';
 import 'package:boobook/repositories/pupil_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

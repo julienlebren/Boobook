@@ -1,6 +1,6 @@
-import 'package:boobook/core/models/book.dart';
-import 'package:boobook/core/models/loan.dart';
-import 'package:boobook/core/models/pupil.dart';
+import 'package:boobook/models/book.dart';
+import 'package:boobook/models/loan.dart';
+import 'package:boobook/models/pupil.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

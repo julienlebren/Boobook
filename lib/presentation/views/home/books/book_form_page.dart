@@ -1,5 +1,5 @@
 import 'package:boobook/controllers/book_form_controller.dart';
-import 'package:boobook/core/models/book.dart';
+import 'package:boobook/models/book.dart';
 import 'package:boobook/presentation/common_widgets/book_cover.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';

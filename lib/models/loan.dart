@@ -1,5 +1,5 @@
-import 'package:boobook/core/models/book.dart';
-import 'package:boobook/core/models/pupil.dart';
+import 'package:boobook/models/book.dart';
+import 'package:boobook/models/pupil.dart';
 import 'package:boobook/common_providers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extensions/extensions.dart';
