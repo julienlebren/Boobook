@@ -18,7 +18,7 @@ A lot of other topics are also covered by this project:
 - [x] Handle localization thanks to **flutter_localizations** and **Riverpod**
 - [x] Reuse components through all your apps made with Flutter
 
-![App preview](docs/app-screenshots.png)
+![App preview](assets/app-screenshots.png)
 
 ## App Overview
 
