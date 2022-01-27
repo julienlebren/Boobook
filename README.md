@@ -119,6 +119,6 @@ These packages are hosted on my GitHub repository and not as official packages o
 
 ## Future Roadmap
 
-- [] Generate and print custom barcodes in order to handle magazines inside the app (magazines do not have ISBN like books so they cannot be handled by scanning the barcode like a book)
-- [] Change the way to display account details in the Settings tab
-- [] Better display of the subscription, with maybe some alert when the free quota is about to be reached
+- [ ] Generate and print custom barcodes in order to handle magazines inside the app (magazines do not have ISBN like books so they cannot be handled by scanning the barcode like a book)
+- [ ] Change the way to display account details in the Settings tab
+- [ ] Better display of the subscription, with maybe some alert when the free quota is about to be reached
