@@ -4,6 +4,8 @@
 
 # Boobook
 
+[(assets/app_store_btn.png)](https://apps.apple.com/app/boobook/1585948226)  [(assets/google_play_btn.png)](https://play.google.com/store/apps/details?id=net.jlbiz.boobook) 
+
 This open-source project shows how to build a Flutter app with:
 - [x] [Firebase Authentication](https://firebase.google.com/products/auth) to handle user authentication
 - [x] [Firebase Firestore](https://firebase.google.com/products/firestore) for a reactive database
