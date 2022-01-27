@@ -4,7 +4,7 @@
 
 # Boobook
 
-![https://apps.apple.com/app/boobook/1585948226](assets/app_store_btn.png?202201271015) 
+[![Download on the App Store](assets/app_store_btn.png?202201271015)](https://apps.apple.com/app/boobook/1585948226)
 ![https://play.google.com/store/apps/details?id=net.jlbiz.boobook](assets/google_play_btn.png?202201271015)
 
 This open-source project shows how to build a Flutter app with:
