@@ -81,7 +81,7 @@ Then inside `lib` you will find:
 - `presentation` with all the ui stuff (subfolders detailed below)
 - `repositories` which contains the repositories used to access the database
 
-### presentation ###
+### presentation 
 
 `presentation` is divided in subfolders:
 - `common_widgets` with all the widgets which are used more than once
@@ -89,18 +89,18 @@ Then inside `lib` you will find:
 - `theme` which contains the layout stuff
 - `views` which contains the pages.
 
-### views ###
+### views 
 
 `views` is also divided in subfolders:
 - `home` which contains the content of the app once the user is logged in
 - `sign_in` which contains the sign in page
 - `splash` which contains the splash page, ie the first view loaded when the app starts
 
-### home ###
+### home 
 
 `home` is generally divided with subfolders for each part of the app, usually once per tab when using a TabScaffold. 
 
-## Something important about the way the source code is built ##
+## Something important about the way the source code is built 
 
 This source code refers to a lot of personal Flutter packages hosted on my GitHub repository.
 These packages have been created for my personal Flutter projects because I reuse a lot of code accross all my Flutter projects to avoid too much copy and paste across all my projects.
@@ -116,3 +116,9 @@ If you want to understand all the source code of Boobook, you will need to have 
 - [x] [purchases](https://github.com/julienlebren/flutter_packages/packages/purchases) bring some help to handle in-app purchases using [RevenueCat](https://revenuecat.com)]
 
 These packages are hosted on my GitHub repository and not as official packages on [pub.dev](https://pub.dev) because they are built only to fit my personal needs and I regulary make important breaking changes.
+
+## Future Roadmap
+
+- [] Generate and print custom barcodes in order to handle magazines inside the app (magazines do not have ISBN like books so they cannot be handled by scanning the barcode like a book)
+- [] Change the way to display account details in the Settings tab
+- [] Better display of the subscription, with maybe some alert when the free quota is about to be reached
