@@ -4,8 +4,7 @@ import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/common_widgets/pupil_card.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
-import 'package:boobook/providers/common.dart';
-import 'package:boobook/providers/pupils.dart';
+import 'package:boobook/common_providers.dart';
 import 'package:boobook/repositories/pupil_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,12 @@ enum PupilSort { name, loans }
 final pupilSortProvider = StateProvider<PupilSort>(
   (_) => PupilSort.name,
 );
+
+/// This provider reads the stream from the database to get the list of the pupils.
+final pupilListProvider = StreamProvider<List<Pupil>>((ref) {
+  final repository = ref.watch(pupilRepositoryProvider);
+  return repository.pupilsStream();
+});
 
 /// This provider is a workaround to avoid useless reads to the database.
 /// If we pass the [PupilQuery] to [PupilRepository.pupilsStream], we could avoid
@@ -228,6 +233,15 @@ class PupilListPageContents extends ConsumerWidget {
 final _currentPupil = Provider<Pupil>((ref) {
   throw UnimplementedError();
 });
+
+/// A provider that needs to be scoped with the callback that
+/// will be used when the user selects a pupil in the list.
+final pupilHandler = Provider<Function(Pupil)>(
+  (ref) => ((Pupil pupil) {
+    final navigator = NavigatorKeys.pupils.currentState!;
+    navigator.pushNamed(AppRoutes.pupilDetailsPage(pupil.id!));
+  }),
+);
 
 class _PupilItem extends ConsumerWidget {
   const _PupilItem({Key? key}) : super(key: key);

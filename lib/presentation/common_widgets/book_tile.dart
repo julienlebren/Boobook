@@ -1,6 +1,6 @@
 import 'package:boobook/presentation/common_widgets/book_cover.dart';
-import 'package:boobook/providers/books.dart';
-import 'package:boobook/providers/common.dart';
+import 'package:boobook/presentation/views/home/books/book_details_page.dart';
+import 'package:boobook/common_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';

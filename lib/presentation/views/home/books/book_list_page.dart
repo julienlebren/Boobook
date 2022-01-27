@@ -3,8 +3,7 @@ import 'package:boobook/presentation/common_widgets/book_cover.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
-import 'package:boobook/providers/books.dart';
-import 'package:boobook/providers/common.dart';
+import 'package:boobook/common_providers.dart';
 import 'package:boobook/repositories/book_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,14 @@ final bookSortProvider = StateProvider<BookSort>(
   (_) => BookSort.title,
 );
 
+final magazineProvider = Provider.autoDispose<String?>((_) => null);
 final bookTitleProvider = StateProvider<String?>((_) => null);
+
+/// This provider reads the stream from the database to get the list of the books.
+final bookListProvider = StreamProvider<List<Book>>((ref) {
+  final repository = ref.watch(bookRepositoryProvider);
+  return repository.booksStream();
+});
 
 /// This provider is a workaround to avoid useless reads to the database.
 /// If we pass the sortBy method to [PupilRepository.pupilsStream], we could avoid
@@ -296,6 +302,15 @@ class BookListPageContents extends ConsumerWidget {
 final _currentBook = Provider<Book>((ref) {
   throw UnimplementedError();
 });
+
+/// A provider that needs to be scoped with the callback that
+/// will be used when the user selects a book in the list.
+final bookHandler = Provider<Function(Book)>(
+  (ref) => ((Book book) {
+    final navigator = NavigatorKeys.books.currentState!;
+    navigator.pushNamed(AppRoutes.bookDetailsPage(book.id!));
+  }),
+);
 
 class _BookItem extends ConsumerWidget {
   const _BookItem({Key? key}) : super(key: key);

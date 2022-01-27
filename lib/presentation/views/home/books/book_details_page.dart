@@ -1,11 +1,12 @@
 import 'package:avatar/avatar.dart';
+import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/loan.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/presentation/theme/theme.dart';
-import 'package:boobook/providers/books.dart';
-import 'package:boobook/providers/common.dart';
+import 'package:boobook/presentation/views/home/books/book_list_page.dart';
+import 'package:boobook/common_providers.dart';
 import 'package:boobook/repositories/book_repository.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
 
 enum BookMenuActions { edit, archive }
+
+/// A provider that returns the selected [Book] from its id.
+/// The list is fetched with a !, which usually can lead to some fatal
+/// error but in this case, the list has already been fetched in the previous
+/// page so it can't lead to a fatal error here.
+final bookProvider = Provider.autoDispose.family<Book, String>((ref, id) {
+  final bookList = ref.watch(bookListProvider).asData!.value;
+  return bookList.where((book) => book.id == id).first;
+});
 
 final bookLoansProvider =
     StreamProvider.family.autoDispose<List<Loan>, String>((ref, bookId) {

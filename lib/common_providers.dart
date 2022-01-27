@@ -99,4 +99,15 @@ final boobookThemeLocalizationProvider = Provider<ThemeLocalizations>((ref) {
   );
 });
 
+/// The selected [Book] id
+/// It must be overridden in a [ProviderScope] before being used.
+final selectedBookId = Provider<String>((_) => throw UnimplementedError());
+
+/// The selected [Pupil] id
+/// Unlike the `selectedBookId` provider, it can be null
+final selectedPupilId = Provider<String?>((ref) => null);
+
+/// Provider used to know if we are displaying a list in the main view,
+/// or if it is open to pick an entry (for example to pick a book or a pupil
+/// when creating a loan)
 final pickerProvider = Provider.autoDispose<bool>((_) => false);

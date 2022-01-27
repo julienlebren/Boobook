@@ -3,8 +3,7 @@ import 'package:boobook/presentation/common_widgets/book_cover.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
-import 'package:boobook/providers/common.dart';
-import 'package:boobook/providers/loans.dart';
+import 'package:boobook/common_providers.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +16,12 @@ enum LoanSort { date, title, pupil }
 final loanSortProvider = StateProvider<LoanSort>(
   (_) => LoanSort.date,
 );
+
+/// This provider reads the stream from the database to get the list of the loans.
+final loanListProvider = StreamProvider<List<Loan>>((ref) {
+  final repository = ref.watch(loanRepositoryProvider);
+  return repository.loansStream();
+});
 
 /// This provider is a workaround to avoid useless reads to the database.
 /// If we pass the [LoanSort] to [LoanRepository.loansStream], we could avoid

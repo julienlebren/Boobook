@@ -1,6 +1,6 @@
 import 'package:boobook/core/models/book.dart';
 import 'package:boobook/core/models/pupil.dart';
-import 'package:boobook/providers/common.dart';
+import 'package:boobook/common_providers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extensions/extensions.dart';
 import 'package:firestore_service/firestore_service.dart';
