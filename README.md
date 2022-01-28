@@ -112,7 +112,7 @@ Some files are voluntary missing in the repository, for security reasons:
 
 The app requires this dart file to work:
 
-```
+```dart
 final isbnApiKey = "your_isbndb_api_key";
 
 const purchasesApiKey = 'your_revenuecat_api_key';
