@@ -100,6 +100,41 @@ Then inside `lib` you will find:
 
 `home` is generally divided with subfolders for each part of the app, usually once per tab when using a TabScaffold. 
 
+## Missing files in the repository
+
+Some files are voluntary missing in the repository, for security reasons:
+- `android/app/google-services.json` which is the file to make Firebase work on Android devices
+- `ios/Runner/GoogleService-Info.plist` which is the file to make Firebase work on iOS devices
+- `ios/Runner/Info.plist` which I decided to hide because it clearly displays the Facebook app secret for Facebook Login
+- `lib/config.dart` which is detailed below
+
+## config.dart
+
+The app requires this dart file to work:
+
+```
+final isbnApiKey = "your_isbndb_api_key";
+
+const purchasesApiKey = 'your_revenuecat_api_key';
+const entitlementId = 'your_purchase_entitlement';
+
+const privacyPolicyURL = "https://boobook.app/privacy";
+const termsURL = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/";
+
+class FirestorePath {
+  static String pupils = "pupils";
+  static String books = "books";
+  static String loans = "loans";
+  static String users = "users";
+}
+
+class StoragePath {
+  static String users = "users";
+  static String pupils = "pupils";
+  static String books = "books";
+}
+```
+
 ## Something important about the way the source code is built 
 
 This source code refers to a lot of personal Flutter packages hosted on my GitHub repository.
@@ -122,3 +157,4 @@ These packages are hosted on my GitHub repository and not as official packages o
 - [ ] Generate and print custom barcodes in order to handle magazines inside the app (magazines do not have ISBN like books so they cannot be handled by scanning the barcode like a book)
 - [ ] Change the way to display account details in the Settings tab
 - [ ] Better display of the subscription, with maybe some alert when the free quota is about to be reached
+- [ ] Avoid to scope localizationProvider

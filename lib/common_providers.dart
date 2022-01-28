@@ -8,13 +8,6 @@ import 'package:layout_builder/theme/theme.dart';
 import 'package:models/models.dart';
 import 'package:purchases/purchases.dart';
 
-/// A provider to access AppLocalizations from everywhere in the app
-/// Overridden in the [PlatformApp] widget which returns either a
-/// [MaterialApp] or a [CupertinoApp].
-final localizationProvider = Provider<AppLocalizations>((ref) {
-  throw UnimplementedError();
-});
-
 /// A provider which listens to the user document in the database
 /// Returns a [User] object (which may not be confused with the Firebase
 /// User object, which is not used in the app) if it exists or an
@@ -32,6 +25,14 @@ final userProvider = Provider<User?>((ref) {
     data: (user) => user,
     orElse: () => null,
   );
+});
+
+/// A provider to access AppLocalizations from everywhere in the app
+/// Overridden in the [PlatformApp] widget which returns either a
+/// [MaterialApp] or a [CupertinoApp].
+final localizationProvider = Provider<AppLocalizations>((ref) {
+  final locale = ui.window.locale;
+  return lookupAppLocalizations(locale);
 });
 
 /// Availables languages in the app
