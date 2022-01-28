@@ -13,5 +13,10 @@ service cloud.firestore {
     match /users/{userId}/loans/{document=**}{
     	allow read, write: if request.auth != null && request.auth.uid == userId;
     }
+    match /books/{bookId} {
+      allow read, create: if request.auth != null;
+      allow update: if request.auth != null &&  resource.data.userId == request.auth.uid;
+      allow delete: if false;
+    }
   }
 }
