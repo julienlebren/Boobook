@@ -18,10 +18,10 @@ mixin svg(svg_id)
     svg()&attributes(attributes)
         use(xlink:href='#'+svg_id)
 
-footer.mt-5
+footer
     .container
         .row.align-items-center.text-center
-            .col-md-auto.text-md-start
+            .col-lg-auto.text-md-start
                 p 
                     | ©&nbsp;
                     a(href=twitterUrl) Julien Le Bren
@@ -29,7 +29,7 @@ footer.mt-5
                     a(href=companyUrl) JLBIZ
                     | &nbsp;#{$i18n.footer.copyright}&nbsp;
                     a(href=privacyUrl) #{$i18n.footer.privacy}
-            .col-md.text-md-end
+            .col-lg.text-md-end
                 ul 
                     li
                         a(href=appStoreUrl)

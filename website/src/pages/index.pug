@@ -3,9 +3,14 @@ include mixins/page
 +page('home', `${brand} - ${$i18n.home.title}`, $i18n.home.description)
     .container
         .row.align-items-center
-            .col-md
+            .col-md-7
+                div.row.align-items-center.mb-5.mb-4.animate__animated.animate__fadeInDown
+                    .col.col-auto
+                        img.app-logo(src='/images/icon.png')
+                    .col.text-start
+                        span.h1.text-uppercase.brand= brand
+                
                 div
-                    p.h1.text-uppercase.brand.animate__animated.animate__fadeInDown= brand
                     h1.animate__animated.animate__slow.animate__fadeIn= $i18n.home.title
                     h2.animate__animated.animate__slow.animate__fadeIn= $i18n.home.description
                     div.animate__animated.animate__slow.animate__fadeIn
@@ -14,6 +19,6 @@ include mixins/page
                         a.download(href=googlePlayUrl)
                             img.img-fluid(src='/images/google_play_btn.png', alt=$i18n.home.brand)
 
-            .col-md
+            .col-md-5
                 img.animate__animated.animate__delay-1s.animate__slow.animate__fadeIn(src='/images/mockups.png', alt=$i18n.home.brand).float-md-end.img-fluid
 

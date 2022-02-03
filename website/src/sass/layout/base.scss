@@ -52,12 +52,25 @@ ul {
   outline: none;
 }
 
-p.brand {
+img.app-logo {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 5rem;
+  height: 5rem;
+  display: inline-block;
+
+  @media (max-width: 544px) {  
+    width: 4rem;
+    height: 4rem;
+  }
+}
+span.brand {
   text-transform: uppercase;
   color: $primaryColor;
   letter-spacing: 0.3rem;
   font-weight: 900;
   font-size: 3.4em;
+  display: inline-block;
 
   @media (max-width: 544px) {  
       font-size: 2.5em;
@@ -65,7 +78,6 @@ p.brand {
 }
 h1 {    
   line-height: 1.4;
-  margin: 2rem 0;
   letter-spacing: -0.035;
 
   @media (max-width: 544px) {  

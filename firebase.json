@@ -10,7 +10,7 @@
     ]
   },
   "hosting": {
-    "public": "web",
+    "public": "website/dist",
     "rewrites": [
       { "source": "/privacy**", "destination": "/privacy.html" },
       { "source": "/help**", "destination": "/help.html" }
@@ -19,7 +19,10 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "i18n": {
+      "root": "/localized"
+    }
   },
   "storage": {
     "rules": "storage.rules"
