@@ -6,7 +6,6 @@ import 'package:boobook/presentation/common_widgets/pupil_card.dart';
 import 'package:boobook/presentation/theme/theme.dart';
 import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/common_providers.dart';
-import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:boobook/repositories/pupil_repository.dart';

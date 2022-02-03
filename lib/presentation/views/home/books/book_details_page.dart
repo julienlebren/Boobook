@@ -2,7 +2,6 @@ import 'package:avatar/avatar.dart';
 import 'package:boobook/models/book.dart';
 import 'package:boobook/models/loan.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
-import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/presentation/theme/theme.dart';
 import 'package:boobook/presentation/views/home/books/book_list_page.dart';
@@ -120,12 +119,6 @@ class BookDetailsPageContents extends ConsumerWidget {
         color: appTheme.listTileBackground,
         child: CustomScrollView(
           slivers: [
-            /*SliverToBoxAdapter(
-            child: const BookTile(),
-          ),
-          SliverToBoxAdapter(
-            child: const FormSectionDivider(),
-          ),*/
             SliverToBoxAdapter(
               child: SizedBox(height: 6),
             ),

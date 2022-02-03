@@ -37,7 +37,7 @@ final boobookTheme = Provider<AppTheme>((ref) {
 
   return AppTheme(
     brightness: brightness,
-    primaryColor: Color(0xFF6da548), //Color(0xFF43A047),
+    primaryColor: Color(0xFF6DA548), //Color(0xFF43A047),
     secondaryColor: Color(0xFFF4C946),
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     materialSystemBarColor: Color(0xFFEEEEEE),

@@ -15,6 +15,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart' show platformPageRoute;
 
+class NavigatorKeys {
+  static final main = GlobalKey<NavigatorState>();
+  static final scan = GlobalKey<NavigatorState>();
+  static final loans = GlobalKey<NavigatorState>();
+  static final books = GlobalKey<NavigatorState>();
+  static final pupils = GlobalKey<NavigatorState>();
+  static final settings = GlobalKey<NavigatorState>();
+  static final loan = GlobalKey<NavigatorState>();
+}
+
 class AppRoutes {
   static const splashPage = 'home';
   static const scanPage = 'scan';

@@ -6,7 +6,6 @@ import 'package:boobook/presentation/common_widgets/book_tile.dart';
 import 'package:boobook/presentation/views/home/books/book_list_page.dart';
 import 'package:boobook/presentation/views/home/loans/loan_list_page.dart';
 import 'package:boobook/common_providers.dart';
-import 'package:boobook/presentation/routes/navigators.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
