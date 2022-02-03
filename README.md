@@ -4,8 +4,8 @@
 
 # Boobook
 
-[![Download on the App Store](assets/app_store_btn.png?202201271015)](https://apps.apple.com/app/boobook/1585948226)
-[![Download on Google Play](assets/google_play_btn.png?202201271015)](https://play.google.com/store/apps/details?id=net.jlbiz.boobook)
+[![Download on the App Store](media/app_store_btn.png?202201271015)](https://apps.apple.com/app/boobook/1585948226)
+[![Download on Google Play](media/google_play_btn.png?202201271015)](https://play.google.com/store/apps/details?id=net.jlbiz.boobook)
 
 This open-source project shows how to build a Flutter app with:
 - [x] [Firebase Authentication](https://firebase.google.com/products/auth) to handle user authentication
@@ -21,7 +21,7 @@ A lot of other topics are also covered by this project:
 - [x] Handle localization thanks to **flutter_localizations** and **Riverpod**
 - [x] Reuse components through all your apps made with Flutter
 
-![App preview](assets/app-screenshots.png)
+![App preview](media/app-screenshots.png)
 
 ## App Overview
 
