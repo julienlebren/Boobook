@@ -1,0 +1,25 @@
+/* Variables */
+
+// Palette Colors
+$primaryColor: #6da548;
+
+// Texts
+$inter: "Inter", sans-serif;
+$transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+
+// Bootstrap
+$text-color: #000;
+$font-family-base: $inter;
+$font-size-base: 1.2rem;
+$font-weight-base: 300;
+
+/* Libraries */
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../node_modules/animate.css/animate";
+
+/* Custom SASS */
+
+// Layout
+@import "layout/base";
+@import "layout/footer";

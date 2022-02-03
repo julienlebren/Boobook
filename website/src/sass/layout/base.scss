@@ -1,0 +1,91 @@
+/* Base styles */
+
+:root {
+  --viewport-height: 100vh;
+  --background-height: 100vh;
+}
+body {
+  font-weight: 300;
+  min-height: 100%;
+  background-image: url("/images/background.png");
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+@keyframes hide-scroll {
+  from,
+  to {
+    overflow: hidden;
+  }
+}
+
+
+figure {
+  margin: 0;
+}
+
+a {
+  transition: $transition;
+  color: rgba(36,36,36,0.588);
+}
+
+a:focus,
+a:active,
+a:hover {
+  outline: none;
+  color: $primaryColor;
+}
+
+p {
+  line-height: 25px;
+}
+
+ol,
+ul {
+  padding-left: 40px!important;
+}
+
+*:focus {
+  outline: none;
+}
+
+p.brand {
+  text-transform: uppercase;
+  color: $primaryColor;
+  letter-spacing: 0.3rem;
+  font-weight: 900;
+  font-size: 3.4em;
+
+  @media (max-width: 544px) {  
+      font-size: 2.5em;
+  }
+}
+h1 {    
+  line-height: 1.4;
+  margin: 2rem 0;
+  letter-spacing: -0.035;
+
+  @media (max-width: 544px) {  
+      font-size: 1.5rem;
+  }
+}
+h2 {    
+  color: rgba(36,36,36,0.588);
+  font-size: 1.4em;
+  line-height: 1.6;
+  font-weight: 300;
+  margin-bottom: 2rem;
+  letter-spacing: -0.035;
+
+  @media (max-width: 544px) {  
+      font-size: 1em;
+  }
+}
+a.download {
+  display: inline-block;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}

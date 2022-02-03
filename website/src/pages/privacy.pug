@@ -1,0 +1,49 @@
+include mixins/page
+
++page('privacy', $i18n.privacy.title)
+    .container
+        .row.align-items-center
+            .col
+                p.h1.text-uppercase.brand= brand
+            
+            .col.text-end
+                a(href=homeUrl) #{$i18n.privacy.back}
+        
+        .row
+            h1= $i18n.privacy.title
+
+            p= $i18n.privacy.intro
+
+            h3= $i18n.privacy.collected.title
+            p= $i18n.privacy.collected.p1
+            ul 
+                li= $i18n.privacy.collected.li1
+                li= $i18n.privacy.collected.li2
+
+            h3= $i18n.privacy.posting.title
+            p= $i18n.privacy.posting.p1
+
+            h3= $i18n.privacy.cookies.title
+            p= $i18n.privacy.cookies.p1
+            p= $i18n.privacy.cookies.p2
+            p= $i18n.privacy.cookies.p3
+
+            h3= $i18n.privacy.ip.title
+            p= $i18n.privacy.ip.p1
+            p= $i18n.privacy.ip.p2
+
+            h3= $i18n.privacy.sharing.title
+            p= $i18n.privacy.sharing.p1
+            ul 
+                li= $i18n.privacy.sharing.li1
+                li= $i18n.privacy.sharing.li2
+                li= $i18n.privacy.sharing.li3
+
+            h3= $i18n.privacy.changes.title
+            p= $i18n.privacy.changes.p1
+
+            h3= $i18n.privacy.links.title
+            p= $i18n.privacy.links.p1
+
+            h3= $i18n.privacy.acceptance.title
+            p= $i18n.privacy.acceptance.p1

@@ -1,0 +1,60 @@
+include ../mixins/google-analytics
+
+- var brand = 'Boobook'
+- var homeUrl = './'
+- var privacyUrl = './privacy'
+- var helpUrl = './help'
+- var appStoreUrl = 'https://apps.apple.com/app/boobook/1585948226'
+- var googlePlayUrl = 'https://play.google.com/store/apps/details?id=net.jlbiz.boobook'
+- var twitterUrl = 'https://twitter.com/hikeland'
+- var companyUrl = 'https://jlbiz.fr'
+- var gitHubUrl = 'https://github.com/julienlebren/Boobook'
+
+mixin page(pageName, title, description)
+    - const url = `https://boobook.app/${$i18n.lang}/${pageName}`
+
+    doctype html
+    html(class=pageName, lang=$i18n.lang)
+        head
+            meta(charset='utf-8')
+            meta(http-equiv='x-ua-compatible', content='ie=edge')
+            - if (description)
+                meta(name='description', content=description)
+            meta(name='viewport', content='width=device-width, initial-scale=1.0')
+            title= title
+
+            //- Favicon
+            link(rel='icon', type='image/png', href='/images/favicon.png')
+
+            //- Styles
+            link(rel='stylesheet', type='text/css', href='https://fonts.googleapis.com/css?family=Inter:light,regular,medium,bold')
+            link(rel='stylesheet', type='text/css', href='/css/style.min.css')
+
+            //- Chrome, Firefox OS and Opera
+            meta(name="theme-color", content="#6da548")
+
+            //- Windows Phone
+            meta(name="msapplication-navbutton-color", content="#6da548")
+
+            //- Open Graph
+            meta(property='og:locale', content= $i18n.lang + '_' + $i18n.region)
+            meta(property='og:type', content='website')
+            meta(property='og:title', content=title)
+            meta(property='og:site_name', content=title)
+            meta(property='og:description', content=description)
+            meta(property='og:url', content=url)
+            meta(property='og:image', content='https://boobook.app/images/preview_og.png')
+
+            //- Twitter
+            meta(name='twitter:card', content='summary')
+            meta(name='twitter:title', content=title)
+            meta(name='twitter:description', content=description)
+            meta(name='twitter:image', content='https://boobook.app/images/preview_twitter.png')
+
+        body(data-spy='scroll')
+            block
+            include ../layout/footer
+
+            script(src='/js/combined.js')
+
+            +google-analytics('G-225HWWJFNN')

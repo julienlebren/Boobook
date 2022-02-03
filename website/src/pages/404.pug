@@ -1,0 +1,13 @@
+include mixins/page
+
++page('page404', $i18n.page404.title)
+    .container
+        .row.text-center
+            p.h1.text-uppercase.brand= brand
+
+            h1= $i18n.page404.title
+            
+            div.mb-5
+                img.img-fluid.rounded(src='/images/logo.png', alt=$i18n.home.brand)
+
+            h2!= md($i18n.page404.home)
