@@ -63,7 +63,7 @@ class AppRouter {
           );
         case AppRoutes.scanPage:
           return platformPageRoute(
-            builder: (_) => const ScanNavigator(),
+            builder: (_) => scanNavigator(ref),
             fullscreenDialog: true,
           );
         case AppRoutes.scanMainPage:

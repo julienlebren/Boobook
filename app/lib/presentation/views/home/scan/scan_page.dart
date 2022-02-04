@@ -54,12 +54,7 @@ void _openLoanForm(WidgetRef ref) {
   navigator.pushReplacementNamed(AppRoutes.loanFormNavigator(id));
 }
 
-class ScanNavigator extends ConsumerWidget {
-  const ScanNavigator({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return PlatformTabNavigator(
+PlatformTabNavigator scanNavigator(WidgetRef ref) => PlatformTabNavigator(
       navigatorKey: NavigatorKeys.scan,
       onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, ref),
       initialRoute: AppRoutes.scanMainPage,
@@ -68,8 +63,6 @@ class ScanNavigator extends ConsumerWidget {
         ref,
       ),
     );
-  }
-}
 
 class ScanPage extends ConsumerWidget {
   const ScanPage({Key? key}) : super(key: key);

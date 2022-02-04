@@ -90,7 +90,7 @@ class _HomePageState extends ConsumerState<HomePage>
                 title: l10n.scanTab,
                 icon: Icon(CupertinoIcons.barcode_viewfinder),
                 selectedIcon: Icon(CupertinoIcons.barcode_viewfinder),
-                router: const ScanNavigator(),
+                router: scanNavigator(ref),
               ),
             TabItem(
               title: l10n.pupilsTab,
