@@ -46,7 +46,6 @@ app.*.map.json
 /android/app/release
 
 # Custom
-/docs/**
 ios/Podfile.lock
 pubspec.lock
 config.dart
