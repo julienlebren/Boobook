@@ -14,7 +14,6 @@ import 'package:purchases/purchases.dart';
 /// empty stream otherwise.
 final boobookUserStreamProvider = StreamProvider((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
-  print("userRepository: $userRepository");
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 

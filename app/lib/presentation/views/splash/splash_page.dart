@@ -11,7 +11,6 @@ class SplashPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
-    print("authState: $authState");
     return authState.maybeWhen(
       initializing: () => const ScaffoldLoader(),
       authed: () => const HomePage(),

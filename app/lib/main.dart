@@ -35,9 +35,9 @@ class BoobookApp extends ConsumerWidget {
     return ProviderScope(
       overrides: [
         appThemeProvider.overrideWithProvider(boobookTheme),
+        userStreamProvider.overrideWithProvider(boobookUserStreamProvider),
         purchasesSettingsProvider
             .overrideWithProvider(boobookPurchasesSettings),
-        userStreamProvider.overrideWithProvider(boobookUserStreamProvider),
       ],
       child: PlatformApp(
         locale: Locale.fromSubtags(languageCode: selectedLang.identifier),
