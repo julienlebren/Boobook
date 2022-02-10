@@ -7,22 +7,28 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:layout_builder/theme/theme.dart';
 import 'package:models/models.dart';
 import 'package:purchases/purchases.dart';
+import 'package:sign_in/sign_in.dart';
 
 /// A provider which listens to the user document in the database
 /// Returns a [User] object (which may not be confused with the Firebase
 /// User object, which is not used in the app) if it exists or an
 /// empty stream otherwise.
-final boobookUserStreamProvider = StreamProvider((ref) {
+final userStreamProvider = StreamProvider((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 
-/// To avoid too much rebuilds in the app by listening the whole
-/// profile object, we have many providers for each variables
+final needUserInfoProvider = Provider<bool>((_) => false);
+
+final authSettingsProvider = Provider<AuthSettings>((_) {
+  return AuthSettings(userStreamProvider, needUserInfoProvider);
+});
+
 final userProvider = Provider<User?>((ref) {
-  final userAsyncValue = ref.watch(boobookUserStreamProvider);
-  return userAsyncValue.maybeWhen(
-    data: (user) => user,
+  final authSettings = ref.watch(authSettingsProvider);
+  final authState = ref.watch(authStateProvider(authSettings));
+  return authState.maybeWhen(
+    authed: (user) => user,
     orElse: () => null,
   );
 });
