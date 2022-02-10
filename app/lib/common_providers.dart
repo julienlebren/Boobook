@@ -12,15 +12,16 @@ import 'package:purchases/purchases.dart';
 /// Returns a [User] object (which may not be confused with the Firebase
 /// User object, which is not used in the app) if it exists or an
 /// empty stream otherwise.
-final userStreamProvider = StreamProvider<User?>((ref) {
+final boobookUserStreamProvider = StreamProvider((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
+  print("userRepository: $userRepository");
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 
 /// To avoid too much rebuilds in the app by listening the whole
 /// profile object, we have many providers for each variables
 final userProvider = Provider<User?>((ref) {
-  final userAsyncValue = ref.watch(userStreamProvider);
+  final userAsyncValue = ref.watch(boobookUserStreamProvider);
   return userAsyncValue.maybeWhen(
     data: (user) => user,
     orElse: () => null,

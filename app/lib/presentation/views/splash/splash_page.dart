@@ -1,6 +1,5 @@
 import 'package:boobook/presentation/views/home/home_page.dart';
 import 'package:boobook/presentation/views/sign_in/sign_in_page.dart';
-import 'package:boobook/common_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
@@ -11,7 +10,8 @@ class SplashPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authStateProvider(userStreamProvider));
+    final authState = ref.watch(authStateProvider);
+    print("authState: $authState");
     return authState.maybeWhen(
       initializing: () => const ScaffoldLoader(),
       authed: () => const HomePage(),
