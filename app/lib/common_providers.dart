@@ -18,10 +18,8 @@ final userStreamProvider = StreamProvider((ref) {
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 
-final needUserInfoProvider = Provider<bool>((_) => false);
-
 final authSettingsProvider = Provider<AuthSettings>((_) {
-  return AuthSettings(userStreamProvider, needUserInfoProvider);
+  return AuthSettings(userStreamProvider);
 });
 
 final userProvider = Provider<User?>((ref) {
