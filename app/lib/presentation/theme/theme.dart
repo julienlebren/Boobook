@@ -1,7 +1,17 @@
-import 'package:flutter/services.dart';
+import 'package:boobook/common_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
+
+final boobookBrightnessProvider = Provider<Brightness>((ref) {
+  return ref.watch(userProvider.select((user) {
+    if (user != null) {
+      return user.theme.brightness;
+    } else {
+      return WidgetsBinding.instance!.window.platformBrightness;
+    }
+  }));
+});
 
 final boobookTheme = Provider<AppTheme>((ref) {
   final brightness = ref.watch(brightnessProvider);

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:layout_builder/layout_builder.dart'
-    show PlatformApp, appThemeProvider;
+    show PlatformApp, appThemeProvider, brightnessProvider;
 import 'package:purchases/purchases.dart';
 
 void main() async {
@@ -34,6 +34,7 @@ class BoobookApp extends ConsumerWidget {
     return ProviderScope(
       overrides: [
         appThemeProvider.overrideWithProvider(boobookTheme),
+        brightnessProvider.overrideWithProvider(boobookBrightnessProvider),
         purchasesSettingsProvider
             .overrideWithProvider(boobookPurchasesSettings),
       ],

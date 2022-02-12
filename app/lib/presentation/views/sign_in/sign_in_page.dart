@@ -26,7 +26,6 @@ class SignInPage extends ConsumerWidget {
           SignInLocalizations(
             signInAnonymously: l10n.signInAnonymously,
             signInWithApple: l10n.signInWithApple,
-            signInWithFacebook: l10n.signInWithFacebook,
             signInWithGoogle: l10n.signInWithGoogle,
             errorTitle: l10n.errorTitle,
           ),
