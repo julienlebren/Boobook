@@ -40,10 +40,10 @@ class BoobookApp extends ConsumerWidget {
       ],
       child: PlatformApp(
         locale: Locale.fromSubtags(languageCode: selectedLang.identifier),
-        navigatorKey: NavigatorKeys.main,
+        navigatorKey: AppRouter.main,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        initialRoute: AppRoutes.splashPage,
+        initialRoute: AppRouter.splashPage,
         onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, ref),
         builder: (context, child) {
           return ProviderScope(

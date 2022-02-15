@@ -13,7 +13,8 @@
     "public": "website/dist",
     "rewrites": [
       { "source": "/privacy**", "destination": "/privacy.html" },
-      { "source": "/help**", "destination": "/help.html" }
+      { "source": "/help**", "destination": "/help.html" },
+      { "source": "/auth/**", "dynamicLinks": true }
     ],
     "ignore": [
       "firebase.json",
@@ -22,7 +23,8 @@
     ],
     "i18n": {
       "root": "/localized"
-    }
+    },
+    "appAssociation": "AUTO"
   },
   "storage": {
     "rules": "storage.rules"

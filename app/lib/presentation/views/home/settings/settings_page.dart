@@ -284,8 +284,8 @@ class SettingsAccountSection extends ConsumerWidget {
               final url = isMaterial() ? googlePlayURL : appStoreURL;
               await launch(url);
             } else {
-              final navigator = NavigatorKeys.main.currentState!;
-              navigator.pushNamed(AppRoutes.subscriptionPage);
+              final navigator = AppRouter.main.currentState!;
+              navigator.pushNamed(AppRouter.subscriptionPage);
             }
           },
         ),

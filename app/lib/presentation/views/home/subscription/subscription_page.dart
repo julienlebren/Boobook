@@ -30,7 +30,7 @@ class SubscriptionPage extends ConsumerWidget {
           content: state.errorText!,
         );
       } else if (state.isSuccess) {
-        final navigator = NavigatorKeys.main.currentState!;
+        final navigator = AppRouter.main.currentState!;
         navigator.pop(context);
       }
     });

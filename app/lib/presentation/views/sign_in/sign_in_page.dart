@@ -1,4 +1,5 @@
 import 'package:boobook/common_providers.dart';
+import 'package:boobook/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
@@ -13,26 +14,31 @@ class SignInPage extends ConsumerWidget {
     final appTheme = ref.watch(appThemeProvider);
     final formTheme = ref.watch(formThemeProvider);
 
-    return ProviderScope(
-      overrides: [
-        signInThemeProvider.overrideWithValue(
-          SignInTheme(
-            landingBackgroundImage: "assets/images/background2.png",
-            buttonBackgroundColor: formTheme.rowBackgroundColor,
-            buttonTextColor: appTheme.textColor,
-          ),
-        ),
-        signInLocalizationsProvider.overrideWithValue(
-          SignInLocalizations(
-            signInAnonymously: l10n.signInAnonymously,
-            signInWithApple: l10n.signInWithApple,
-            signInWithGoogle: l10n.signInWithGoogle,
-            errorTitle: l10n.errorTitle,
-          ),
-        ),
-        signInLandingProvider.overrideWithValue(const SignInLandingLogo()),
-      ],
-      child: const SignInRouter(),
+    return SignInNavigator(
+      authSettings: AuthSettings(
+        userStreamProvider,
+        emailLinkUrl: emailLinkUrl,
+      ),
+      theme: SignInTheme(
+        landingBackgroundImage: "assets/images/background2.png",
+        buttonBackgroundColor: formTheme.rowBackgroundColor,
+        buttonTextColor: appTheme.textColor,
+      ),
+      localizations: SignInLocalizations(
+        signInAnonymously: l10n.signInAnonymously,
+        signInWithApple: l10n.signInWithApple,
+        signInWithGoogle: l10n.signInWithGoogle,
+        errorTitle: l10n.errorTitle,
+      ),
+      landingPage: SignInLandingPage(
+        logo: const SignInLandingLogo(),
+        buttons: SignInButtons([
+          SignInSupplier.apple,
+          SignInSupplier.google,
+          SignInSupplier.emailLink,
+          SignInSupplier.anonymous,
+        ]),
+      ),
     );
   }
 }

@@ -66,8 +66,8 @@ class BookDetailsPage extends ConsumerWidget {
   }
 
   Future<void> _edit(String id) async {
-    final navigator = NavigatorKeys.main.currentState!;
-    navigator.pushNamed(AppRoutes.bookFormPage(id));
+    final navigator = AppRouter.main.currentState!;
+    navigator.pushNamed(AppRouter.bookFormPage(id));
   }
 
   Future<void> _archive(WidgetRef ref, String id) async {
@@ -75,7 +75,7 @@ class BookDetailsPage extends ConsumerWidget {
     final book = ref.read(bookProvider(id));
     await repository.set(book.copyWith(isArchived: true));
 
-    final navigator = NavigatorKeys.books.currentState!;
+    final navigator = AppRouter.books.currentState!;
     navigator.pop();
   }
 

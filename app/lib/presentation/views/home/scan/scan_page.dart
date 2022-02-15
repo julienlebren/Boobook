@@ -50,16 +50,16 @@ void _openLoanForm(WidgetRef ref) {
   );
 
   final id = ref.read(loanRepositoryProvider).newDocumentId;
-  final navigator = NavigatorKeys.main.currentState!;
-  navigator.pushReplacementNamed(AppRoutes.loanFormNavigator(id));
+  final navigator = AppRouter.main.currentState!;
+  navigator.pushReplacementNamed(AppRouter.loanFormNavigator(id));
 }
 
 PlatformTabNavigator scanNavigator(WidgetRef ref) => PlatformTabNavigator(
-      navigatorKey: NavigatorKeys.scan,
+      navigatorKey: AppRouter.scan,
       onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, ref),
-      initialRoute: AppRoutes.scanMainPage,
+      initialRoute: AppRouter.scanMainPage,
       onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-        RouteSettings(name: AppRoutes.scanMainPage),
+        RouteSettings(name: AppRouter.scanMainPage),
         ref,
       ),
     );
@@ -136,9 +136,9 @@ class ScanPage extends ConsumerWidget {
           );
         });
       } else if (state.magazineBarCode != null) {
-        final navigator = NavigatorKeys.main.currentState!;
+        final navigator = AppRouter.main.currentState!;
         navigator.pushNamed(
-          AppRoutes.bookListPage,
+          AppRouter.bookListPage,
           arguments: BookPageArguments(
             magazineBarCode: state.magazineBarCode,
             onBookChanged: (book) => null,
@@ -206,8 +206,7 @@ class ScanPage extends ConsumerWidget {
                               color: Colors.white,
                               size: 28,
                               onPressed: () {
-                                final navigator =
-                                    NavigatorKeys.main.currentState!;
+                                final navigator = AppRouter.main.currentState!;
                                 navigator.pop();
                               },
                             ),
@@ -327,11 +326,11 @@ class UnknownBook extends ConsumerWidget {
               title: l10n.scanAddBook,
               onPressed: () {
                 final id = ref.read(bookRepositoryProvider).newDocumentId;
-                final navigator = NavigatorKeys.main.currentState!;
-                navigator.pushReplacementNamed(AppRoutes.bookFormPage(id));
+                final navigator = AppRouter.main.currentState!;
+                navigator.pushReplacementNamed(AppRouter.bookFormPage(id));
 
                 /*navigator.pushNamedAndRemoveUntil(
-                    AppRoutes.bookFormPage(state.barCode!.code!),
+                    AppRouter.bookFormPage(state.barCode!.code!),
                     (route) => route.isFirst,
                     arguments: ref);*/
               },
@@ -478,9 +477,9 @@ class BookAddTile extends ConsumerWidget {
               title: l10n.scanAddBookToList,
               onPressed: () {
                 if (bookCount > 8 && !isSubscribed) {
-                  final navigator = NavigatorKeys.main.currentState!;
+                  final navigator = AppRouter.main.currentState!;
                   navigator.pushReplacementNamed(
-                    AppRoutes.subscriptionPage,
+                    AppRouter.subscriptionPage,
                   );
                 } else {
                   final controller = ref.read(scanControllerProvider.notifier);
@@ -494,15 +493,15 @@ class BookAddTile extends ConsumerWidget {
               title: l10n.scanOpenForm,
               onPressed: () {
                 final state = ref.read(scanControllerProvider);
-                final navigator = NavigatorKeys.main.currentState!;
+                final navigator = AppRouter.main.currentState!;
 
                 if (bookCount > 8 && !isSubscribed) {
                   navigator.pushReplacementNamed(
-                    AppRoutes.subscriptionPage,
+                    AppRouter.subscriptionPage,
                   );
                 } else {
                   navigator.pushReplacementNamed(
-                    AppRoutes.bookFormPage(state.book!.id!),
+                    AppRouter.bookFormPage(state.book!.id!),
                   );
                 }
               },
@@ -607,8 +606,8 @@ class UnknownPupilTile extends ConsumerWidget {
         PlatformTextButton(
           title: l10n.scanPupilNotFoundPickPupil,
           onPressed: () {
-            final navigator = NavigatorKeys.scan.currentState!;
-            navigator.pushNamed(AppRoutes.pupilListPage);
+            final navigator = AppRouter.scan.currentState!;
+            navigator.pushNamed(AppRouter.pupilListPage);
           },
         ),
       ],

@@ -90,8 +90,8 @@ class LoanListPage extends ConsumerWidget {
 
   _addLoan(WidgetRef ref) {
     final id = ref.read(loanRepositoryProvider).newDocumentId;
-    final navigator = NavigatorKeys.main.currentState!;
-    navigator.pushNamed(AppRoutes.loanFormNavigator(id));
+    final navigator = AppRouter.main.currentState!;
+    navigator.pushNamed(AppRouter.loanFormNavigator(id));
   }
 
   @override
@@ -129,8 +129,8 @@ class LoanListPage extends ConsumerWidget {
           SizedBox(height: 10),
           FloatingActionButton(
             onPressed: () {
-              final navigator = NavigatorKeys.main.currentState!;
-              navigator.pushNamed(AppRoutes.scanPage);
+              final navigator = AppRouter.main.currentState!;
+              navigator.pushNamed(AppRouter.scanPage);
             },
             tooltip: l10n.scanBarcode,
             child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
@@ -235,8 +235,8 @@ class _LoanItem extends ConsumerWidget {
           title: l10n.loanActionEdit,
           icon: Icons.edit,
           onPressed: () {
-            final navigator = NavigatorKeys.loans.currentState!;
-            navigator.pushNamed(AppRoutes.loanFormPage(loan.id!));
+            final navigator = AppRouter.loans.currentState!;
+            navigator.pushNamed(AppRouter.loanFormPage(loan.id!));
           },
         ),
         PlatformModalSheetAction(

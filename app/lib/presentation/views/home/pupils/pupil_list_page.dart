@@ -111,8 +111,8 @@ class PupilListPage extends ConsumerWidget {
 
   _addPupil(WidgetRef ref) {
     final id = ref.read(pupilRepositoryProvider).newDocumentId;
-    final navigator = NavigatorKeys.main.currentState!;
-    navigator.pushNamed(AppRoutes.pupilFormPage(id));
+    final navigator = AppRouter.main.currentState!;
+    navigator.pushNamed(AppRouter.pupilFormPage(id));
   }
 
   @override
@@ -130,7 +130,7 @@ class PupilListPage extends ConsumerWidget {
         leading: isPicker
             ? PlatformNavigationBarCloseButton(
                 onPressed: () {
-                  final navigator = NavigatorKeys.main.currentState!;
+                  final navigator = AppRouter.main.currentState!;
                   navigator.pop();
                 },
               )
@@ -237,8 +237,8 @@ final _currentPupil = Provider<Pupil>((ref) {
 /// will be used when the user selects a pupil in the list.
 final pupilHandler = Provider<Function(Pupil)>(
   (ref) => ((Pupil pupil) {
-    final navigator = NavigatorKeys.pupils.currentState!;
-    navigator.pushNamed(AppRoutes.pupilDetailsPage(pupil.id!));
+    final navigator = AppRouter.pupils.currentState!;
+    navigator.pushNamed(AppRouter.pupilDetailsPage(pupil.id!));
   }),
 );
 

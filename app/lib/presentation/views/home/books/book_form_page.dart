@@ -118,9 +118,9 @@ class BookFormSubmitButton extends ConsumerWidget {
         ref.watch(userProvider.select((user) => user!.isSubscribed));
 
     if (bookCount > 8 && !isSubscribed) {
-      final navigator = NavigatorKeys.main.currentState!;
+      final navigator = AppRouter.main.currentState!;
       navigator.pushReplacementNamed(
-        AppRoutes.subscriptionPage,
+        AppRouter.subscriptionPage,
       );
     } else {
       _handleEvent(ref, BookFormEvent.save());

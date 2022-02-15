@@ -89,6 +89,7 @@ class BookFormController extends StateNotifier<BookFormState> {
       );
     } catch (e) {
       state = state.copyWith(
+        isSaving: false,
         errorText: e.toString(),
       );
     }

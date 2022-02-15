@@ -80,8 +80,8 @@ class PupilDetailsPage extends ConsumerWidget {
   }
 
   Future<void> _edit(String id) async {
-    final navigator = NavigatorKeys.main.currentState!;
-    navigator.pushNamed(AppRoutes.pupilFormPage(id));
+    final navigator = AppRouter.main.currentState!;
+    navigator.pushNamed(AppRouter.pupilFormPage(id));
   }
 
   Future<void> _archive(WidgetRef ref, String id) async {
@@ -89,7 +89,7 @@ class PupilDetailsPage extends ConsumerWidget {
     final pupil = ref.read(pupilProvider(id));
     await repository.set(pupil.copyWith(isArchived: true));
 
-    final navigator = NavigatorKeys.pupils.currentState!;
+    final navigator = AppRouter.pupils.currentState!;
     navigator.pop();
   }
 

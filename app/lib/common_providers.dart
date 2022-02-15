@@ -18,12 +18,13 @@ final userStreamProvider = StreamProvider((ref) {
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 
-final authSettingsProvider = Provider<AuthSettings>((_) {
+/*final authSettingsProvider = Provider<AuthSettings>((_) {
   return AuthSettings(userStreamProvider);
-});
+});*/
 
 final userProvider = Provider<User?>((ref) {
-  final authSettings = ref.watch(authSettingsProvider);
+  final authSettings = AuthSettings(userStreamProvider);
+  //ref.watch(authSettingsProvider);
   final authState = ref.watch(authStateProvider(authSettings));
   return authState.maybeWhen(
     authed: (user) => user,

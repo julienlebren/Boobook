@@ -61,12 +61,12 @@ class _HomePageState extends ConsumerState<HomePage>
               title: l10n.loansTab,
               icon: Icon(Icons.home),
               router: PlatformTabNavigator(
-                navigatorKey: NavigatorKeys.loans,
+                navigatorKey: AppRouter.loans,
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
-                initialRoute: AppRoutes.loanListPage,
+                initialRoute: AppRouter.loanListPage,
                 onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-                  RouteSettings(name: AppRoutes.loanListPage),
+                  RouteSettings(name: AppRouter.loanListPage),
                   ref,
                 ),
               ),
@@ -75,12 +75,12 @@ class _HomePageState extends ConsumerState<HomePage>
               title: l10n.booksTab,
               icon: Icon(Icons.auto_stories),
               router: PlatformTabNavigator(
-                navigatorKey: NavigatorKeys.books,
+                navigatorKey: AppRouter.books,
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
-                initialRoute: AppRoutes.bookListPage,
+                initialRoute: AppRouter.bookListPage,
                 onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-                  RouteSettings(name: AppRoutes.bookListPage),
+                  RouteSettings(name: AppRouter.bookListPage),
                   ref,
                 ),
               ),
@@ -96,12 +96,12 @@ class _HomePageState extends ConsumerState<HomePage>
               title: l10n.pupilsTab,
               icon: Icon(Icons.people),
               router: PlatformTabNavigator(
-                navigatorKey: NavigatorKeys.pupils,
+                navigatorKey: AppRouter.pupils,
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
-                initialRoute: AppRoutes.pupilListPage,
+                initialRoute: AppRouter.pupilListPage,
                 onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-                  RouteSettings(name: AppRoutes.pupilListPage),
+                  RouteSettings(name: AppRouter.pupilListPage),
                   ref,
                 ),
               ),
@@ -110,12 +110,12 @@ class _HomePageState extends ConsumerState<HomePage>
               title: l10n.settingsTab,
               icon: Icon(PlatformIcons.settings),
               router: PlatformTabNavigator(
-                navigatorKey: NavigatorKeys.settings,
+                navigatorKey: AppRouter.settings,
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
-                initialRoute: AppRoutes.settingsPage,
+                initialRoute: AppRouter.settingsPage,
                 onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-                  RouteSettings(name: AppRoutes.settingsPage),
+                  RouteSettings(name: AppRouter.settingsPage),
                   ref,
                 ),
               ),

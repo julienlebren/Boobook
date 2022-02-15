@@ -58,9 +58,9 @@ class LoanFormNavigator extends ConsumerWidget {
 
   void _onBookSelected(WidgetRef ref, Book book) {
     _handleEvent(ref, LoanFormEvent.bookChanged(book));
-    final navigator = NavigatorKeys.loan.currentState!;
+    final navigator = AppRouter.loan.currentState!;
     navigator.pushNamed(
-      AppRoutes.pupilListPage,
+      AppRouter.pupilListPage,
       arguments: PupilPageArguments(
         onPupilChanged: (pupil) => _onPupilSelected(ref, pupil),
         isPicker: true,
@@ -87,12 +87,12 @@ class LoanFormNavigator extends ConsumerWidget {
       final l10n = ref.watch(localizationProvider);
 
       if (state.isSuccess) {
-        final navigator = NavigatorKeys.main.currentState!;
+        final navigator = AppRouter.main.currentState!;
         navigator.pop(context);
       } else if (state.loan.book != null && state.loan.pupil != null) {
-        final navigator = NavigatorKeys.loan.currentState!;
+        final navigator = AppRouter.loan.currentState!;
         navigator.pushNamedAndRemoveUntil(
-          AppRoutes.loanFormPage(id),
+          AppRouter.loanFormPage(id),
           (Route<dynamic> route) => false,
         );
       } else if (state.errorText != null) {
@@ -111,15 +111,15 @@ class LoanFormNavigator extends ConsumerWidget {
         pupilHandler.overrideWithValue((pupil) => _onPupilSelected(ref, pupil)),
       ],
       child: Navigator(
-        key: NavigatorKeys.loan,
+        key: AppRouter.loan,
         onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, ref),
         initialRoute: (() {
           if (book == null) {
-            return AppRoutes.bookListPage;
+            return AppRouter.bookListPage;
           } else if (pupil == null) {
-            return AppRoutes.pupilListPage;
+            return AppRouter.pupilListPage;
           } else {
-            return AppRoutes.loanFormPage(id);
+            return AppRouter.loanFormPage(id);
           }
         }()),
       ),
@@ -155,7 +155,7 @@ class LoanFormPage extends ConsumerWidget {
         final l10n = ref.watch(localizationProvider);
 
         if (state.isSuccess) {
-          final navigator = NavigatorKeys.loans.currentState!;
+          final navigator = AppRouter.loans.currentState!;
           navigator.pop(context);
         } else if (state.errorText != null) {
           showErrorDialog(
@@ -174,7 +174,7 @@ class LoanFormPage extends ConsumerWidget {
         leading: isNewLoan == true
             ? PlatformNavigationBarCloseButton(
                 onPressed: () {
-                  final navigator = NavigatorKeys.main.currentState!;
+                  final navigator = AppRouter.main.currentState!;
                   navigator.pop();
                 },
               )
@@ -270,9 +270,9 @@ class _LoanFormGeneralSectionState
   void _openPupils(BuildContext context) {
     final id = ref.watch(selectedLoanId);
     final state = ref.read(loanControllerProvider(id));
-    final navigator = NavigatorKeys.main.currentState!;
+    final navigator = AppRouter.main.currentState!;
     navigator.pushNamed(
-      AppRoutes.pupilListPage,
+      AppRouter.pupilListPage,
       arguments: PupilPageArguments(
         pupilId: state.loan.pupil?.id,
         onPupilChanged: _onPupilChanged,
@@ -284,7 +284,7 @@ class _LoanFormGeneralSectionState
 
   void _onPupilChanged(Pupil pupil) {
     _handleEvent(ref, LoanFormEvent.pupilChanged(pupil));
-    final navigator = NavigatorKeys.main.currentState!;
+    final navigator = AppRouter.main.currentState!;
     navigator.pop(context);
   }
 

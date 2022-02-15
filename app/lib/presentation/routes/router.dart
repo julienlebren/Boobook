@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart' show platformPageRoute;
 
-class NavigatorKeys {
+class AppRouter {
   static final main = GlobalKey<NavigatorState>();
   static final scan = GlobalKey<NavigatorState>();
   static final loans = GlobalKey<NavigatorState>();
@@ -23,62 +23,57 @@ class NavigatorKeys {
   static final pupils = GlobalKey<NavigatorState>();
   static final settings = GlobalKey<NavigatorState>();
   static final loan = GlobalKey<NavigatorState>();
-}
 
-class AppRoutes {
   static const splashPage = 'home';
   static const scanPage = 'scan';
   static const scanMainPage = 'scan/scan';
   static const scanResultsPage = 'scan/results';
-  static const books = 'books';
   static const bookListPage = 'books';
   static bookDetailsPage(String id) => 'books/$id';
   static bookFormPage(String id) => 'books/$id/edit';
-  static const pupils = 'pupils';
   static const pupilListPage = 'pupils';
   static pupilDetailsPage(String id) => 'pupils/$id';
   static pupilFormPage(String id) => 'pupils/$id/edit';
-  static const loans = 'loans';
   static const loanListPage = 'loans';
   static const loanNewPage = 'loans/new';
   static loanFormNavigator(String id) => 'loans/$id';
   static loanFormPage(String id) => 'loans/$id/edit';
   static const settingsPage = 'settings';
   static const subscriptionPage = 'subscription';
-}
 
-class AppRouter {
   static Route<dynamic>? onGenerateRoute(
-      RouteSettings settings, WidgetRef ref) {
+    RouteSettings settings,
+    WidgetRef ref,
+  ) {
     if (settings.name != null) {
       switch (settings.name) {
-        case AppRoutes.splashPage:
+        case splashPage:
           return platformPageRoute(
             builder: (_) => const SplashPage(),
           );
-        case AppRoutes.subscriptionPage:
+        case subscriptionPage:
           return platformPageRoute(
             builder: (_) => const SubscriptionPage(),
             fullscreenDialog: true,
           );
-        case AppRoutes.scanPage:
+        case scanPage:
           return platformPageRoute(
             builder: (_) => scanNavigator(ref),
             fullscreenDialog: true,
           );
-        case AppRoutes.scanMainPage:
+        case scanMainPage:
           return platformPageRoute(
             builder: (_) => const ScanPage(),
           );
-        case AppRoutes.scanResultsPage:
+        case scanResultsPage:
           return platformPageRoute(
             builder: (_) => const ScanSheet(),
           );
-        case AppRoutes.settingsPage:
+        case settingsPage:
           return platformPageRoute(
             builder: (_) => const SettingsOverviewPage(),
           );
-        case AppRoutes.pupilListPage:
+        case pupilListPage:
           final args = settings.arguments as PupilPageArguments?;
           return MaterialPageRoute<dynamic>(
             builder: (_) {
@@ -96,7 +91,7 @@ class AppRouter {
             },
             fullscreenDialog: args?.isFullScreenRoute ?? false,
           );
-        case AppRoutes.bookListPage:
+        case bookListPage:
           final args = settings.arguments as BookPageArguments?;
           return MaterialPageRoute<dynamic>(
             builder: (_) {
@@ -115,7 +110,7 @@ class AppRouter {
             },
             fullscreenDialog: true,
           );
-        case AppRoutes.loanListPage:
+        case loanListPage:
           return platformPageRoute(
             builder: (_) => const LoanListPage(),
             fullscreenDialog: true,
@@ -128,7 +123,7 @@ class AppRouter {
         final id = split[1];
 
         // Loans
-        if (settings.name!.startsWith(AppRoutes.loans)) {
+        if (settings.name!.startsWith("loans")) {
           if (split.length == 3) {
             return platformPageRoute(
               builder: (_) => ProviderScope(
@@ -153,7 +148,7 @@ class AppRouter {
         }
 
         // Books
-        if (settings.name!.startsWith(AppRoutes.books)) {
+        if (settings.name!.startsWith("books")) {
           if (id.length == 20) {
             if (split.length == 3) {
               return platformPageRoute(
@@ -179,7 +174,7 @@ class AppRouter {
         }
 
         // Pupils
-        if (settings.name!.startsWith(AppRoutes.pupils)) {
+        if (settings.name!.startsWith("pupils")) {
           if (id.length == 20) {
             if (split.length == 3) {
               return platformPageRoute(
@@ -205,7 +200,8 @@ class AppRouter {
         }
       }
     }
-    /*throw Exception(
-        "The route ${settings.name} is not handled by the router 🤷");*/
+
+    throw Exception(
+        "The route ${settings.name} is not handled by the router 🤷");
   }
 }

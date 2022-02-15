@@ -115,8 +115,8 @@ class BookListPage extends ConsumerWidget {
 
   _addBook(WidgetRef ref) {
     final id = ref.read(bookRepositoryProvider).newDocumentId;
-    final navigator = NavigatorKeys.main.currentState!;
-    navigator.pushNamed(AppRoutes.bookFormPage(id));
+    final navigator = AppRouter.main.currentState!;
+    navigator.pushNamed(AppRouter.bookFormPage(id));
   }
 
   @override
@@ -131,7 +131,7 @@ class BookListPage extends ConsumerWidget {
         leading: isPicker
             ? PlatformNavigationBarCloseButton(
                 onPressed: () {
-                  final navigator = NavigatorKeys.main.currentState!;
+                  final navigator = AppRouter.main.currentState!;
                   navigator.pop();
                 },
               )
@@ -178,8 +178,8 @@ class BookListPage extends ConsumerWidget {
                 SizedBox(height: 10),
                 FloatingActionButton(
                   onPressed: () {
-                    final navigator = NavigatorKeys.main.currentState!;
-                    navigator.pushNamed(AppRoutes.scanPage);
+                    final navigator = AppRouter.main.currentState!;
+                    navigator.pushNamed(AppRouter.scanPage);
                   },
                   tooltip: l10n.scanBarcode,
                   child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
@@ -303,8 +303,8 @@ final _currentBook = Provider<Book>((ref) {
 /// will be used when the user selects a book in the list.
 final bookHandler = Provider<Function(Book)>(
   (ref) => ((Book book) {
-    final navigator = NavigatorKeys.books.currentState!;
-    navigator.pushNamed(AppRoutes.bookDetailsPage(book.id!));
+    final navigator = AppRouter.books.currentState!;
+    navigator.pushNamed(AppRouter.bookDetailsPage(book.id!));
   }),
 );
 

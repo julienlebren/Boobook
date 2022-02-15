@@ -56,6 +56,8 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="@string/fb_login_protocol_scheme" />
+            <data android:host="boobook.app" android:scheme="https"/>
+            <data android:host="boobook.app" android:scheme="http"/>
         </intent-filter>
     </activity>
     </application>
