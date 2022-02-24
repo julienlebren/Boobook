@@ -1,5 +1,4 @@
 import 'package:boobook/common_providers.dart';
-import 'package:boobook/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
@@ -10,41 +9,39 @@ class SignInPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = ref.watch(localizationProvider);
     final appTheme = ref.watch(appThemeProvider);
     final formTheme = ref.watch(formThemeProvider);
 
-    return SignInNavigator(
-      authSettings: AuthSettings(
-        userStreamProvider,
-        emailLinkUrl: emailLinkUrl,
-      ),
+    return SignInPageBuilder2(
       theme: SignInTheme(
-        landingBackgroundImage: "assets/images/background2.png",
         buttonBackgroundColor: formTheme.rowBackgroundColor,
         buttonTextColor: appTheme.textColor,
       ),
-      localizations: SignInLocalizations(
-        signInAnonymously: l10n.signInAnonymously,
-        signInWithApple: l10n.signInWithApple,
-        signInWithGoogle: l10n.signInWithGoogle,
-        errorTitle: l10n.errorTitle,
-      ),
-      landingPage: SignInLandingPage(
-        logo: const SignInLandingLogo(),
-        buttons: SignInButtons([
-          SignInSupplier.apple,
-          SignInSupplier.google,
-          SignInSupplier.emailLink,
-          SignInSupplier.anonymous,
-        ]),
-      ),
+      child: _SignInLandingPage(),
     );
   }
 }
 
-class SignInLandingLogo extends ConsumerWidget {
-  const SignInLandingLogo({Key? key}) : super(key: key);
+class _SignInLandingPage extends StatelessWidget {
+  const _SignInLandingPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SignInLandingPage(
+      backgroundImage: "assets/images/background2.png",
+      logo: const _SignInLandingLogo(),
+      buttons: SignInButtons([
+        SignInSupplier.apple,
+        SignInSupplier.google,
+        SignInSupplier.emailLink,
+        SignInSupplier.anonymous,
+      ]),
+    );
+  }
+}
+
+class _SignInLandingLogo extends ConsumerWidget {
+  const _SignInLandingLogo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

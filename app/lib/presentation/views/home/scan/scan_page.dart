@@ -17,6 +17,7 @@ import 'package:layout_builder/layout_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:sign_in/sign_in.dart';
 import 'package:vibration/vibration.dart';
 
 final scanControllerProvider =

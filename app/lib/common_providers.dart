@@ -13,7 +13,7 @@ import 'package:sign_in/sign_in.dart';
 /// Returns a [User] object (which may not be confused with the Firebase
 /// User object, which is not used in the app) if it exists or an
 /// empty stream otherwise.
-final userStreamProvider = StreamProvider((ref) {
+final boobookUserStreamProvider = StreamProvider((ref) {
   final userRepository = ref.watch(userRepositoryProvider);
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
@@ -23,14 +23,12 @@ final userStreamProvider = StreamProvider((ref) {
 });*/
 
 final userProvider = Provider<User?>((ref) {
-  final authSettings = AuthSettings(userStreamProvider);
-  //ref.watch(authSettingsProvider);
-  final authState = ref.watch(authStateProvider(authSettings));
+  final authState = ref.watch(authStateProvider);
   return authState.maybeWhen(
     authed: (user) => user,
     orElse: () => null,
   );
-});
+}, dependencies: [authStateProvider]);
 
 /// A provider to access AppLocalizations from everywhere in the app
 /// Overridden in the [PlatformApp] widget which returns either a
@@ -73,7 +71,10 @@ final selectedLangProvider = Provider<Language>((ref) {
   }
 
   return languages.first;
-});
+}, dependencies: [
+  languagesProvider,
+  userProvider,
+]);
 
 final boobookPurchasesSettings = Provider<PurchasesSettings>((ref) {
   final user = ref.watch(userProvider)!;

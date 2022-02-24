@@ -178,48 +178,42 @@ class SettingsAppearanceSection extends ConsumerWidget {
     final languages = ref.read(languagesProvider);
     final selectedLang = ref.watch(selectedLangProvider);
 
-    return ProviderScope(
-      overrides: [
-        themeLocalizationProvider
-            .overrideWithProvider(boobookThemeLocalizationProvider),
+    return FormSection(
+      title: l10n.settingsAppearanceSectionTitle,
+      children: [
+        FormTappableField(
+          label: l10n.settingsThemeLabel,
+          value: theme?.description(ref),
+          onPressed: () => showPlatformSinglePicker<ThemeType>(
+            context,
+            ref,
+            title: l10n.settingsThemeLabel,
+            data: ThemeType.values,
+            selectedValue: theme,
+            itemBuilder: (theme) => Text(theme.description(ref)),
+            onChanged: (theme) => _handleEvent(
+              ref,
+              SettingsEvent.themeChanged(theme),
+            ),
+          ),
+        ),
+        FormTappableField(
+          label: l10n.settingsLanguageLabel,
+          value: selectedLang.name,
+          onPressed: () => showPlatformSinglePicker<Language>(
+            context,
+            ref,
+            title: l10n.settingsLanguageLabel,
+            data: languages,
+            selectedValue: selectedLang,
+            itemBuilder: (lang) => Text(lang.name),
+            onChanged: (lang) => _handleEvent(
+              ref,
+              SettingsEvent.langChanged(lang.identifier),
+            ),
+          ),
+        ),
       ],
-      child: FormSection(
-        title: l10n.settingsAppearanceSectionTitle,
-        children: [
-          FormTappableField(
-            label: l10n.settingsThemeLabel,
-            value: theme?.description(ref),
-            onPressed: () => showPlatformSinglePicker<ThemeType>(
-              context,
-              ref,
-              title: l10n.settingsThemeLabel,
-              data: ThemeType.values,
-              selectedValue: theme,
-              itemBuilder: (theme) => Text(theme.description(ref)),
-              onChanged: (theme) => _handleEvent(
-                ref,
-                SettingsEvent.themeChanged(theme),
-              ),
-            ),
-          ),
-          FormTappableField(
-            label: l10n.settingsLanguageLabel,
-            value: selectedLang.name,
-            onPressed: () => showPlatformSinglePicker<Language>(
-              context,
-              ref,
-              title: l10n.settingsLanguageLabel,
-              data: languages,
-              selectedValue: selectedLang,
-              itemBuilder: (lang) => Text(lang.name),
-              onChanged: (lang) => _handleEvent(
-                ref,
-                SettingsEvent.langChanged(lang.identifier),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

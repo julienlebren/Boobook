@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
 
-final boobookBrightnessProvider = Provider<Brightness>((ref) {
+final brightnessProvider = Provider<Brightness>((ref) {
   return ref.watch(userProvider.select((user) {
     if (user != null) {
       return user.theme.brightness;

@@ -9,11 +9,13 @@ import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/presentation/views/home/settings/settings_page.dart';
 import 'package:boobook/presentation/views/home/subscription/subscription_page.dart';
+import 'package:boobook/presentation/views/sign_in/sign_in_page.dart';
 import 'package:boobook/presentation/views/splash/splash_page.dart';
 import 'package:boobook/common_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart' show platformPageRoute;
+import 'package:sign_in/sign_in.dart';
 
 class AppRouter {
   static final main = GlobalKey<NavigatorState>();
@@ -198,6 +200,11 @@ class AppRouter {
             }
           }
         }
+      }
+
+      // Sign-in routes
+      if (settings.name!.startsWith("sign-in")) {
+        SignInRouter.onGenerateRoute(settings);
       }
     }
 

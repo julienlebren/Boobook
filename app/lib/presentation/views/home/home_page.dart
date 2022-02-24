@@ -1,4 +1,5 @@
 import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/theme/theme.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/common_providers.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,8 +14,6 @@ import 'package:layout_builder/layout_builder.dart'
         currentTabIndexProvider,
         isCupertino,
         tabsProvider;
-import 'package:layout_builder/theme/theme.dart';
-import 'package:purchases/purchases.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,8 +28,8 @@ class _HomePageState extends ConsumerState<HomePage>
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
-    final purchasesService = ref.read(purchasesServiceProvider);
-    purchasesService.setup();
+    //final purchasesService = ref.read(purchasesServiceProvider);
+    //purchasesService.setup();
   }
 
   @override
@@ -42,8 +41,8 @@ class _HomePageState extends ConsumerState<HomePage>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      final purchasesService = ref.read(purchasesServiceProvider);
-      purchasesService.refreshSubscription();
+      //final purchasesService = ref.read(purchasesServiceProvider);
+      //purchasesService.refreshSubscription();
     }
     ref.refresh(brightnessProvider);
   }

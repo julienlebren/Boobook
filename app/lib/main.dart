@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:boobook/common_providers.dart';
 import 'package:boobook/presentation/routes/router.dart';
 import 'package:boobook/presentation/theme/theme.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:layout_builder/layout_builder.dart'
     show PlatformApp, appThemeProvider, brightnessProvider;
-import 'package:purchases/purchases.dart';
+import 'package:sign_in/sign_in.dart';
 
 void main() async {
   await runZonedGuarded(() async {
@@ -34,9 +35,9 @@ class BoobookApp extends ConsumerWidget {
     return ProviderScope(
       overrides: [
         appThemeProvider.overrideWithProvider(boobookTheme),
-        brightnessProvider.overrideWithProvider(boobookBrightnessProvider),
-        purchasesSettingsProvider
-            .overrideWithProvider(boobookPurchasesSettings),
+        /*purchasesSettingsProvider
+            .overrideWithProvider(boobookPurchasesSettings),*/
+        userStreamProvider.overrideWithProvider(boobookUserStreamProvider),
       ],
       child: PlatformApp(
         locale: Locale.fromSubtags(languageCode: selectedLang.identifier),
