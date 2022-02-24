@@ -1,4 +1,3 @@
-import 'dart:ui' as ui;
 import 'package:boobook/config.dart';
 import 'package:boobook/models/user.dart';
 import 'package:boobook/repositories/user_repository.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:layout_builder/theme/theme.dart';
 import 'package:localization/localization.dart';
-import 'package:models/models.dart';
 import 'package:purchases/purchases.dart';
 import 'package:sign_in/sign_in.dart';
 
@@ -35,10 +33,7 @@ final userProvider = Provider<User?>((ref) {
 /// Overridden in the [PlatformApp] widget which returns either a
 /// [MaterialApp] or a [CupertinoApp].
 final localizationProvider = Provider<AppLocalizations>((ref) {
-  final languageCode = ref.watch(
-    userProvider.select((user) => user?.lang),
-  );
-  final locale = ref.watch(localeProvider(languageCode));
+  final locale = ref.watch(localeProvider);
   return lookupAppLocalizations(locale);
 });
 

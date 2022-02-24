@@ -180,7 +180,7 @@ class SettingsAppearanceSection extends ConsumerWidget {
     final languageCode = ref.watch(
       userProvider.select((user) => user?.lang),
     );
-    final locale = ref.watch(localeProvider(languageCode));
+    final locale = ref.watch(localeProvider);
     final locales = ref.read(localesProvider);
 
     return FormSection(

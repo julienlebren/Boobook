@@ -34,7 +34,7 @@ class BoobookApp extends ConsumerWidget {
     final languageCode = ref.watch(
       userProvider.select((user) => user?.lang),
     );
-    final locale = ref.watch(localeProvider(languageCode));
+    final locale = ref.watch(localeProvider);
 
     return ProviderScope(
       overrides: [
@@ -42,6 +42,7 @@ class BoobookApp extends ConsumerWidget {
         /*purchasesSettingsProvider
             .overrideWithProvider(boobookPurchasesSettings),*/
         userStreamProvider.overrideWithProvider(boobookUserStreamProvider),
+        userLanguageProvider.overrideWithValue(languageCode),
       ],
       child: PlatformApp(
         locale: locale,
