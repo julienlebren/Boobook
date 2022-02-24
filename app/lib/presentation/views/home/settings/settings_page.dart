@@ -5,6 +5,7 @@ import 'package:boobook/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
+import 'package:localization/localization.dart';
 import 'package:models/models.dart';
 import 'package:purchases/purchases.dart';
 import 'package:sign_in/sign_in.dart';
@@ -175,8 +176,12 @@ class SettingsAppearanceSection extends ConsumerWidget {
         (user) => user?.theme,
       ),
     );
-    final languages = ref.read(languagesProvider);
-    final selectedLang = ref.watch(selectedLangProvider);
+
+    final languageCode = ref.watch(
+      userProvider.select((user) => user?.lang),
+    );
+    final locale = ref.watch(localeProvider(languageCode));
+    final locales = ref.read(localesProvider);
 
     return FormSection(
       title: l10n.settingsAppearanceSectionTitle,
@@ -199,17 +204,17 @@ class SettingsAppearanceSection extends ConsumerWidget {
         ),
         FormTappableField(
           label: l10n.settingsLanguageLabel,
-          value: selectedLang.name,
-          onPressed: () => showPlatformSinglePicker<Language>(
+          value: locale.toString(),
+          onPressed: () => showPlatformSinglePicker<Locale>(
             context,
             ref,
             title: l10n.settingsLanguageLabel,
-            data: languages,
-            selectedValue: selectedLang,
-            itemBuilder: (lang) => Text(lang.name),
-            onChanged: (lang) => _handleEvent(
+            data: locales,
+            selectedValue: locale,
+            itemBuilder: (locale) => Text(locale.toString()),
+            onChanged: (locale) => _handleEvent(
               ref,
-              SettingsEvent.langChanged(lang.identifier),
+              SettingsEvent.langChanged(locale.languageCode),
             ),
           ),
         ),

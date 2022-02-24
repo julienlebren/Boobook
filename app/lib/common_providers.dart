@@ -38,47 +38,9 @@ final localizationProvider = Provider<AppLocalizations>((ref) {
   final languageCode = ref.watch(
     userProvider.select((user) => user?.lang),
   );
-  final locale = ref.read(localeProvider(languageCode));
+  final locale = ref.watch(localeProvider(languageCode));
   return lookupAppLocalizations(locale);
 });
-
-/// Availables languages in the app
-final languagesProvider = Provider<List<Language>>((ref) {
-  return [
-    Language(identifier: "en", name: "English", isDefault: true),
-    Language(identifier: "fr", name: "Français"),
-  ];
-});
-
-final selectedLangProvider = Provider<Language>((ref) {
-  final languages = ref.read(languagesProvider);
-
-  if (languages.isEmpty) {
-    throw UnimplementedError();
-  }
-
-  final localeFallback = ui.window.locale.languageCode;
-  final langCode = ref.watch(
-    userProvider.select((user) => user?.lang ?? localeFallback),
-  );
-
-  var filteredLanguages = languages.where(
-    (lang) => lang.identifier == langCode,
-  );
-  if (filteredLanguages.isNotEmpty) {
-    return filteredLanguages.first;
-  }
-
-  filteredLanguages = languages.where((lang) => lang.isDefault == true);
-  if (filteredLanguages.isNotEmpty) {
-    return filteredLanguages.first;
-  }
-
-  return languages.first;
-}, dependencies: [
-  languagesProvider,
-  userProvider,
-]);
 
 final boobookPurchasesSettings = Provider<PurchasesSettings>((ref) {
   final user = ref.watch(userProvider)!;

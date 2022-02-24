@@ -9,7 +9,6 @@ import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/presentation/views/home/settings/settings_page.dart';
 import 'package:boobook/presentation/views/home/subscription/subscription_page.dart';
-import 'package:boobook/presentation/views/sign_in/sign_in_page.dart';
 import 'package:boobook/presentation/views/splash/splash_page.dart';
 import 'package:boobook/common_providers.dart';
 import 'package:flutter/material.dart';

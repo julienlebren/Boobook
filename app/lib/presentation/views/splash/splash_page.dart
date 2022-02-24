@@ -1,4 +1,3 @@
-import 'package:boobook/common_providers.dart';
 import 'package:boobook/presentation/views/home/home_page.dart';
 import 'package:boobook/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';

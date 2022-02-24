@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:layout_builder/layout_builder.dart'
-    show PlatformApp, appThemeProvider, brightnessProvider;
+    show PlatformApp, appThemeProvider;
+import 'package:localization/localization.dart';
 import 'package:sign_in/sign_in.dart';
 
 void main() async {
@@ -30,7 +31,10 @@ class BoobookApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedLang = ref.watch(selectedLangProvider);
+    final languageCode = ref.watch(
+      userProvider.select((user) => user?.lang),
+    );
+    final locale = ref.watch(localeProvider(languageCode));
 
     return ProviderScope(
       overrides: [
@@ -40,7 +44,7 @@ class BoobookApp extends ConsumerWidget {
         userStreamProvider.overrideWithProvider(boobookUserStreamProvider),
       ],
       child: PlatformApp(
-        locale: Locale.fromSubtags(languageCode: selectedLang.identifier),
+        locale: locale,
         navigatorKey: AppRouter.main,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
