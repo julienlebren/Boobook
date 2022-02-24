@@ -1,6 +1,6 @@
 import 'package:boobook/config.dart';
 import 'package:boobook/common_providers.dart';
-import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';

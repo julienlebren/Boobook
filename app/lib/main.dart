@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:boobook/common_providers.dart';
-import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:boobook/presentation/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';

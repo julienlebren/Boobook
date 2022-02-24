@@ -2,7 +2,7 @@ import 'package:avatar/avatar.dart';
 import 'package:boobook/models/pupil.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
 import 'package:boobook/presentation/common_widgets/pupil_card.dart';
-import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:boobook/common_providers.dart';
 import 'package:boobook/repositories/pupil_repository.dart';
 import 'package:flutter/cupertino.dart';

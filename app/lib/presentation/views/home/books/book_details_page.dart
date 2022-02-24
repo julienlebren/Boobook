@@ -2,7 +2,7 @@ import 'package:avatar/avatar.dart';
 import 'package:boobook/models/book.dart';
 import 'package:boobook/models/loan.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
-import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:boobook/presentation/theme/theme.dart';
 import 'package:boobook/presentation/views/home/books/book_list_page.dart';
 import 'package:boobook/common_providers.dart';

@@ -4,7 +4,7 @@ import 'package:boobook/models/book.dart';
 import 'package:boobook/presentation/common_widgets/book_availability.dart';
 import 'package:boobook/presentation/views/home/books/book_list_page.dart';
 import 'package:boobook/common_providers.dart';
-import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:boobook/repositories/book_repository.dart';
 import 'package:barcode_widget/barcode_widget.dart' show BarcodeWidget;
 import 'package:barcode_widget/barcode_widget.dart' as bcw show Barcode;

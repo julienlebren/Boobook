@@ -1,4 +1,4 @@
-import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:boobook/presentation/theme/theme.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/common_providers.dart';

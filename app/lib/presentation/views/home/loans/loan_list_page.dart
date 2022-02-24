@@ -1,7 +1,7 @@
 import 'package:boobook/models/loan.dart';
 import 'package:boobook/presentation/common_widgets/book_cover.dart';
 import 'package:boobook/presentation/common_widgets/empty_data.dart';
-import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:boobook/common_providers.dart';
 import 'package:boobook/repositories/loan_repository.dart';
 import 'package:flutter/cupertino.dart';

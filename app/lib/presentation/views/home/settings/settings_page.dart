@@ -1,5 +1,5 @@
 import 'package:boobook/controllers/settings_controller.dart';
-import 'package:boobook/presentation/routes/router.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:boobook/common_providers.dart';
 import 'package:boobook/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
