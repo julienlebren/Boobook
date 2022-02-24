@@ -36,11 +36,11 @@ dependencies:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/layout_builder
     version: ^2.0.0
-  localization:
+  localization: 
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/localization
-    version: ^0.1.1
+    version: ^0.1.2
   models:
     git:
       url: https://github.com/julienlebren/flutter_packages

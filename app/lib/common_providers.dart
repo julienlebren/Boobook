@@ -34,7 +34,10 @@ final userProvider = Provider<User?>((ref) {
 /// Overridden in the [PlatformApp] widget which returns either a
 /// [MaterialApp] or a [CupertinoApp].
 final localizationProvider = Provider<AppLocalizations>((ref) {
-  final locale = ui.window.locale;
+  final languageCode = ref.watch(
+    userProvider.select((user) => user?.lang),
+  );
+  final locale = ref.read(localeProvider(languageCode));
   return lookupAppLocalizations(locale);
 });
 
