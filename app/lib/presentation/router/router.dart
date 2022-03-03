@@ -10,11 +10,9 @@ import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/presentation/views/home/settings/settings_page.dart';
 import 'package:boobook/presentation/views/home/subscription/subscription_page.dart';
 import 'package:boobook/common_providers.dart';
-import 'package:boobook/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart' show platformPageRoute;
-import 'package:sign_in/sign_in.dart';
 
 class AppRouter {
   static final main = GlobalKey<NavigatorState>();
@@ -41,7 +39,7 @@ class AppRouter {
   static const settingsPage = 'settings';
   static const subscriptionPage = 'subscription';
 
-  static Route<dynamic>? onGenerateRoute(
+  static PageRoute<dynamic>? onGenerateRoute(
     RouteSettings settings,
     WidgetRef ref,
   ) {
@@ -195,19 +193,8 @@ class AppRouter {
           }
         }
       }
-
-      // Sign-in routes
-      if (settings.name!.startsWith("sign-in")) {
-        if (settings.name == SignInRoutes.signInLandingPage) {
-          return platformPageRoute(
-            builder: (_) => const SignInLandingPage(),
-          );
-        }
-        return SignInRouter.onGenerateRoute(settings, ref);
-      }
     }
 
-    throw Exception(
-        "The route ${settings.name} is not handled by the router 🤷");
+    return null;
   }
 }

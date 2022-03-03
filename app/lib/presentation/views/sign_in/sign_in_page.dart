@@ -30,33 +30,21 @@ class SignInPage extends StatelessWidget {
           AppRouter.onGenerateRoute,
         ),
       ],
-      child: SignInNavigator(
-        navigatorKey: SignInNavigatorKeys.main,
-        routeName: SignInRoutes.signInLandingPage,
-      ),
-    );
-  }
-}
-
-class SignInLandingPage extends ConsumerWidget {
-  const SignInLandingPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SignInLandingPageBuilder(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          const Spacer(),
-          const SignInLandingLogo(),
-          const Spacer(),
-          SignInButtons(const [
-            SignInSupplier.apple,
-            SignInSupplier.google,
-            SignInSupplier.anonymous,
-          ]),
-        ],
+      child: SignInLandingPageBuilder(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            const Spacer(),
+            const SignInLandingLogo(),
+            const Spacer(),
+            SignInButtons(const [
+              SignInSupplier.apple,
+              SignInSupplier.google,
+              SignInSupplier.anonymous,
+            ]),
+          ],
+        ),
       ),
     );
   }

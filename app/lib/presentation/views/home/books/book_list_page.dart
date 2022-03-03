@@ -124,70 +124,73 @@ class BookListPage extends ConsumerWidget {
     final l10n = ref.watch(localizationProvider);
     final isPicker = ref.watch(pickerProvider);
 
-    return PlatformScaffold(
-      appBar: PlatformNavigationBar(
-        title: isPicker ? l10n.bookPickerTitle : l10n.bookListTitle,
-        hasBorder: isMaterial(),
-        leading: isPicker
-            ? PlatformNavigationBarCloseButton(
-                onPressed: () {
-                  final navigator = AppRouter.main.currentState!;
-                  navigator.pop();
-                },
-              )
-            : null,
-        trailing: isPicker
+    return WillPopScope(
+      onWillPop: () async => isPicker,
+      child: PlatformScaffold(
+        appBar: PlatformNavigationBar(
+          title: isPicker ? l10n.bookPickerTitle : l10n.bookListTitle,
+          hasBorder: isMaterial(),
+          leading: isPicker
+              ? PlatformNavigationBarCloseButton(
+                  onPressed: () {
+                    final navigator = AppRouter.main.currentState!;
+                    navigator.pop();
+                  },
+                )
+              : null,
+          trailing: isPicker
+              ? null
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (isCupertino())
+                      PlatformNavigationBarButton(
+                        icon: PlatformIcons.add,
+                        onPressed: () => _addBook(ref),
+                      ),
+                    PlatformNavigationBarButton(
+                      icon: Icons.sort,
+                      onPressed: () => _openMenu(context, ref),
+                    ),
+                  ],
+                ),
+        ),
+        body: Column(
+          children: [
+            if (isCupertino()) ...[
+              BookListSearchBar(),
+              CupertinoNavigationBarBorder(),
+            ],
+            Expanded(
+              child: const BookListPageContents(),
+            ),
+          ],
+        ),
+        floatingActionButton: isPicker
             ? null
-            : Row(
+            : Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (isCupertino())
-                    PlatformNavigationBarButton(
-                      icon: PlatformIcons.add,
-                      onPressed: () => _addBook(ref),
-                    ),
-                  PlatformNavigationBarButton(
-                    icon: Icons.sort,
-                    onPressed: () => _openMenu(context, ref),
+                  FloatingActionButton(
+                    onPressed: () => _addBook(ref),
+                    tooltip: l10n.scanBarcode,
+                    child: Icon(Icons.add, size: 30),
+                    heroTag: null,
+                  ),
+                  SizedBox(height: 10),
+                  FloatingActionButton(
+                    onPressed: () {
+                      final navigator = AppRouter.main.currentState!;
+                      navigator.pushNamed(AppRouter.scanPage);
+                    },
+                    tooltip: l10n.scanBarcode,
+                    child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
+                    heroTag: null,
                   ),
                 ],
               ),
+        isModal: isPicker,
       ),
-      body: Column(
-        children: [
-          if (isCupertino()) ...[
-            BookListSearchBar(),
-            CupertinoNavigationBarBorder(),
-          ],
-          Expanded(
-            child: const BookListPageContents(),
-          ),
-        ],
-      ),
-      floatingActionButton: isPicker
-          ? null
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FloatingActionButton(
-                  onPressed: () => _addBook(ref),
-                  tooltip: l10n.scanBarcode,
-                  child: Icon(Icons.add, size: 30),
-                  heroTag: null,
-                ),
-                SizedBox(height: 10),
-                FloatingActionButton(
-                  onPressed: () {
-                    final navigator = AppRouter.main.currentState!;
-                    navigator.pushNamed(AppRouter.scanPage);
-                  },
-                  tooltip: l10n.scanBarcode,
-                  child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
-                  heroTag: null,
-                ),
-              ],
-            ),
-      isModal: isPicker,
     );
   }
 }

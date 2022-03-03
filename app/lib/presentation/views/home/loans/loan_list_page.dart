@@ -98,45 +98,48 @@ class LoanListPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = ref.watch(localizationProvider);
 
-    return PlatformScaffold(
-      appBar: PlatformNavigationBar(
-        title: l10n.loanListTitle,
-        trailing: Row(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: PlatformScaffold(
+        appBar: PlatformNavigationBar(
+          title: l10n.loanListTitle,
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isCupertino())
+                PlatformNavigationBarButton(
+                  icon: PlatformIcons.add,
+                  onPressed: () => _addLoan(ref),
+                ),
+              PlatformNavigationBarButton(
+                icon: Icons.sort,
+                onPressed: () => _openMenu(context, ref),
+              ),
+            ],
+          ),
+        ),
+        body: const LoanListPageContents(),
+        floatingActionButton: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (isCupertino())
-              PlatformNavigationBarButton(
-                icon: PlatformIcons.add,
-                onPressed: () => _addLoan(ref),
-              ),
-            PlatformNavigationBarButton(
-              icon: Icons.sort,
-              onPressed: () => _openMenu(context, ref),
+            FloatingActionButton(
+              onPressed: () => _addLoan(ref),
+              tooltip: l10n.scanBarcode,
+              child: Icon(Icons.add, size: 30),
+              heroTag: null,
+            ),
+            SizedBox(height: 10),
+            FloatingActionButton(
+              onPressed: () {
+                final navigator = AppRouter.main.currentState!;
+                navigator.pushNamed(AppRouter.scanPage);
+              },
+              tooltip: l10n.scanBarcode,
+              child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
+              heroTag: null,
             ),
           ],
         ),
-      ),
-      body: const LoanListPageContents(),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton(
-            onPressed: () => _addLoan(ref),
-            tooltip: l10n.scanBarcode,
-            child: Icon(Icons.add, size: 30),
-            heroTag: null,
-          ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            onPressed: () {
-              final navigator = AppRouter.main.currentState!;
-              navigator.pushNamed(AppRouter.scanPage);
-            },
-            tooltip: l10n.scanBarcode,
-            child: Icon(CupertinoIcons.barcode_viewfinder, size: 36),
-            heroTag: null,
-          ),
-        ],
       ),
     );
   }

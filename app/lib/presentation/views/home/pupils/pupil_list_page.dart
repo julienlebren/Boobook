@@ -124,47 +124,50 @@ class PupilListPage extends ConsumerWidget {
     // Used to know if we are in add mode or edit mode
     final id = ref.watch(selectedPupilId);
 
-    return PlatformScaffold(
-      appBar: PlatformNavigationBar(
-        title: isPicker ? l10n.pupilPickerTitle : l10n.pupilListTitle,
-        leading: isPicker
-            ? PlatformNavigationBarCloseButton(
-                onPressed: () {
-                  final navigator = AppRouter.main.currentState!;
-                  navigator.pop();
-                },
-              )
-            : null,
-        trailing: isPicker
-            ? SizedBox.shrink()
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (isCupertino())
-                    PlatformNavigationBarButton(
-                      icon: PlatformIcons.add,
-                      onPressed: () => _addPupil(ref),
-                    ),
-                  if (id == null && pupils != null && pupils.isNotEmpty)
-                    PlatformNavigationBarButton(
-                      icon: isCupertino()
-                          ? CupertinoIcons.creditcard
-                          : PlatformIcons.more,
-                      onPressed: () => _openMenu(context, ref),
-                    ),
-                ],
+    return WillPopScope(
+      onWillPop: () async => isPicker,
+      child: PlatformScaffold(
+        appBar: PlatformNavigationBar(
+          title: isPicker ? l10n.pupilPickerTitle : l10n.pupilListTitle,
+          leading: isPicker
+              ? PlatformNavigationBarCloseButton(
+                  onPressed: () {
+                    final navigator = AppRouter.main.currentState!;
+                    navigator.pop();
+                  },
+                )
+              : null,
+          trailing: isPicker
+              ? SizedBox.shrink()
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (isCupertino())
+                      PlatformNavigationBarButton(
+                        icon: PlatformIcons.add,
+                        onPressed: () => _addPupil(ref),
+                      ),
+                    if (id == null && pupils != null && pupils.isNotEmpty)
+                      PlatformNavigationBarButton(
+                        icon: isCupertino()
+                            ? CupertinoIcons.creditcard
+                            : PlatformIcons.more,
+                        onPressed: () => _openMenu(context, ref),
+                      ),
+                  ],
+                ),
+        ),
+        body: const PupilListPageContents(),
+        floatingActionButton: isPicker
+            ? null
+            : FloatingActionButton(
+                onPressed: () => _addPupil(ref),
+                tooltip: l10n.pupilAdd,
+                child: Icon(Icons.add, size: 30),
+                heroTag: null,
               ),
+        isModal: isPicker,
       ),
-      body: const PupilListPageContents(),
-      floatingActionButton: isPicker
-          ? null
-          : FloatingActionButton(
-              onPressed: () => _addPupil(ref),
-              tooltip: l10n.pupilAdd,
-              child: Icon(Icons.add, size: 30),
-              heroTag: null,
-            ),
-      isModal: isPicker,
     );
   }
 }

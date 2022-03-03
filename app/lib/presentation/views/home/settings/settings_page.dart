@@ -36,17 +36,20 @@ class SettingsOverviewPage extends ConsumerWidget {
           sectionDividerPadding: 0,
         ))*/
       ],
-      child: PlatformScaffold(
-        appBar: PlatformNavigationBar(
-          title: l10n.settingsTitle,
-        ),
-        body: FormPage(
-          children: [
-            const SettingsLoansSection(),
-            const SettingsCardsSection(),
-            const SettingsAppearanceSection(),
-            const SettingsAccountSection(),
-          ],
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: PlatformScaffold(
+          appBar: PlatformNavigationBar(
+            title: l10n.settingsTitle,
+          ),
+          body: FormPage(
+            children: [
+              const SettingsLoansSection(),
+              const SettingsCardsSection(),
+              const SettingsAppearanceSection(),
+              const SettingsAccountSection(),
+            ],
+          ),
         ),
       ),
     );

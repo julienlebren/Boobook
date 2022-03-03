@@ -36,7 +36,12 @@ final scanControllerProvider =
     isbndb,
     maxSimultaneousLoans,
   );
-});
+}, dependencies: [
+  loanRepositoryProvider,
+  bookRepositoryProvider,
+  pupilRepositoryProvider,
+  userProvider,
+]);
 
 void _openLoanForm(WidgetRef ref) {
   Future.delayed(
@@ -58,10 +63,6 @@ PlatformTabNavigator scanNavigator(WidgetRef ref) => PlatformTabNavigator(
       navigatorKey: AppRouter.scan,
       onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, ref),
       initialRoute: AppRouter.scanMainPage,
-      onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-        RouteSettings(name: AppRouter.scanMainPage),
-        ref,
-      ),
     );
 
 class ScanPage extends ConsumerWidget {
@@ -161,93 +162,98 @@ class ScanPage extends ConsumerWidget {
       }
     });
 
-    return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: Container(
-          color: Colors.black,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              QRView(
-                key: GlobalKey(debugLabel: "QR"),
-                //formatsAllowed: [BarcodeFormat.ean13],
-                onQRViewCreated: (qrViewController) {
-                  controller.handleEvent(
-                    ScanEvent.controllerCreated(qrViewController),
-                  );
-                },
-              ),
-              CustomPaint(
-                painter: HolePainter(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: Container(
+            color: Colors.black,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                QRView(
+                  key: GlobalKey(debugLabel: "QR"),
+                  //formatsAllowed: [BarcodeFormat.ean13],
+                  onQRViewCreated: (qrViewController) {
+                    controller.handleEvent(
+                      ScanEvent.controllerCreated(qrViewController),
+                    );
+                  },
                 ),
-                child: Container(),
-              ),
-              SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isCupertino() ? 15 : 0,
-                    vertical: 10,
+                CustomPaint(
+                  painter: HolePainter(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: isMaterial()
-                            ? MainAxisAlignment.spaceBetween
-                            : MainAxisAlignment.end,
-                        children: [
-                          if (isMaterial())
+                  child: Container(),
+                ),
+                SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isCupertino() ? 15 : 0,
+                      vertical: 10,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: isMaterial()
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.end,
+                          children: [
+                            if (isMaterial())
+                              PlatformIconPlainButton(
+                                icon: Icons.close,
+                                backgroundColor: Colors.black26,
+                                color: Colors.white,
+                                size: 28,
+                                onPressed: () {
+                                  final navigator =
+                                      AppRouter.main.currentState!;
+                                  navigator.pop();
+                                },
+                              ),
                             PlatformIconPlainButton(
-                              icon: Icons.close,
+                              icon: Icons.flashlight_on,
                               backgroundColor: Colors.black26,
                               color: Colors.white,
                               size: 28,
                               onPressed: () {
-                                final navigator = AppRouter.main.currentState!;
-                                navigator.pop();
+                                controller.handleEvent(
+                                  ScanEvent.toggleFlash(),
+                                );
                               },
                             ),
-                          PlatformIconPlainButton(
-                            icon: Icons.flashlight_on,
-                            backgroundColor: Colors.black26,
-                            color: Colors.white,
-                            size: 28,
-                            onPressed: () {
-                              controller.handleEvent(
-                                ScanEvent.toggleFlash(),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      Consumer(builder: (context, ref, _) {
-                        final state = ref.watch(scanControllerProvider);
-                        if (state.barCode != null &&
-                            state.barCode!.code != null) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              state.barCode!.code!.length == 13
-                                  ? l10n.scanSearchingISBN(state.barCode!.code!)
-                                  : l10n.scanSearchingPupil,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
+                          ],
+                        ),
+                        Consumer(builder: (context, ref, _) {
+                          final state = ref.watch(scanControllerProvider);
+                          if (state.barCode != null &&
+                              state.barCode!.code != null) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                state.barCode!.code!.length == 13
+                                    ? l10n
+                                        .scanSearchingISBN(state.barCode!.code!)
+                                    : l10n.scanSearchingPupil,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                          );
-                        } else {
-                          return SizedBox.shrink();
-                        }
-                      }),
-                    ],
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                          }
+                        }),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

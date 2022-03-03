@@ -64,10 +64,6 @@ class _HomePageState extends ConsumerState<HomePage>
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
                 initialRoute: AppRouter.loanListPage,
-                onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-                  RouteSettings(name: AppRouter.loanListPage),
-                  ref,
-                ),
               ),
             ),
             TabItem(
@@ -78,10 +74,6 @@ class _HomePageState extends ConsumerState<HomePage>
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
                 initialRoute: AppRouter.bookListPage,
-                onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-                  RouteSettings(name: AppRouter.bookListPage),
-                  ref,
-                ),
               ),
             ),
             if (isCupertino())
@@ -99,10 +91,6 @@ class _HomePageState extends ConsumerState<HomePage>
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
                 initialRoute: AppRouter.pupilListPage,
-                onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-                  RouteSettings(name: AppRouter.pupilListPage),
-                  ref,
-                ),
               ),
             ),
             TabItem(
@@ -113,10 +101,6 @@ class _HomePageState extends ConsumerState<HomePage>
                 onGenerateRoute: (settings) =>
                     AppRouter.onGenerateRoute(settings, ref),
                 initialRoute: AppRouter.settingsPage,
-                onUnknownRoute: (_) => AppRouter.onGenerateRoute(
-                  RouteSettings(name: AppRouter.settingsPage),
-                  ref,
-                ),
               ),
             ),
           ],

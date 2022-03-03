@@ -23,9 +23,10 @@ final boobookUserStreamProvider = StreamProvider((ref) {
 
 final userProvider = Provider<User?>((ref) {
   final authState = ref.watch(authStateProvider);
+  print("authState:: $authState");
   return authState.maybeWhen(
     authed: (user) => user,
-    orElse: () => null,
+    orElse: () => null, // throw UnimplementedError(),
   );
 }, dependencies: [authStateProvider]);
 
