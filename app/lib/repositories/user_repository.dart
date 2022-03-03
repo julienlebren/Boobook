@@ -1,10 +1,10 @@
 import 'package:boobook/config.dart';
 import 'package:boobook/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth_service/firebase_auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firestore_service/firestore_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sign_in/sign_in.dart';
 
 final userRepositoryProvider = Provider<UserRepository?>((ref) {
   final service = ref.watch(firestoreServiceProvider);

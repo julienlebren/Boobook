@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
 import 'package:localization/localization.dart';
-import 'package:models/models.dart';
 import 'package:purchases/purchases.dart';
 import 'package:sign_in/sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -175,10 +174,6 @@ class SettingsAppearanceSection extends ConsumerWidget {
       userProvider.select(
         (user) => user?.theme,
       ),
-    );
-
-    final languageCode = ref.watch(
-      userProvider.select((user) => user?.lang),
     );
     final locale = ref.watch(localeProvider);
     final locales = ref.read(localesProvider);

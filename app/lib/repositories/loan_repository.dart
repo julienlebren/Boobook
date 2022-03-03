@@ -122,6 +122,7 @@ class LoanRepository {
     if (loans.isNotEmpty) {
       return loans.first;
     }
+    return null;
   }
 
   Future<void> set(Loan loan) async {

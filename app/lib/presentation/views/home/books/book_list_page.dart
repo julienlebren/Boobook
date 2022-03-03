@@ -222,7 +222,6 @@ class _BookListSearchBarState extends ConsumerState<BookListSearchBar> {
   @override
   Widget build(BuildContext context) {
     final l10n = ref.read(localizationProvider);
-    final appTheme = ref.watch(appThemeProvider);
 
     return PlatformSearchBar(
       controller: textController,

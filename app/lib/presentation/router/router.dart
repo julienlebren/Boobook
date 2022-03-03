@@ -9,8 +9,8 @@ import 'package:boobook/presentation/views/home/pupils/pupil_list_page.dart';
 import 'package:boobook/presentation/views/home/scan/scan_page.dart';
 import 'package:boobook/presentation/views/home/settings/settings_page.dart';
 import 'package:boobook/presentation/views/home/subscription/subscription_page.dart';
-import 'package:boobook/presentation/views/splash/splash_page.dart';
 import 'package:boobook/common_providers.dart';
+import 'package:boobook/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart' show platformPageRoute;
@@ -25,7 +25,6 @@ class AppRouter {
   static final settings = GlobalKey<NavigatorState>();
   static final loan = GlobalKey<NavigatorState>();
 
-  static const splashPage = 'home';
   static const scanPage = 'scan';
   static const scanMainPage = 'scan/scan';
   static const scanResultsPage = 'scan/results';
@@ -48,10 +47,6 @@ class AppRouter {
   ) {
     if (settings.name != null) {
       switch (settings.name) {
-        case splashPage:
-          return platformPageRoute(
-            builder: (_) => const SplashPage(),
-          );
         case subscriptionPage:
           return platformPageRoute(
             builder: (_) => const SubscriptionPage(),
@@ -203,7 +198,12 @@ class AppRouter {
 
       // Sign-in routes
       if (settings.name!.startsWith("sign-in")) {
-        SignInRouter.onGenerateRoute(settings);
+        if (settings.name == SignInRoutes.signInLandingPage) {
+          return platformPageRoute(
+            builder: (_) => const SignInLandingPage(),
+          );
+        }
+        return SignInRouter.onGenerateRoute(settings, ref);
       }
     }
 

@@ -1,47 +1,69 @@
 import 'package:boobook/common_providers.dart';
+import 'package:boobook/presentation/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
 import 'package:sign_in/sign_in.dart';
 
-class SignInPage extends ConsumerWidget {
+final _signInThemeProvider = Provider<SignInTheme>((ref) {
+  final appTheme = ref.watch(appThemeProvider);
+  final formTheme = ref.watch(formThemeProvider);
+
+  return SignInTheme(
+    backgroundImage: "assets/images/background2.png",
+    scaffoldBackgroundColor: appTheme.scaffoldBackgroundColor,
+    buttonBackgroundColor: formTheme.rowBackgroundColor,
+    buttonTextColor: appTheme.textColor,
+    dividerColor: appTheme.dividerColor,
+  );
+});
+
+class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final appTheme = ref.watch(appThemeProvider);
-    final formTheme = ref.watch(formThemeProvider);
-
-    return SignInPageBuilder2(
-      theme: SignInTheme(
-        buttonBackgroundColor: formTheme.rowBackgroundColor,
-        buttonTextColor: appTheme.textColor,
+  Widget build(BuildContext context) {
+    return ProviderScope(
+      overrides: [
+        signInThemeProvider.overrideWithProvider(_signInThemeProvider),
+        signInRouterProvider.overrideWithValue(
+          AppRouter.onGenerateRoute,
+        ),
+      ],
+      child: SignInNavigator(
+        navigatorKey: SignInNavigatorKeys.main,
+        routeName: SignInRoutes.signInLandingPage,
       ),
-      child: _SignInLandingPage(),
     );
   }
 }
 
-class _SignInLandingPage extends StatelessWidget {
-  const _SignInLandingPage({Key? key}) : super(key: key);
+class SignInLandingPage extends ConsumerWidget {
+  const SignInLandingPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return SignInLandingPage(
-      backgroundImage: "assets/images/background2.png",
-      logo: const _SignInLandingLogo(),
-      buttons: SignInButtons([
-        SignInSupplier.apple,
-        SignInSupplier.google,
-        SignInSupplier.emailLink,
-        SignInSupplier.anonymous,
-      ]),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SignInLandingPageBuilder(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          const Spacer(),
+          const SignInLandingLogo(),
+          const Spacer(),
+          SignInButtons(const [
+            SignInSupplier.apple,
+            SignInSupplier.google,
+            SignInSupplier.anonymous,
+          ]),
+        ],
+      ),
     );
   }
 }
 
-class _SignInLandingLogo extends ConsumerWidget {
-  const _SignInLandingLogo({Key? key}) : super(key: key);
+class SignInLandingLogo extends ConsumerWidget {
+  const SignInLandingLogo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
