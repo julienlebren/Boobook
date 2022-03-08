@@ -17,6 +17,7 @@ final boobookTheme = Provider<AppTheme>((ref) {
   final brightness = ref.watch(brightnessProvider);
 
   Color scaffoldBackgroundColor;
+  Color groupedListBackgroundColor;
   Color listTileBackground;
   Color navigationBarBorderColor;
   Color textColor;
@@ -27,6 +28,7 @@ final boobookTheme = Provider<AppTheme>((ref) {
   switch (brightness) {
     case Brightness.dark:
       scaffoldBackgroundColor = Color(0xFF000000);
+      groupedListBackgroundColor = Color(0xFF000000);
       listTileBackground = Color(0xFF000000);
       navigationBarBorderColor = Color(0xFF333333);
       textColor = Colors.white;
@@ -36,6 +38,7 @@ final boobookTheme = Provider<AppTheme>((ref) {
       break;
     case Brightness.light:
       scaffoldBackgroundColor = Color(0xFFF5F5F5);
+      groupedListBackgroundColor = Color(0xFFF2F2F2);
       navigationBarBorderColor = Color(0xFFE0E0E0);
       listTileBackground = Colors.white;
       textColor = Colors.black;
@@ -50,6 +53,7 @@ final boobookTheme = Provider<AppTheme>((ref) {
     primaryColor: Color(0xFF6DA548), //Color(0xFF43A047),
     secondaryColor: Color(0xFFF4C946),
     scaffoldBackgroundColor: scaffoldBackgroundColor,
+    groupedListBackgroundColor: groupedListBackgroundColor,
     materialSystemBarColor: Color(0xFFEEEEEE),
     navigationBarBackgroundColor: Color(0xFF6da548),
     navigationBarBorderColor: navigationBarBorderColor,
