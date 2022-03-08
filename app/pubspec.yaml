@@ -40,7 +40,7 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/localization
-    version: ^0.1.4
+    version: ^0.1.5+1
   models: 
     git:
       url: https://github.com/julienlebren/flutter_packages

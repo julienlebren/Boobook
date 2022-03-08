@@ -116,8 +116,13 @@ class BookFormSubmitButton extends ConsumerWidget {
     final bookCount = ref.watch(bookListProvider).asData!.value.length;
     final isSubscribed =
         ref.watch(userProvider.select((user) => user!.isSubscribed));
+    final id = ref.watch(selectedBookId);
+    final isNewBook = ref.watch(
+      bookControllerProvider(id)
+          .select((state) => state.book.isNewBook ?? false),
+    );
 
-    if (bookCount > 8 && !isSubscribed) {
+    if (isNewBook && bookCount > 8 && !isSubscribed) {
       final navigator = AppRouter.main.currentState!;
       navigator.pushReplacementNamed(
         AppRouter.subscriptionPage,

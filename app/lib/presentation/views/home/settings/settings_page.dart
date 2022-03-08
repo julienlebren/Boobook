@@ -202,14 +202,14 @@ class SettingsAppearanceSection extends ConsumerWidget {
         ),
         FormTappableField(
           label: l10n.settingsLanguageLabel,
-          value: locale.toString(),
+          value: locale.name,
           onPressed: () => showPlatformSinglePicker<Locale>(
             context,
             ref,
             title: l10n.settingsLanguageLabel,
             data: locales,
             selectedValue: locale,
-            itemBuilder: (locale) => Text(locale.toString()),
+            itemBuilder: (locale) => Text(locale.name),
             onChanged: (locale) => _handleEvent(
               ref,
               SettingsEvent.langChanged(locale.languageCode),
