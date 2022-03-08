@@ -241,7 +241,8 @@ class SettingsAccountSection extends ConsumerWidget {
             if (isMaterial()) {
               Navigator.of(context, rootNavigator: true).pop();
             }
-            final controller = ref.read(signInControllerProvider.notifier);
+            final controller =
+                ref.read(signInButtonsControllerProvider.notifier);
             controller.signOut();
           },
         ),

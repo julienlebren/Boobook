@@ -12,7 +12,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:layout_builder/layout_builder.dart'
     show PlatformApp, appThemeProvider;
 import 'package:localization/localization.dart';
-import 'package:sign_in/sign_in.dart';
 
 void main() async {
   await runZonedGuarded(() async {
@@ -42,7 +41,6 @@ class BoobookApp extends ConsumerWidget {
         appThemeProvider.overrideWithProvider(boobookTheme),
         /*purchasesSettingsProvider
             .overrideWithProvider(boobookPurchasesSettings),*/
-        userStreamProvider.overrideWithProvider(boobookUserStreamProvider),
         userLanguageProvider.overrideWithValue(languageCode),
       ],
       child: PlatformApp(

@@ -155,6 +155,7 @@ class LoanFormPage extends ConsumerWidget {
         final l10n = ref.watch(localizationProvider);
 
         if (state.isSuccess) {
+          resetScanController(ref);
           final navigator = AppRouter.loans.currentState!;
           navigator.pop(context);
         } else if (state.errorText != null) {
@@ -174,6 +175,7 @@ class LoanFormPage extends ConsumerWidget {
         leading: isNewLoan == true
             ? PlatformNavigationBarCloseButton(
                 onPressed: () {
+                  resetScanController(ref);
                   final navigator = AppRouter.main.currentState!;
                   navigator.pop();
                 },

@@ -19,6 +19,11 @@ enum BookMenuActions { edit, archive }
 /// error but in this case, the list has already been fetched in the previous
 /// page so it can't lead to a fatal error here.
 final bookProvider = Provider.autoDispose.family<Book, String>((ref, id) {
+  final repository = ref.watch(bookRepositoryProvider);
+  final book = repository.bookFromCache(id);
+  if (book != null) {
+    return book;
+  }
   final bookList = ref.watch(bookListProvider).asData!.value;
   return bookList.where((book) => book.id == id).first;
 });

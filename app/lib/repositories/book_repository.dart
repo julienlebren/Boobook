@@ -96,6 +96,7 @@ class BookRepository {
   final CollectionReference<Book> _bookRef;
   final CollectionReference<Book> _bookLibraryRef;
   final Reference _bookStorageRef;
+  final _cache = <String, Book>{};
 
   String get newDocumentId => _service.newDocumentId(_bookRef.path);
 
@@ -105,6 +106,25 @@ class BookRepository {
     );
   }
 
+  Book? bookFromCache(String id) {
+    if (_cache.containsKey(id)) {
+      return _cache[id]!;
+    }
+    return null;
+  }
+
+  Future<Book?> getBook(String id) async {
+    if (_cache.containsKey(id)) {
+      return _cache[id]!;
+    }
+    final book = await _service.getDocument<Book>(_bookRef.doc(id));
+    if (book != null) {
+      _cache[book.id!] = book;
+      return book;
+    }
+    return null;
+  }
+
   Future<List<Book>> findMagazines(String magazineBarCode) async {
     return _service.getDocuments<Book>(_bookRef
         .where('isArchived', isEqualTo: false)
@@ -112,9 +132,14 @@ class BookRepository {
   }
 
   Future<List<Book>> findBook(String isbn) async {
-    return _service.getDocuments<Book>(_bookRef
+    final books = await _service.getDocuments<Book>(_bookRef
         .where('isArchived', isEqualTo: false)
         .where('isbn13', isEqualTo: isbn));
+
+    for (final book in books) {
+      _cache[book.id!] = book;
+    }
+    return books;
   }
 
   Future<List<Book>> findBookInLibrary(String isbn) async {

@@ -21,6 +21,7 @@ import 'package:vibration/vibration.dart';
 
 final scanControllerProvider =
     StateNotifierProvider<ScanController, ScanState>((ref) {
+  print("Building ScanController");
   final loanRepository = ref.watch(loanRepositoryProvider);
   final bookRepository = ref.watch(bookRepositoryProvider);
   final pupilRepository = ref.watch(pupilRepositoryProvider);
@@ -36,24 +37,17 @@ final scanControllerProvider =
     isbndb,
     maxSimultaneousLoans,
   );
-}, dependencies: [
-  loanRepositoryProvider,
-  bookRepositoryProvider,
-  pupilRepositoryProvider,
-  userProvider,
-]);
+});
+
+void resetScanController(WidgetRef ref) {
+  final controller = ref.read(scanControllerProvider.notifier);
+  controller.handleEvent(
+    ScanEvent.modalDismissed(),
+  );
+}
 
 void _openLoanForm(WidgetRef ref) {
-  Future.delayed(
-    const Duration(seconds: 1),
-    () {
-      final controller = ref.read(scanControllerProvider.notifier);
-      controller.handleEvent(
-        ScanEvent.modalDismissed(),
-      );
-    },
-  );
-
+  print("_openLoanForm");
   final id = ref.read(loanRepositoryProvider).newDocumentId;
   final navigator = AppRouter.main.currentState!;
   navigator.pushReplacementNamed(AppRouter.loanFormNavigator(id));
@@ -132,9 +126,14 @@ class ScanPage extends ConsumerWidget {
           builder: (context) => const ScanSheet(),
           useRootNavigator: true,
         ).whenComplete(() {
-          controller.handleEvent(
-            ScanEvent.modalDismissed(),
-          );
+          final isLoanFormOpened = ref.watch(scanControllerProvider.select(
+            (state) => state.pupil != null && state.book != null,
+          ));
+          if (!isLoanFormOpened) {
+            controller.handleEvent(
+              ScanEvent.modalDismissed(),
+            );
+          }
         });
       } else if (state.magazineBarCode != null) {
         final navigator = AppRouter.main.currentState!;

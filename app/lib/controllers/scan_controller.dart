@@ -69,7 +69,8 @@ class ScanController extends StateNotifier<ScanState> {
           if (state.isSuccess ||
               state.isLoading ||
               state.isUnknownCode ||
-              state.book != null && barCode.code!.length != 20) {
+              (state.book != null && state.pupil != null) ||
+              (state.book != null && barCode.code!.length != 20)) {
             /*(state.book != null && !state.book!.isAvailable) ||
               (state.book != null && barCode.code == state.book!.isbn13) ||
               (state.book != null &&

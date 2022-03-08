@@ -17,18 +17,19 @@ final boobookUserStreamProvider = StreamProvider((ref) {
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 
-/*final authSettingsProvider = Provider<AuthSettings>((_) {
-  return AuthSettings(userStreamProvider);
-});*/
+final boobookAuthArgumentsProvider = Provider<AuthArguments>((_) {
+  return AuthArguments(boobookUserStreamProvider);
+});
 
 final userProvider = Provider<User?>((ref) {
-  final authState = ref.watch(authStateProvider);
+  final authArguments = ref.watch(boobookAuthArgumentsProvider);
+  final authState = ref.watch(authStateProvider(authArguments));
   print("authState:: $authState");
   return authState.maybeWhen(
     authed: (user) => user,
     orElse: () => null, // throw UnimplementedError(),
   );
-}, dependencies: [authStateProvider]);
+});
 
 /// A provider to access AppLocalizations from everywhere in the app
 /// Overridden in the [PlatformApp] widget which returns either a

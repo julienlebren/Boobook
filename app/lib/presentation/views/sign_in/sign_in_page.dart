@@ -11,9 +11,12 @@ final _signInThemeProvider = Provider<SignInTheme>((ref) {
 
   return SignInTheme(
     backgroundImage: "assets/images/background2.png",
+    primaryColor: appTheme.primaryColor,
     scaffoldBackgroundColor: appTheme.scaffoldBackgroundColor,
+    textColor: appTheme.textColor,
     buttonBackgroundColor: formTheme.rowBackgroundColor,
     buttonTextColor: appTheme.textColor,
+    borderColor: appTheme.borderColor,
     dividerColor: appTheme.dividerColor,
   );
 });

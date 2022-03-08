@@ -1,3 +1,4 @@
+import 'package:boobook/common_providers.dart';
 import 'package:boobook/presentation/views/home/home_page.dart';
 import 'package:boobook/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ class SplashPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authStateProvider);
+    final authArguments = ref.watch(boobookAuthArgumentsProvider);
+    final authState = ref.watch(authStateProvider(authArguments));
     print("authState: $authState");
     return authState.maybeWhen(
       initializing: () => const ScaffoldLoader(),
