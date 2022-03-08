@@ -4,7 +4,6 @@ import 'package:boobook/models/user.dart';
 import 'package:boobook/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:layout_builder/theme/theme.dart';
 import 'package:localization/localization.dart';
 import 'package:purchases/purchases.dart';
 import 'package:sign_in/sign_in.dart';
@@ -25,7 +24,6 @@ final boobookAuthSettingsProvider = Provider<AuthSettings>((_) {
 final userProvider = Provider<User?>((ref) {
   final authSettings = ref.watch(boobookAuthSettingsProvider);
   final authState = ref.watch(authStateProvider(authSettings));
-  print("authState:: $authState");
   return authState.maybeWhen(
     authed: (user) => user,
     orElse: () => null, // throw UnimplementedError(),
@@ -72,15 +70,6 @@ final boobookPurchasesSettings = Provider<PurchasesSettings>((ref) {
         );
       }
     },
-  );
-});
-
-final boobookThemeLocalizationProvider = Provider<ThemeLocalizations>((ref) {
-  final l10n = ref.watch(localizationProvider);
-  return ThemeLocalizations(
-    dark: l10n.themeDark,
-    light: l10n.themeLight,
-    system: l10n.themeSystem,
   );
 });
 
