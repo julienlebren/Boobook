@@ -178,8 +178,9 @@ class SettingsAppearanceSection extends ConsumerWidget {
         (user) => user?.theme,
       ),
     );
-    final locale = ref.watch(localeProvider);
-    final locales = ref.read(localesProvider);
+    final args = ref.watch(localeArgumentsProvider);
+    final locale = ref.watch(localeProvider(args));
+    final availableLocales = args.availableLocales;
 
     return FormSection(
       title: l10n.settingsAppearanceSectionTitle,
@@ -207,7 +208,7 @@ class SettingsAppearanceSection extends ConsumerWidget {
             context,
             ref,
             title: l10n.settingsLanguageLabel,
-            data: locales,
+            data: availableLocales,
             selectedValue: locale,
             itemBuilder: (locale) => Text(locale.name),
             onChanged: (locale) => _handleEvent(

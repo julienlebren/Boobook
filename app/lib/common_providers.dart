@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:boobook/config.dart';
 import 'package:boobook/models/user.dart';
 import 'package:boobook/repositories/user_repository.dart';
@@ -34,8 +35,22 @@ final userProvider = Provider<User?>((ref) {
 /// A provider to access AppLocalizations from everywhere in the app
 /// Overridden in the [PlatformApp] widget which returns either a
 /// [MaterialApp] or a [CupertinoApp].
+final boobookLocaleArgumentsProvider = Provider<LocaleArguments>((ref) {
+  final userLanguage = ref.watch(
+    userProvider.select((user) => user?.lang),
+  );
+  if (userLanguage != null) {
+    return LocaleArguments(
+      userLocale: Locale(userLanguage),
+    );
+  } else {
+    return LocaleArguments();
+  }
+});
+
 final localizationProvider = Provider<AppLocalizations>((ref) {
-  final locale = ref.watch(localeProvider);
+  final args = ref.watch(boobookLocaleArgumentsProvider);
+  final locale = ref.watch(localeProvider(args));
   return lookupAppLocalizations(locale);
 });
 

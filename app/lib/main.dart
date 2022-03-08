@@ -13,6 +13,7 @@ import 'package:layout_builder/layout_builder.dart'
     show PlatformApp, appThemeProvider;
 import 'package:localization/localization.dart';
 import 'package:purchases/purchases.dart';
+import 'package:sign_in/sign_in.dart';
 
 void main() async {
   await runZonedGuarded(() async {
@@ -32,17 +33,18 @@ class BoobookApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final languageCode = ref.watch(
-      userProvider.select((user) => user?.lang),
-    );
-    final locale = ref.watch(localeProvider);
+    final args = ref.watch(boobookLocaleArgumentsProvider);
+    final locale = ref.watch(localeProvider(args));
 
     return ProviderScope(
       overrides: [
         appThemeProvider.overrideWithProvider(boobookTheme),
         purchasesSettingsProvider
             .overrideWithProvider(boobookPurchasesSettings),
-        userLanguageProvider.overrideWithValue(languageCode),
+        localeArgumentsProvider
+            .overrideWithProvider(boobookLocaleArgumentsProvider),
+        authArgumentsProvider
+            .overrideWithProvider(boobookAuthArgumentsProvider),
       ],
       child: PlatformApp(
         locale: locale,
