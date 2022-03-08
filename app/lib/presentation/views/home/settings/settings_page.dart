@@ -178,9 +178,9 @@ class SettingsAppearanceSection extends ConsumerWidget {
         (user) => user?.theme,
       ),
     );
-    final args = ref.watch(localeArgumentsProvider);
-    final locale = ref.watch(localeProvider(args));
-    final availableLocales = args.availableLocales;
+    final settings = ref.watch(localeSettingsProvider);
+    final locale = ref.watch(localeProvider(settings));
+    final availableLocales = settings.availableLocales;
 
     return FormSection(
       title: l10n.settingsAppearanceSectionTitle,

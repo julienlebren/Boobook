@@ -33,7 +33,7 @@ class BoobookApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args = ref.watch(boobookLocaleArgumentsProvider);
+    final args = ref.watch(boobookLocaleSettingsProvider);
     final locale = ref.watch(localeProvider(args));
 
     return ProviderScope(
@@ -41,10 +41,10 @@ class BoobookApp extends ConsumerWidget {
         appThemeProvider.overrideWithProvider(boobookTheme),
         purchasesSettingsProvider
             .overrideWithProvider(boobookPurchasesSettings),
-        localeArgumentsProvider
-            .overrideWithProvider(boobookLocaleArgumentsProvider),
-        authArgumentsProvider
-            .overrideWithProvider(boobookAuthArgumentsProvider),
+        localeSettingsProvider
+            .overrideWithProvider(boobookLocaleSettingsProvider),
+        authSettingsProvider
+            .overrideWithProvider(boobookAuthSettingsProvider),
       ],
       child: PlatformApp(
         locale: locale,
@@ -52,15 +52,6 @@ class BoobookApp extends ConsumerWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, ref),
-        builder: (context, child) {
-          return ProviderScope(
-            overrides: [
-              localizationProvider
-                  .overrideWithValue(AppLocalizations.of(context)!),
-            ],
-            child: child!,
-          );
-        },
         home: SplashPage(),
       ),
     );

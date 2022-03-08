@@ -18,13 +18,13 @@ final boobookUserStreamProvider = StreamProvider((ref) {
   return userRepository != null ? userRepository.streamUser() : Stream.empty();
 });
 
-final boobookAuthArgumentsProvider = Provider<AuthArguments>((_) {
-  return AuthArguments(boobookUserStreamProvider);
+final boobookAuthSettingsProvider = Provider<AuthSettings>((_) {
+  return AuthSettings(boobookUserStreamProvider);
 });
 
 final userProvider = Provider<User?>((ref) {
-  final authArguments = ref.watch(boobookAuthArgumentsProvider);
-  final authState = ref.watch(authStateProvider(authArguments));
+  final authSettings = ref.watch(boobookAuthSettingsProvider);
+  final authState = ref.watch(authStateProvider(authSettings));
   print("authState:: $authState");
   return authState.maybeWhen(
     authed: (user) => user,
@@ -35,21 +35,21 @@ final userProvider = Provider<User?>((ref) {
 /// A provider to access AppLocalizations from everywhere in the app
 /// Overridden in the [PlatformApp] widget which returns either a
 /// [MaterialApp] or a [CupertinoApp].
-final boobookLocaleArgumentsProvider = Provider<LocaleArguments>((ref) {
+final boobookLocaleSettingsProvider = Provider<LocaleSettings>((ref) {
   final userLanguage = ref.watch(
     userProvider.select((user) => user?.lang),
   );
   if (userLanguage != null) {
-    return LocaleArguments(
+    return LocaleSettings(
       userLocale: Locale(userLanguage),
     );
   } else {
-    return LocaleArguments();
+    return LocaleSettings();
   }
 });
 
 final localizationProvider = Provider<AppLocalizations>((ref) {
-  final args = ref.watch(boobookLocaleArgumentsProvider);
+  final args = ref.watch(boobookLocaleSettingsProvider);
   final locale = ref.watch(localeProvider(args));
   return lookupAppLocalizations(locale);
 });
