@@ -30,27 +30,23 @@ final userProvider = Provider<User?>((ref) {
   );
 });
 
-/// A provider to access AppLocalizations from everywhere in the app
-/// Overridden in the [PlatformApp] widget which returns either a
-/// [MaterialApp] or a [CupertinoApp].
-final boobookLocaleSettingsProvider = Provider<LocaleSettings>((ref) {
+final boobookUserLocaleProvider = Provider<Locale?>((ref) {
   final userLanguage = ref.watch(
     userProvider.select((user) => user?.lang),
   );
   if (userLanguage != null) {
-    return LocaleSettings(
-      userLocale: Locale(userLanguage),
-    );
-  } else {
-    return LocaleSettings();
+    return Locale(userLanguage);
   }
+  return null;
 });
 
-final localizationProvider = Provider<AppLocalizations>((ref) {
-  final args = ref.watch(boobookLocaleSettingsProvider);
-  final locale = ref.watch(localeProvider(args));
-  return lookupAppLocalizations(locale);
-});
+final localizationProvider = Provider<AppLocalizations>(
+  (ref) {
+    final locale = ref.watch(localeProvider);
+    return lookupAppLocalizations(locale);
+  },
+  dependencies: [localeProvider],
+);
 
 final boobookPurchasesSettings = Provider<PurchasesSettings>((ref) {
   final user = ref.watch(userProvider)!;

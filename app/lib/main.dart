@@ -33,21 +33,15 @@ class BoobookApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args = ref.watch(boobookLocaleSettingsProvider);
-    final locale = ref.watch(localeProvider(args));
-
     return ProviderScope(
       overrides: [
         appThemeProvider.overrideWithProvider(boobookTheme),
         purchasesSettingsProvider
             .overrideWithProvider(boobookPurchasesSettings),
-        localeSettingsProvider
-            .overrideWithProvider(boobookLocaleSettingsProvider),
-        authSettingsProvider
-            .overrideWithProvider(boobookAuthSettingsProvider),
+        authSettingsProvider.overrideWithProvider(boobookAuthSettingsProvider),
+        userLocaleProvider.overrideWithProvider(boobookUserLocaleProvider),
       ],
       child: PlatformApp(
-        locale: locale,
         navigatorKey: AppRouter.main,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
