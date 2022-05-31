@@ -7,7 +7,7 @@ import 'package:boobook/repositories/pupil_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:isbndb/isbndb.dart';
+import 'package:isbndb/isbndb.dart' hide Book, $BookCopyWith;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 part 'scan_controller.freezed.dart';

@@ -1,7 +1,7 @@
 name: boobook
 description: Your library management assistant at school!
 publish_to: 'none' 
-version: 1.0.1+3
+version: 1.0.1+4
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -15,17 +15,17 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/avatar
-    version: ^0.1.16
+    version: ^0.1.17
   extensions:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/extensions
-    version: ^0.1.6
+    version: ^0.2.4
   firestore_service:
     git: 
       url: https://github.com/julienlebren/flutter_packages
       path: packages/firestore_service
-    version: ^0.1.8
+    version: ^0.2.0
   firebase_storage_service:
     git:
       url: https://github.com/julienlebren/flutter_packages
@@ -35,12 +35,17 @@ dependencies:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/layout_builder
-    version: ^2.2.1
+    version: ^2.5.4
   localization: 
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/localization
-    version: ^1.1.2
+    version: ^1.1.3
+  modal_bottom_sheet:
+    git:
+      url: https://github.com/julienlebren/flutter_packages
+      path: packages/modal_bottom_sheet
+    version: ^2.0.2-dev.3
   models: 
     git:
       url: https://github.com/julienlebren/flutter_packages
@@ -50,57 +55,60 @@ dependencies:
     git: 
       url: https://github.com/julienlebren/flutter_packages
       path: packages/photo_upload
-    version: ^0.4.8
+    version: ^0.5.0
   sign_in: 
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/sign_in
-    version: ^3.1.0
+    version: ^5.10.0
   purchases:
     git:
       url: https://github.com/julienlebren/flutter_packages
       path: packages/purchases
-    version: ^1.0.7
-  badges: ^2.0.1
-  barcode_image: ^2.0.0
-  barcode_widget: ^2.0.1
+    version: ^2.0.1
+  badges: ^2.0.2
+  barcode_image: ^2.0.1
+  barcode_widget: ^2.0.2
   http: ^0.13.4
-  cached_network_image: ^3.1.0 
+  cached_network_image: ^3.2.1 
   checkdigit: ^0.3.1
-  cloud_firestore: ^3.1.0
+  cloud_firestore: ^3.1.16
   cupertino_icons: ^1.0.4
-  dio: ^4.0.3
+  dio: ^4.0.6
   expandable_bottom_sheet: ^1.1.1+1
-  firebase_analytics: ^8.3.4
-  firebase_auth: ^3.2.0
-  firebase_core: ^1.10.0
-  firebase_crashlytics: ^2.3.0
-  firebase_dynamic_links: ^4.0.6
-  firebase_storage: ^10.1.0
-  flutter_riverpod: ^1.0.0
-  flutter_slidable: ^1.1.0
+  firebase_analytics: ^9.1.8
+  firebase_auth: ^3.3.18
+  firebase_core: ^1.17.0
+  firebase_crashlytics: ^2.8.0
+  firebase_dynamic_links: ^4.2.4
+  firebase_storage: ^10.2.16
+  flutter_riverpod: ^1.0.3
+  flutter_slidable: ^1.3.0
   freezed_annotation: ^1.1.0
-  image_cropper: ^1.4.1
-  image_picker: ^0.8.4+4
+  image_picker: ^0.8.5+3
   intl: ^0.17.0
-  isbndb: ^0.2.5
-  modal_bottom_sheet: ^2.0.0
-  pdf: ^3.6.2
-  printing: ^5.6.1
-  qr_code_scanner: ^0.6.1
-  sign_in_with_apple: ^3.3.0
-  url_launcher: ^6.0.12
+  isbndb: ^0.3.0
+  pdf: ^3.8.1
+  printing: ^5.9.1
+  qr_code_scanner: ^0.7.0
+  url_launcher: ^6.1.2
   vibration: ^1.7.4-nullsafety.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
-  build_runner: ^2.1.5
+  flutter_lints: ^2.0.1
+  build_runner: ^2.1.11
   freezed: ^1.1.1
-  json_serializable: ^6.1.4
-  
+  json_serializable: ^6.2.0
+
+dependency_overrides:
+  qr_code_scanner:
+    git:
+      url: https://github.com/X-SLAYER/qr_code_scanner.git
+      ref: flutter-beta
+      
 flutter:
   generate: true
   uses-material-design: true

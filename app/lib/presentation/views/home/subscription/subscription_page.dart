@@ -346,14 +346,14 @@ class _SubscriptionFooterButtons extends ConsumerWidget {
   final bool isPurchasing;
 
   Future<void> _openPrivacyPolicy() async {
-    if (await canLaunch(privacyPolicyURL)) {
-      await launch(privacyPolicyURL);
+    if (await canLaunch(privacyPolicyUrl)) {
+      await launch(privacyPolicyUrl);
     }
   }
 
   Future<void> _openTerms() async {
-    if (await canLaunch(termsURL)) {
-      await launch(termsURL);
+    if (await canLaunch(termsUrl)) {
+      await launch(termsUrl);
     }
   }
 

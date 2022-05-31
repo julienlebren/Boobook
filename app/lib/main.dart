@@ -39,6 +39,7 @@ class BoobookApp extends ConsumerWidget {
         purchasesSettingsProvider
             .overrideWithProvider(boobookPurchasesSettings),
         authSettingsProvider.overrideWithProvider(boobookAuthSettingsProvider),
+        signInThemeProvider.overrideWithProvider(boobookSignInTheme),
         userLocaleProvider.overrideWithProvider(boobookUserLocaleProvider),
       ],
       child: PlatformApp(

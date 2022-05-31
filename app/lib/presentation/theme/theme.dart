@@ -2,13 +2,14 @@ import 'package:boobook/common_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:layout_builder/layout_builder.dart';
+import 'package:sign_in/sign_in.dart';
 
 final brightnessProvider = Provider<Brightness>((ref) {
   return ref.watch(userProvider.select((user) {
     if (user != null) {
       return user.theme.brightness;
     } else {
-      return WidgetsBinding.instance!.window.platformBrightness;
+      return WidgetsBinding.instance.window.platformBrightness;
     }
   }));
 });
@@ -65,6 +66,24 @@ final boobookTheme = Provider<AppTheme>((ref) {
     borderColor: Color(0xFFBDBDBD),
     dividerColor: dividerColor,
     shadowColor: shadowColor,
+  );
+});
+
+final boobookSignInTheme = Provider<SignInTheme>((ref) {
+  final appTheme = ref.watch(boobookTheme);
+  final rowBackgroundColor = ref.watch(formThemeProvider.select(
+    (theme) => theme.rowBackgroundColor,
+  ));
+
+  return SignInTheme(
+    backgroundImage: "assets/images/background2.png",
+    primaryColor: appTheme.primaryColor,
+    scaffoldBackgroundColor: appTheme.scaffoldBackgroundColor,
+    textColor: appTheme.textColor,
+    buttonBackgroundColor: rowBackgroundColor,
+    buttonTextColor: appTheme.textColor,
+    borderColor: appTheme.borderColor,
+    dividerColor: appTheme.dividerColor,
   );
 });
 

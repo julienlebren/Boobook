@@ -2,6 +2,7 @@ import 'package:boobook/models/user.dart';
 import 'package:boobook/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:layout_builder/settings/settings.dart';
 import 'package:layout_builder/theme/theme.dart';
 
 part 'settings_controller.freezed.dart';
@@ -16,14 +17,6 @@ class SettingsEvent with _$SettingsEvent {
       _LoanDurationChanged;
   const factory SettingsEvent.langChanged(String lang) = _LangChanged;
   const factory SettingsEvent.themeChanged(ThemeType theme) = _ThemeChanged;
-}
-
-@freezed
-class SettingsState with _$SettingsState {
-  const factory SettingsState.initial() = _Initial;
-  const factory SettingsState.saving() = _Saving;
-  const factory SettingsState.error(String errorText) = _Error;
-  const factory SettingsState.success() = _Success;
 }
 
 class SettingsController extends StateNotifier<SettingsState> {

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firestore_service/firestore_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:isbndb/models/book.dart' as isbn_db;
+import 'package:isbndb/isbndb.dart' as isbn_db;
 
 part 'book.freezed.dart';
 part 'book.g.dart';

@@ -18,7 +18,14 @@ final boobookUserStreamProvider = StreamProvider((ref) {
 });
 
 final boobookAuthSettingsProvider = Provider<AuthSettings>((_) {
-  return AuthSettings(boobookUserStreamProvider);
+  return AuthSettings(
+    suppliers: [
+      SignInSupplier.apple,
+      SignInSupplier.google,
+      SignInSupplier.anonymous,
+    ],
+    userStreamProvider: boobookUserStreamProvider,
+  );
 });
 
 final userProvider = Provider<User?>((ref) {
@@ -51,8 +58,11 @@ final localizationProvider = Provider<AppLocalizations>(
 final boobookPurchasesSettings = Provider<PurchasesSettings>((ref) {
   final user = ref.watch(userProvider)!;
   return PurchasesSettings(
-    purchasesApiKey: purchasesApiKey,
+    publicGoogleKey: publicGoogleKey,
+    publicAppleKey: publicAppleKey,
     entitlementId: entitlementId,
+    privacyPolicyUrl: privacyPolicyUrl,
+    termsUrl: termsUrl,
     userId: user.id!,
     processHandler: (isSubscribed, expirationDate) async {
       final repository = ref.watch(userRepositoryProvider)!;

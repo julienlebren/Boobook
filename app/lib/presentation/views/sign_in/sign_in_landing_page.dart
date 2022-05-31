@@ -21,33 +21,21 @@ final _signInThemeProvider = Provider<SignInTheme>((ref) {
   );
 });
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class SignInLandingPage extends ConsumerWidget {
+  const SignInLandingPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return ProviderScope(
-      overrides: [
-        signInThemeProvider.overrideWithProvider(_signInThemeProvider),
-        signInRouterProvider.overrideWithValue(
-          AppRouter.onGenerateRoute,
-        ),
-      ],
-      child: SignInLandingPageBuilder(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Spacer(),
-            const SignInLandingLogo(),
-            const Spacer(),
-            SignInButtons(const [
-              SignInSupplier.apple,
-              SignInSupplier.google,
-              SignInSupplier.anonymous,
-            ]),
-          ],
-        ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SignInLandingPageBuilder(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          const Spacer(),
+          const SignInLandingLogo(),
+          const Spacer(),
+          const SignInButtons(),
+        ],
       ),
     );
   }
